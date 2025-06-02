@@ -31,6 +31,10 @@
             <column name="name" value="Non-Fiction"/>
             <column name="description" value="Factual and educational content"/>
         </insert>
+    </changeSet>
+
+    <changeSet id="002-3" author="library-system" context="dev,test">
+        <comment>Insert subcategories after parent categories exist</comment>
         <insert tableName="categories">
             <column name="name" value="Science Fiction"/>
             <column name="description" value="Science fiction and futuristic stories"/>
@@ -63,7 +67,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="002-3" author="library-system" context="dev,test">
+    <changeSet id="002-4" author="library-system" context="dev,test">
         <comment>Insert sample publishers</comment>
         <insert tableName="publishers">
             <column name="name" value="Penguin Random House"/>
@@ -91,7 +95,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="002-4" author="library-system" context="dev,test">
+    <changeSet id="002-5" author="library-system" context="dev,test">
         <comment>Insert sample authors</comment>
         <insert tableName="authors">
             <column name="name" value="J.K. Rowling"/>
@@ -119,7 +123,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="002-5" author="library-system" context="dev,test">
+    <changeSet id="002-6" author="library-system" context="dev,test">
         <comment>Insert default users</comment>
         <!-- Password: admin123 -->
         <insert tableName="users">
@@ -152,87 +156,118 @@
         </insert>
     </changeSet>
 
-    <changeSet id="002-6" author="library-system" context="dev,test">
-        <comment>Assign roles to users</comment>
-        <sql>
-            INSERT INTO user_roles (user_id, role_id)
-            SELECT u.id, r.id FROM users u, roles r 
-            WHERE u.username = 'admin' AND r.name = 'ROLE_ADMIN';
-            
-            INSERT INTO user_roles (user_id, role_id)
-            SELECT u.id, r.id FROM users u, roles r 
-            WHERE u.username = 'librarian' AND r.name = 'ROLE_LIBRARIAN';
-            
-            INSERT INTO user_roles (user_id, role_id)
-            SELECT u.id, r.id FROM users u, roles r 
-            WHERE u.username = 'testuser' AND r.name = 'ROLE_USER';
-        </sql>
-    </changeSet>
-
     <changeSet id="002-7" author="library-system" context="dev,test">
-        <comment>Insert sample books</comment>
-        <sql>
-            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
-                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
-                              price, stock_for_sale, is_sellable, category_id, publisher_id)
-            VALUES 
-            ('Harry Potter and the Philosopher''s Stone', '978-0747532699', 1997, 
-             'The first novel in the Harry Potter series and Rowling''s debut novel', 'en', 223,
-             5, 5, true, 19.99, 20, true, 
-             (SELECT id FROM categories WHERE name = 'Fantasy'),
-             (SELECT id FROM publishers WHERE name = 'Penguin Random House'));
-             
-            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
-                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
-                              price, stock_for_sale, is_sellable, category_id, publisher_id)
-            VALUES 
-            ('The Shining', '978-0307743657', 1977,
-             'A horror novel by American author Stephen King', 'en', 447,
-             3, 3, true, 24.99, 15, true,
-             (SELECT id FROM categories WHERE name = 'Fiction'),
-             (SELECT id FROM publishers WHERE name = 'HarperCollins'));
-             
-            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
-                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
-                              price, stock_for_sale, is_sellable, category_id, publisher_id)
-            VALUES 
-            ('Outliers', '978-0316017930', 2008,
-             'The Story of Success examines the factors that contribute to high levels of success', 'en', 309,
-             2, 2, true, 29.99, 10, true,
-             (SELECT id FROM categories WHERE name = 'Non-Fiction'),
-             (SELECT id FROM publishers WHERE name = 'Penguin Random House'));
-             
-            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
-                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
-                              price, stock_for_sale, is_sellable, category_id, publisher_id)
-            VALUES 
-            ('Sapiens: A Brief History of Humankind', '978-0062316097', 2011,
-             'A book that explores the history of humankind from the Stone Age to the modern day', 'en', 443,
-             4, 4, true, 34.99, 25, true,
-             (SELECT id FROM categories WHERE name = 'History'),
-             (SELECT id FROM publishers WHERE name = 'HarperCollins'));
-        </sql>
+        <comment>Assign roles to users</comment>
+        <insert tableName="user_roles">
+            <column name="user_id" valueComputed="(SELECT id FROM users WHERE username = 'admin')"/>
+            <column name="role_id" valueComputed="(SELECT id FROM roles WHERE name = 'ROLE_ADMIN')"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" valueComputed="(SELECT id FROM users WHERE username = 'librarian')"/>
+            <column name="role_id" valueComputed="(SELECT id FROM roles WHERE name = 'ROLE_LIBRARIAN')"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" valueComputed="(SELECT id FROM users WHERE username = 'testuser')"/>
+            <column name="role_id" valueComputed="(SELECT id FROM roles WHERE name = 'ROLE_USER')"/>
+        </insert>
     </changeSet>
 
     <changeSet id="002-8" author="library-system" context="dev,test">
+        <comment>Insert sample books</comment>
+        <insert tableName="books">
+            <column name="title" value="Harry Potter and the Philosopher's Stone"/>
+            <column name="isbn" value="978-0747532699"/>
+            <column name="publication_year" valueNumeric="1997"/>
+            <column name="description" value="The first novel in the Harry Potter series and Rowling's debut novel"/>
+            <column name="language" value="en"/>
+            <column name="number_of_pages" valueNumeric="223"/>
+            <column name="total_copies_for_loan" valueNumeric="5"/>
+            <column name="available_copies_for_loan" valueNumeric="5"/>
+            <column name="is_lendable" valueBoolean="true"/>
+            <column name="price" valueNumeric="19.99"/>
+            <column name="stock_for_sale" valueNumeric="20"/>
+            <column name="is_sellable" valueBoolean="true"/>
+            <column name="category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Fantasy')"/>
+            <column name="publisher_id" valueComputed="(SELECT id FROM publishers WHERE name = 'Penguin Random House')"/>
+        </insert>
+        
+        <insert tableName="books">
+            <column name="title" value="The Shining"/>
+            <column name="isbn" value="978-0307743657"/>
+            <column name="publication_year" valueNumeric="1977"/>
+            <column name="description" value="A horror novel by American author Stephen King"/>
+            <column name="language" value="en"/>
+            <column name="number_of_pages" valueNumeric="447"/>
+            <column name="total_copies_for_loan" valueNumeric="3"/>
+            <column name="available_copies_for_loan" valueNumeric="3"/>
+            <column name="is_lendable" valueBoolean="true"/>
+            <column name="price" valueNumeric="24.99"/>
+            <column name="stock_for_sale" valueNumeric="15"/>
+            <column name="is_sellable" valueBoolean="true"/>
+            <column name="category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Fiction')"/>
+            <column name="publisher_id" valueComputed="(SELECT id FROM publishers WHERE name = 'HarperCollins')"/>
+        </insert>
+        
+        <insert tableName="books">
+            <column name="title" value="Outliers"/>
+            <column name="isbn" value="978-0316017930"/>
+            <column name="publication_year" valueNumeric="2008"/>
+            <column name="description" value="The Story of Success examines the factors that contribute to high levels of success"/>
+            <column name="language" value="en"/>
+            <column name="number_of_pages" valueNumeric="309"/>
+            <column name="total_copies_for_loan" valueNumeric="2"/>
+            <column name="available_copies_for_loan" valueNumeric="2"/>
+            <column name="is_lendable" valueBoolean="true"/>
+            <column name="price" valueNumeric="29.99"/>
+            <column name="stock_for_sale" valueNumeric="10"/>
+            <column name="is_sellable" valueBoolean="true"/>
+            <column name="category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Non-Fiction')"/>
+            <column name="publisher_id" valueComputed="(SELECT id FROM publishers WHERE name = 'Penguin Random House')"/>
+        </insert>
+        
+        <insert tableName="books">
+            <column name="title" value="Sapiens: A Brief History of Humankind"/>
+            <column name="isbn" value="978-0062316097"/>
+            <column name="publication_year" valueNumeric="2011"/>
+            <column name="description" value="A book that explores the history of humankind from the Stone Age to the modern day"/>
+            <column name="language" value="en"/>
+            <column name="number_of_pages" valueNumeric="443"/>
+            <column name="total_copies_for_loan" valueNumeric="4"/>
+            <column name="available_copies_for_loan" valueNumeric="4"/>
+            <column name="is_lendable" valueBoolean="true"/>
+            <column name="price" valueNumeric="34.99"/>
+            <column name="stock_for_sale" valueNumeric="25"/>
+            <column name="is_sellable" valueBoolean="true"/>
+            <column name="category_id" valueComputed="(SELECT id FROM categories WHERE name = 'History')"/>
+            <column name="publisher_id" valueComputed="(SELECT id FROM publishers WHERE name = 'HarperCollins')"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-9" author="library-system" context="dev,test">
         <comment>Link books to authors</comment>
-        <sql>
-            INSERT INTO book_authors (book_id, author_id, author_role)
-            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
-            WHERE b.title LIKE 'Harry Potter%' AND a.name = 'J.K. Rowling';
-            
-            INSERT INTO book_authors (book_id, author_id, author_role)
-            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
-            WHERE b.title = 'The Shining' AND a.name = 'Stephen King';
-            
-            INSERT INTO book_authors (book_id, author_id, author_role)
-            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
-            WHERE b.title = 'Outliers' AND a.name = 'Malcolm Gladwell';
-            
-            INSERT INTO book_authors (book_id, author_id, author_role)
-            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
-            WHERE b.title LIKE 'Sapiens%' AND a.name = 'Yuval Noah Harari';
-        </sql>
+        <insert tableName="book_authors">
+            <column name="book_id" valueComputed="(SELECT id FROM books WHERE title LIKE 'Harry Potter%')"/>
+            <column name="author_id" valueComputed="(SELECT id FROM authors WHERE name = 'J.K. Rowling')"/>
+            <column name="author_role" value="AUTHOR"/>
+        </insert>
+        
+        <insert tableName="book_authors">
+            <column name="book_id" valueComputed="(SELECT id FROM books WHERE title = 'The Shining')"/>
+            <column name="author_id" valueComputed="(SELECT id FROM authors WHERE name = 'Stephen King')"/>
+            <column name="author_role" value="AUTHOR"/>
+        </insert>
+        
+        <insert tableName="book_authors">
+            <column name="book_id" valueComputed="(SELECT id FROM books WHERE title = 'Outliers')"/>
+            <column name="author_id" valueComputed="(SELECT id FROM authors WHERE name = 'Malcolm Gladwell')"/>
+            <column name="author_role" value="AUTHOR"/>
+        </insert>
+        
+        <insert tableName="book_authors">
+            <column name="book_id" valueComputed="(SELECT id FROM books WHERE title LIKE 'Sapiens%')"/>
+            <column name="author_id" valueComputed="(SELECT id FROM authors WHERE name = 'Yuval Noah Harari')"/>
+            <column name="author_role" value="AUTHOR"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

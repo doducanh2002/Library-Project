@@ -6,22 +6,6 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <changeSet id="001-1" author="library-system">
-        <comment>Create update_updated_at_column function</comment>
-        <sql>
-            CREATE OR REPLACE FUNCTION update_updated_at_column()
-            RETURNS TRIGGER AS $$
-            BEGIN
-                NEW.updated_at = CURRENT_TIMESTAMP;
-                RETURN NEW;
-            END;
-            $$ LANGUAGE plpgsql;
-        </sql>
-        <rollback>
-            DROP FUNCTION IF EXISTS update_updated_at_column();
-        </rollback>
-    </changeSet>
-
-    <changeSet id="001-2" author="library-system">
         <comment>Create roles table</comment>
         <createTable tableName="roles">
             <column name="id" type="SERIAL">
@@ -33,13 +17,9 @@
             <column name="description" type="TEXT"/>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
-        
-        <addCheckConstraint tableName="roles" 
-                           constraintName="chk_role_name"
-                           constraintBody="name IN ('ROLE_USER', 'ROLE_LIBRARIAN', 'ROLE_ADMIN')"/>
     </changeSet>
 
-    <changeSet id="001-3" author="library-system">
+    <changeSet id="001-2" author="library-system">
         <comment>Create users table</comment>
         <createTable tableName="users">
             <column name="id" type="BIGSERIAL">
@@ -62,24 +42,9 @@
             <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
             <column name="last_login" type="TIMESTAMP"/>
         </createTable>
-        
-        <addCheckConstraint tableName="users" 
-                           constraintName="chk_username_length"
-                           constraintBody="LENGTH(username) >= 3"/>
-        
-        <addCheckConstraint tableName="users" 
-                           constraintName="chk_email_format"
-                           constraintBody="email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'"/>
-        
-        <sql>
-            CREATE TRIGGER update_users_updated_at 
-            BEFORE UPDATE ON users
-            FOR EACH ROW 
-            EXECUTE FUNCTION update_updated_at_column();
-        </sql>
     </changeSet>
 
-    <changeSet id="001-4" author="library-system">
+    <changeSet id="001-3" author="library-system">
         <comment>Create user_roles junction table</comment>
         <createTable tableName="user_roles">
             <column name="user_id" type="BIGINT">
@@ -118,7 +83,7 @@
                                 onDelete="SET NULL"/>
     </changeSet>
 
-    <changeSet id="001-5" author="library-system">
+    <changeSet id="001-4" author="library-system">
         <comment>Create categories table</comment>
         <createTable tableName="categories">
             <column name="id" type="SERIAL">
@@ -142,31 +107,9 @@
                                 referencedColumnNames="id"
                                 constraintName="fk_categories_parent"
                                 onDelete="SET NULL"/>
-        
-        <addCheckConstraint tableName="categories" 
-                           constraintName="chk_category_name_length"
-                           constraintBody="LENGTH(name) >= 2"/>
-        
-        <sql>
-            CREATE OR REPLACE FUNCTION generate_category_slug()
-            RETURNS TRIGGER AS $$
-            BEGIN
-                IF NEW.slug IS NULL OR NEW.slug = '' THEN
-                    NEW.slug = LOWER(REPLACE(REPLACE(NEW.name, ' ', '-'), '&amp;', 'and'));
-                    NEW.slug = REGEXP_REPLACE(NEW.slug, '[^a-z0-9\-]', '', 'g');
-                END IF;
-                RETURN NEW;
-            END;
-            $$ LANGUAGE plpgsql;
-            
-            CREATE TRIGGER category_slug_trigger
-            BEFORE INSERT OR UPDATE ON categories
-            FOR EACH ROW
-            EXECUTE FUNCTION generate_category_slug();
-        </sql>
     </changeSet>
 
-    <changeSet id="001-6" author="library-system">
+    <changeSet id="001-5" author="library-system">
         <comment>Create authors table</comment>
         <createTable tableName="authors">
             <column name="id" type="SERIAL">
@@ -183,20 +126,12 @@
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
         
-        <addCheckConstraint tableName="authors" 
-                           constraintName="chk_author_name_length"
-                           constraintBody="LENGTH(name) >= 2"/>
-        
-        <addCheckConstraint tableName="authors" 
-                           constraintName="chk_death_after_birth"
-                           constraintBody="death_date IS NULL OR death_date > birth_date"/>
-        
-        <createIndex tableName="authors" indexName="idx_authors_name_fulltext">
+        <createIndex tableName="authors" indexName="idx_authors_name">
             <column name="name"/>
         </createIndex>
     </changeSet>
 
-    <changeSet id="001-7" author="library-system">
+    <changeSet id="001-6" author="library-system">
         <comment>Create publishers table</comment>
         <createTable tableName="publishers">
             <column name="id" type="SERIAL">
@@ -212,17 +147,9 @@
             <column name="established_year" type="INT"/>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
-        
-        <addCheckConstraint tableName="publishers" 
-                           constraintName="chk_publisher_name_length"
-                           constraintBody="LENGTH(name) >= 2"/>
-        
-        <addCheckConstraint tableName="publishers" 
-                           constraintName="chk_established_year"
-                           constraintBody="established_year IS NULL OR (established_year > 1400 AND established_year &lt;= EXTRACT(YEAR FROM CURRENT_DATE))"/>
     </changeSet>
 
-    <changeSet id="001-8" author="library-system">
+    <changeSet id="001-7" author="library-system">
         <comment>Create books table</comment>
         <createTable tableName="books">
             <column name="id" type="BIGSERIAL">
@@ -270,13 +197,6 @@
                                 constraintName="fk_books_publisher"
                                 onDelete="SET NULL"/>
         
-        <sql>
-            CREATE TRIGGER update_books_updated_at 
-            BEFORE UPDATE ON books
-            FOR EACH ROW 
-            EXECUTE FUNCTION update_updated_at_column();
-        </sql>
-        
         <createIndex tableName="books" indexName="idx_books_category">
             <column name="category_id"/>
         </createIndex>
@@ -288,9 +208,13 @@
         <createIndex tableName="books" indexName="idx_books_isbn">
             <column name="isbn"/>
         </createIndex>
+        
+        <createIndex tableName="books" indexName="idx_books_title">
+            <column name="title"/>
+        </createIndex>
     </changeSet>
 
-    <changeSet id="001-9" author="library-system">
+    <changeSet id="001-8" author="library-system">
         <comment>Create book_authors junction table</comment>
         <createTable tableName="book_authors">
             <column name="book_id" type="BIGINT">
@@ -320,16 +244,12 @@
                                 constraintName="fk_book_authors_author"
                                 onDelete="CASCADE"/>
         
-        <addCheckConstraint tableName="book_authors" 
-                           constraintName="chk_author_role"
-                           constraintBody="author_role IN ('AUTHOR', 'CO_AUTHOR', 'EDITOR', 'TRANSLATOR')"/>
-        
         <createIndex tableName="book_authors" indexName="idx_book_authors_author">
             <column name="author_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet id="001-10" author="library-system">
+    <changeSet id="001-9" author="library-system">
         <comment>Create loans table</comment>
         <createTable tableName="loans">
             <column name="id" type="BIGSERIAL">
@@ -390,13 +310,6 @@
                                 constraintName="fk_loans_returned_to"
                                 onDelete="SET NULL"/>
         
-        <sql>
-            CREATE TRIGGER update_loans_updated_at 
-            BEFORE UPDATE ON loans
-            FOR EACH ROW 
-            EXECUTE FUNCTION update_updated_at_column();
-        </sql>
-        
         <createIndex tableName="loans" indexName="idx_loans_user_status">
             <column name="user_id"/>
             <column name="status"/>
@@ -406,14 +319,22 @@
             <column name="book_id"/>
             <column name="status"/>
         </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loans_due_date">
+            <column name="due_date"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loans_status">
+            <column name="status"/>
+        </createIndex>
     </changeSet>
 
-    <changeSet id="001-11" author="library-system">
+    <changeSet id="001-10" author="library-system">
         <comment>Create order_code_seq sequence</comment>
         <createSequence sequenceName="order_code_seq" startValue="1"/>
     </changeSet>
 
-    <changeSet id="001-12" author="library-system">
+    <changeSet id="001-11" author="library-system">
         <comment>Create orders table</comment>
         <createTable tableName="orders">
             <column name="id" type="BIGSERIAL">
@@ -463,29 +384,6 @@
                                 constraintName="fk_orders_user"
                                 onDelete="CASCADE"/>
         
-        <sql>
-            CREATE OR REPLACE FUNCTION generate_order_code()
-            RETURNS TRIGGER AS $$
-            BEGIN
-                IF NEW.order_code IS NULL OR NEW.order_code = '' THEN
-                    NEW.order_code = 'ORD-' || TO_CHAR(NEW.order_date, 'YYYY') || '-' || 
-                                    LPAD(nextval('order_code_seq')::TEXT, 6, '0');
-                END IF;
-                RETURN NEW;
-            END;
-            $$ LANGUAGE plpgsql;
-            
-            CREATE TRIGGER generate_order_code_trigger
-            BEFORE INSERT ON orders
-            FOR EACH ROW
-            EXECUTE FUNCTION generate_order_code();
-            
-            CREATE TRIGGER update_orders_updated_at 
-            BEFORE UPDATE ON orders
-            FOR EACH ROW 
-            EXECUTE FUNCTION update_updated_at_column();
-        </sql>
-        
         <createIndex tableName="orders" indexName="idx_orders_user">
             <column name="user_id"/>
         </createIndex>
@@ -493,9 +391,21 @@
         <createIndex tableName="orders" indexName="idx_orders_status">
             <column name="status"/>
         </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_payment_status">
+            <column name="payment_status"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_order_date">
+            <column name="order_date"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_code">
+            <column name="order_code"/>
+        </createIndex>
     </changeSet>
 
-    <changeSet id="001-13" author="library-system">
+    <changeSet id="001-12" author="library-system">
         <comment>Create order_items table</comment>
         <createTable tableName="order_items">
             <column name="id" type="BIGSERIAL">
@@ -551,7 +461,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet id="001-14" author="library-system">
+    <changeSet id="001-13" author="library-system">
         <comment>Create cart_items table</comment>
         <createTable tableName="cart_items">
             <column name="id" type="BIGSERIAL">
@@ -588,19 +498,16 @@
                                 constraintName="fk_cart_items_book"
                                 onDelete="CASCADE"/>
         
-        <sql>
-            CREATE TRIGGER update_cart_items_updated_at 
-            BEFORE UPDATE ON cart_items
-            FOR EACH ROW 
-            EXECUTE FUNCTION update_updated_at_column();
-        </sql>
-        
         <createIndex tableName="cart_items" indexName="idx_cart_items_user">
             <column name="user_id"/>
         </createIndex>
+        
+        <createIndex tableName="cart_items" indexName="idx_cart_items_book">
+            <column name="book_id"/>
+        </createIndex>
     </changeSet>
 
-    <changeSet id="001-15" author="library-system">
+    <changeSet id="001-14" author="library-system">
         <comment>Create notifications table</comment>
         <createTable tableName="notifications">
             <column name="id" type="BIGSERIAL">
@@ -634,9 +541,13 @@
             <column name="user_id"/>
             <column name="is_read"/>
         </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notifications_created_at">
+            <column name="created_at"/>
+        </createIndex>
     </changeSet>
 
-    <changeSet id="001-16" author="library-system">
+    <changeSet id="001-15" author="library-system">
         <comment>Create documents table</comment>
         <createTable tableName="documents">
             <column name="id" type="BIGSERIAL">
@@ -686,19 +597,20 @@
                                 constraintName="fk_documents_uploaded_by"
                                 onDelete="SET NULL"/>
         
-        <sql>
-            CREATE TRIGGER update_documents_updated_at 
-            BEFORE UPDATE ON documents
-            FOR EACH ROW 
-            EXECUTE FUNCTION update_updated_at_column();
-        </sql>
-        
         <createIndex tableName="documents" indexName="idx_documents_book">
             <column name="book_id"/>
         </createIndex>
+        
+        <createIndex tableName="documents" indexName="idx_documents_type">
+            <column name="document_type"/>
+        </createIndex>
+        
+        <createIndex tableName="documents" indexName="idx_documents_access_level">
+            <column name="access_level"/>
+        </createIndex>
     </changeSet>
 
-    <changeSet id="001-17" author="library-system">
+    <changeSet id="001-16" author="library-system">
         <comment>Create refresh_tokens table</comment>
         <createTable tableName="refresh_tokens">
             <column name="id" type="BIGSERIAL">
@@ -729,6 +641,10 @@
         
         <createIndex tableName="refresh_tokens" indexName="idx_refresh_tokens_token">
             <column name="token"/>
+        </createIndex>
+        
+        <createIndex tableName="refresh_tokens" indexName="idx_refresh_tokens_expires">
+            <column name="expires_at"/>
         </createIndex>
     </changeSet>
 
