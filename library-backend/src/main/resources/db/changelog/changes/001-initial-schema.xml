@@ -609,43 +609,4 @@
             <column name="access_level"/>
         </createIndex>
     </changeSet>
-
-    <changeSet id="001-16" author="library-system">
-        <comment>Create refresh_tokens table</comment>
-        <createTable tableName="refresh_tokens">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="token" type="VARCHAR(500)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="expires_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
-        </createTable>
-        
-        <addForeignKeyConstraint baseTableName="refresh_tokens" 
-                                baseColumnNames="user_id"
-                                referencedTableName="users" 
-                                referencedColumnNames="id"
-                                constraintName="fk_refresh_tokens_user"
-                                onDelete="CASCADE"/>
-        
-        <createIndex tableName="refresh_tokens" indexName="idx_refresh_tokens_user">
-            <column name="user_id"/>
-        </createIndex>
-        
-        <createIndex tableName="refresh_tokens" indexName="idx_refresh_tokens_token">
-            <column name="token"/>
-        </createIndex>
-        
-        <createIndex tableName="refresh_tokens" indexName="idx_refresh_tokens_expires">
-            <column name="expires_at"/>
-        </createIndex>
-    </changeSet>
-
 </databaseChangeLog>
