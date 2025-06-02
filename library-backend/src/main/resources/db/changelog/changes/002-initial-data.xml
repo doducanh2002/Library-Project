@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="002-1" author="library-system">
+        <comment>Insert default roles</comment>
+        <insert tableName="roles">
+            <column name="name" value="ROLE_USER"/>
+            <column name="description" value="Regular user - can borrow and purchase books"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ROLE_LIBRARIAN"/>
+            <column name="description" value="Librarian - manage books, documents, loans"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"/>
+            <column name="description" value="Administrator - full system access"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-2" author="library-system" context="dev,test">
+        <comment>Insert sample categories</comment>
+        <insert tableName="categories">
+            <column name="name" value="Fiction"/>
+            <column name="description" value="Fictional works including novels and short stories"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Non-Fiction"/>
+            <column name="description" value="Factual and educational content"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Science Fiction"/>
+            <column name="description" value="Science fiction and futuristic stories"/>
+            <column name="parent_category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Fiction')"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Fantasy"/>
+            <column name="description" value="Fantasy and magical stories"/>
+            <column name="parent_category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Fiction')"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="History"/>
+            <column name="description" value="Historical books and documents"/>
+            <column name="parent_category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Non-Fiction')"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Science"/>
+            <column name="description" value="Scientific books and research"/>
+            <column name="parent_category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Non-Fiction')"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Technology"/>
+            <column name="description" value="Technology and computer science"/>
+            <column name="parent_category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Non-Fiction')"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Self-Help"/>
+            <column name="description" value="Personal development and self-improvement"/>
+            <column name="parent_category_id" valueComputed="(SELECT id FROM categories WHERE name = 'Non-Fiction')"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-3" author="library-system" context="dev,test">
+        <comment>Insert sample publishers</comment>
+        <insert tableName="publishers">
+            <column name="name" value="Penguin Random House"/>
+            <column name="address" value="1745 Broadway, New York, NY 10019"/>
+            <column name="contact_info" value="+1-212-782-9000"/>
+            <column name="website" value="https://www.penguinrandomhouse.com"/>
+            <column name="email" value="info@penguinrandomhouse.com"/>
+            <column name="established_year" valueNumeric="1927"/>
+        </insert>
+        <insert tableName="publishers">
+            <column name="name" value="HarperCollins"/>
+            <column name="address" value="195 Broadway, New York, NY 10007"/>
+            <column name="contact_info" value="+1-212-207-7000"/>
+            <column name="website" value="https://www.harpercollins.com"/>
+            <column name="email" value="info@harpercollins.com"/>
+            <column name="established_year" valueNumeric="1989"/>
+        </insert>
+        <insert tableName="publishers">
+            <column name="name" value="O'Reilly Media"/>
+            <column name="address" value="1005 Gravenstein Highway North, Sebastopol, CA 95472"/>
+            <column name="contact_info" value="+1-707-827-7000"/>
+            <column name="website" value="https://www.oreilly.com"/>
+            <column name="email" value="info@oreilly.com"/>
+            <column name="established_year" valueNumeric="1978"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-4" author="library-system" context="dev,test">
+        <comment>Insert sample authors</comment>
+        <insert tableName="authors">
+            <column name="name" value="J.K. Rowling"/>
+            <column name="biography" value="British author best known for the Harry Potter fantasy series"/>
+            <column name="birth_date" valueDate="1965-07-31"/>
+            <column name="nationality" value="British"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="name" value="Stephen King"/>
+            <column name="biography" value="American author of horror, supernatural fiction, suspense, and fantasy novels"/>
+            <column name="birth_date" valueDate="1947-09-21"/>
+            <column name="nationality" value="American"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="name" value="Malcolm Gladwell"/>
+            <column name="biography" value="Canadian journalist, author, and public speaker"/>
+            <column name="birth_date" valueDate="1963-09-03"/>
+            <column name="nationality" value="Canadian"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="name" value="Yuval Noah Harari"/>
+            <column name="biography" value="Israeli public intellectual, historian and professor"/>
+            <column name="birth_date" valueDate="1976-02-24"/>
+            <column name="nationality" value="Israeli"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-5" author="library-system" context="dev,test">
+        <comment>Insert default users</comment>
+        <!-- Password: admin123 -->
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$10$YHVRGOscVYeMbIjkf5qRg.lYqB43jrIh1baf0mlk5wOa5419w1Dmu"/>
+            <column name="email" value="admin@library.com"/>
+            <column name="full_name" value="System Administrator"/>
+            <column name="phone_number" value="0123456789"/>
+            <column name="address" value="123 Admin Street"/>
+        </insert>
+        
+        <!-- Password: librarian123 -->
+        <insert tableName="users">
+            <column name="username" value="librarian"/>
+            <column name="password" value="$2a$10$mTrN5Y4TTlpmJPkEIrvj8OKQdRfzqP5rUz5CAj4lLdrenCmJceLni"/>
+            <column name="email" value="librarian@library.com"/>
+            <column name="full_name" value="Default Librarian"/>
+            <column name="phone_number" value="0987654321"/>
+            <column name="address" value="456 Library Avenue"/>
+        </insert>
+        
+        <!-- Password: user123 -->
+        <insert tableName="users">
+            <column name="username" value="testuser"/>
+            <column name="password" value="$2a$10$RBfNkwYH0f1GcC3o9v9xCO5fM9E2z5IfCsVKvJMVLOIO6Q5Y6xbLa"/>
+            <column name="email" value="user@library.com"/>
+            <column name="full_name" value="Test User"/>
+            <column name="phone_number" value="0111222333"/>
+            <column name="address" value="789 User Road"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-6" author="library-system" context="dev,test">
+        <comment>Assign roles to users</comment>
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id FROM users u, roles r 
+            WHERE u.username = 'admin' AND r.name = 'ROLE_ADMIN';
+            
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id FROM users u, roles r 
+            WHERE u.username = 'librarian' AND r.name = 'ROLE_LIBRARIAN';
+            
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id FROM users u, roles r 
+            WHERE u.username = 'testuser' AND r.name = 'ROLE_USER';
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-7" author="library-system" context="dev,test">
+        <comment>Insert sample books</comment>
+        <sql>
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
+                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
+                              price, stock_for_sale, is_sellable, category_id, publisher_id)
+            VALUES 
+            ('Harry Potter and the Philosopher''s Stone', '978-0747532699', 1997, 
+             'The first novel in the Harry Potter series and Rowling''s debut novel', 'en', 223,
+             5, 5, true, 19.99, 20, true, 
+             (SELECT id FROM categories WHERE name = 'Fantasy'),
+             (SELECT id FROM publishers WHERE name = 'Penguin Random House'));
+             
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
+                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
+                              price, stock_for_sale, is_sellable, category_id, publisher_id)
+            VALUES 
+            ('The Shining', '978-0307743657', 1977,
+             'A horror novel by American author Stephen King', 'en', 447,
+             3, 3, true, 24.99, 15, true,
+             (SELECT id FROM categories WHERE name = 'Fiction'),
+             (SELECT id FROM publishers WHERE name = 'HarperCollins'));
+             
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
+                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
+                              price, stock_for_sale, is_sellable, category_id, publisher_id)
+            VALUES 
+            ('Outliers', '978-0316017930', 2008,
+             'The Story of Success examines the factors that contribute to high levels of success', 'en', 309,
+             2, 2, true, 29.99, 10, true,
+             (SELECT id FROM categories WHERE name = 'Non-Fiction'),
+             (SELECT id FROM publishers WHERE name = 'Penguin Random House'));
+             
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages, 
+                              total_copies_for_loan, available_copies_for_loan, is_lendable, 
+                              price, stock_for_sale, is_sellable, category_id, publisher_id)
+            VALUES 
+            ('Sapiens: A Brief History of Humankind', '978-0062316097', 2011,
+             'A book that explores the history of humankind from the Stone Age to the modern day', 'en', 443,
+             4, 4, true, 34.99, 25, true,
+             (SELECT id FROM categories WHERE name = 'History'),
+             (SELECT id FROM publishers WHERE name = 'HarperCollins'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-8" author="library-system" context="dev,test">
+        <comment>Link books to authors</comment>
+        <sql>
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
+            WHERE b.title LIKE 'Harry Potter%' AND a.name = 'J.K. Rowling';
+            
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
+            WHERE b.title = 'The Shining' AND a.name = 'Stephen King';
+            
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
+            WHERE b.title = 'Outliers' AND a.name = 'Malcolm Gladwell';
+            
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR' FROM books b, authors a 
+            WHERE b.title LIKE 'Sapiens%' AND a.name = 'Yuval Noah Harari';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
