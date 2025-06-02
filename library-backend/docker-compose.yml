@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: library_postgres
+    environment:
+      POSTGRES_DB: library_db_dev
+      POSTGRES_USER: library_user
+      POSTGRES_PASSWORD: library_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - library_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: library_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - library_network
+
+  minio:
+    image: minio/minio:latest
+    container_name: library_minio
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - library_network
+
+volumes:
+  postgres_data:
+  minio_data:
+
+networks:
+  library_network:
+    driver: bridge

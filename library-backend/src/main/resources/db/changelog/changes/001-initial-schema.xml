@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-1" author="library-system">
+        <comment>Create roles table</comment>
+        <createTable tableName="roles">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="001-2" author="library-system">
+        <comment>Create users table</comment>
+        <createTable tableName="users">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="full_name" type="VARCHAR(100)"/>
+            <column name="phone_number" type="VARCHAR(20)"/>
+            <column name="address" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="last_login" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="001-3" author="library-system">
+        <comment>Create user_roles junction table</comment>
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="assigned_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="assigned_by" type="BIGINT"/>
+        </createTable>
+        
+        <addPrimaryKey tableName="user_roles" 
+                      columnNames="user_id,role_id" 
+                      constraintName="pk_user_roles"/>
+        
+        <addForeignKeyConstraint baseTableName="user_roles" 
+                                baseColumnNames="user_id"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_user_roles_user"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="user_roles" 
+                                baseColumnNames="role_id"
+                                referencedTableName="roles" 
+                                referencedColumnNames="id"
+                                constraintName="fk_user_roles_role"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="user_roles" 
+                                baseColumnNames="assigned_by"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_user_roles_assigned_by"
+                                onDelete="SET NULL"/>
+    </changeSet>
+
+    <changeSet id="001-4" author="library-system">
+        <comment>Create categories table</comment>
+        <createTable tableName="categories">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="parent_category_id" type="INT"/>
+            <column name="slug" type="VARCHAR(120)">
+                <constraints unique="true"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="categories" 
+                                baseColumnNames="parent_category_id"
+                                referencedTableName="categories" 
+                                referencedColumnNames="id"
+                                constraintName="fk_categories_parent"
+                                onDelete="SET NULL"/>
+    </changeSet>
+
+    <changeSet id="001-5" author="library-system">
+        <comment>Create authors table</comment>
+        <createTable tableName="authors">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="biography" type="TEXT"/>
+            <column name="birth_date" type="DATE"/>
+            <column name="death_date" type="DATE"/>
+            <column name="nationality" type="VARCHAR(50)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <createIndex tableName="authors" indexName="idx_authors_name">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-6" author="library-system">
+        <comment>Create publishers table</comment>
+        <createTable tableName="publishers">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="TEXT"/>
+            <column name="contact_info" type="VARCHAR(255)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="established_year" type="INT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="001-7" author="library-system">
+        <comment>Create books table</comment>
+        <createTable tableName="books">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isbn" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="publication_year" type="INT"/>
+            <column name="description" type="TEXT"/>
+            <column name="cover_image_url" type="VARCHAR(500)"/>
+            <column name="language" type="VARCHAR(10)" defaultValue="en"/>
+            <column name="number_of_pages" type="INT"/>
+            <column name="edition" type="VARCHAR(50)"/>
+            <column name="total_copies_for_loan" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available_copies_for_loan" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_lendable" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="price" type="DECIMAL(12,2)"/>
+            <column name="stock_for_sale" type="INT" defaultValueNumeric="0"/>
+            <column name="is_sellable" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="category_id" type="INT"/>
+            <column name="publisher_id" type="INT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="books" 
+                                baseColumnNames="category_id"
+                                referencedTableName="categories" 
+                                referencedColumnNames="id"
+                                constraintName="fk_books_category"
+                                onDelete="SET NULL"/>
+        
+        <addForeignKeyConstraint baseTableName="books" 
+                                baseColumnNames="publisher_id"
+                                referencedTableName="publishers" 
+                                referencedColumnNames="id"
+                                constraintName="fk_books_publisher"
+                                onDelete="SET NULL"/>
+        
+        <createIndex tableName="books" indexName="idx_books_category">
+            <column name="category_id"/>
+        </createIndex>
+        
+        <createIndex tableName="books" indexName="idx_books_publisher">
+            <column name="publisher_id"/>
+        </createIndex>
+        
+        <createIndex tableName="books" indexName="idx_books_isbn">
+            <column name="isbn"/>
+        </createIndex>
+        
+        <createIndex tableName="books" indexName="idx_books_title">
+            <column name="title"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-8" author="library-system">
+        <comment>Create book_authors junction table</comment>
+        <createTable tableName="book_authors">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_role" type="VARCHAR(50)" defaultValue="AUTHOR"/>
+        </createTable>
+        
+        <addPrimaryKey tableName="book_authors" 
+                      columnNames="book_id,author_id" 
+                      constraintName="pk_book_authors"/>
+        
+        <addForeignKeyConstraint baseTableName="book_authors" 
+                                baseColumnNames="book_id"
+                                referencedTableName="books" 
+                                referencedColumnNames="id"
+                                constraintName="fk_book_authors_book"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="book_authors" 
+                                baseColumnNames="author_id"
+                                referencedTableName="authors" 
+                                referencedColumnNames="id"
+                                constraintName="fk_book_authors_author"
+                                onDelete="CASCADE"/>
+        
+        <createIndex tableName="book_authors" indexName="idx_book_authors_author">
+            <column name="author_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-9" author="library-system">
+        <comment>Create loans table</comment>
+        <createTable tableName="loans">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="loan_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="return_date" type="TIMESTAMP"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="REQUESTED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fine_amount" type="DECIMAL(10,2)" defaultValueNumeric="0"/>
+            <column name="fine_paid" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="notes_by_librarian" type="TEXT"/>
+            <column name="user_notes" type="TEXT"/>
+            <column name="approved_by" type="BIGINT"/>
+            <column name="approved_at" type="TIMESTAMP"/>
+            <column name="returned_to" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="loans" 
+                                baseColumnNames="user_id"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_loans_user"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="loans" 
+                                baseColumnNames="book_id"
+                                referencedTableName="books" 
+                                referencedColumnNames="id"
+                                constraintName="fk_loans_book"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="loans" 
+                                baseColumnNames="approved_by"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_loans_approved_by"
+                                onDelete="SET NULL"/>
+        
+        <addForeignKeyConstraint baseTableName="loans" 
+                                baseColumnNames="returned_to"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_loans_returned_to"
+                                onDelete="SET NULL"/>
+        
+        <createIndex tableName="loans" indexName="idx_loans_user_status">
+            <column name="user_id"/>
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loans_book_status">
+            <column name="book_id"/>
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loans_due_date">
+            <column name="due_date"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loans_status">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-10" author="library-system">
+        <comment>Create order_code_seq sequence</comment>
+        <createSequence sequenceName="order_code_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="001-11" author="library-system">
+        <comment>Create orders table</comment>
+        <createTable tableName="orders">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_code" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="order_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_total_amount" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_fee" type="DECIMAL(10,2)" defaultValueNumeric="0"/>
+            <column name="discount_amount" type="DECIMAL(10,2)" defaultValueNumeric="0"/>
+            <column name="tax_amount" type="DECIMAL(10,2)" defaultValueNumeric="0"/>
+            <column name="total_amount" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)" defaultValue="PENDING_PAYMENT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_status" type="VARCHAR(30)" defaultValue="UNPAID"/>
+            <column name="payment_method" type="VARCHAR(50)"/>
+            <column name="payment_transaction_id" type="VARCHAR(100)"/>
+            <column name="shipping_address_line1" type="VARCHAR(255)"/>
+            <column name="shipping_address_line2" type="VARCHAR(255)"/>
+            <column name="shipping_city" type="VARCHAR(100)"/>
+            <column name="shipping_postal_code" type="VARCHAR(20)"/>
+            <column name="shipping_country" type="VARCHAR(50)" defaultValue="Vietnam"/>
+            <column name="shipping_date" type="TIMESTAMP"/>
+            <column name="delivery_date" type="TIMESTAMP"/>
+            <column name="customer_note" type="TEXT"/>
+            <column name="admin_notes" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="orders" 
+                                baseColumnNames="user_id"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_orders_user"
+                                onDelete="CASCADE"/>
+        
+        <createIndex tableName="orders" indexName="idx_orders_user">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_status">
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_payment_status">
+            <column name="payment_status"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_order_date">
+            <column name="order_date"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_code">
+            <column name="order_code"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-12" author="library-system">
+        <comment>Create order_items table</comment>
+        <createTable tableName="order_items">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_per_unit" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_total_price" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_isbn" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <addUniqueConstraint tableName="order_items" 
+                            columnNames="order_id,book_id" 
+                            constraintName="uk_order_items_order_book"/>
+        
+        <addForeignKeyConstraint baseTableName="order_items" 
+                                baseColumnNames="order_id"
+                                referencedTableName="orders" 
+                                referencedColumnNames="id"
+                                constraintName="fk_order_items_order"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="order_items" 
+                                baseColumnNames="book_id"
+                                referencedTableName="books" 
+                                referencedColumnNames="id"
+                                constraintName="fk_order_items_book"
+                                onDelete="RESTRICT"/>
+        
+        <createIndex tableName="order_items" indexName="idx_order_items_order">
+            <column name="order_id"/>
+        </createIndex>
+        
+        <createIndex tableName="order_items" indexName="idx_order_items_book">
+            <column name="book_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-13" author="library-system">
+        <comment>Create cart_items table</comment>
+        <createTable tableName="cart_items">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="added_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addUniqueConstraint tableName="cart_items" 
+                            columnNames="user_id,book_id" 
+                            constraintName="uk_cart_items_user_book"/>
+        
+        <addForeignKeyConstraint baseTableName="cart_items" 
+                                baseColumnNames="user_id"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_cart_items_user"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="cart_items" 
+                                baseColumnNames="book_id"
+                                referencedTableName="books" 
+                                referencedColumnNames="id"
+                                constraintName="fk_cart_items_book"
+                                onDelete="CASCADE"/>
+        
+        <createIndex tableName="cart_items" indexName="idx_cart_items_user">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <createIndex tableName="cart_items" indexName="idx_cart_items_book">
+            <column name="book_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-14" author="library-system">
+        <comment>Create notifications table</comment>
+        <createTable tableName="notifications">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_read" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="read_at" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="notifications" 
+                                baseColumnNames="user_id"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_notifications_user"
+                                onDelete="CASCADE"/>
+        
+        <createIndex tableName="notifications" indexName="idx_notifications_user_unread">
+            <column name="user_id"/>
+            <column name="is_read"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notifications_created_at">
+            <column name="created_at"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-15" author="library-system">
+        <comment>Create documents table</comment>
+        <createTable tableName="documents">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_size" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mime_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minio_object_name" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minio_bucket_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="access_level" type="VARCHAR(30)" defaultValue="RESTRICTED"/>
+            <column name="description" type="TEXT"/>
+            <column name="uploaded_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="documents" 
+                                baseColumnNames="book_id"
+                                referencedTableName="books" 
+                                referencedColumnNames="id"
+                                constraintName="fk_documents_book"
+                                onDelete="CASCADE"/>
+        
+        <addForeignKeyConstraint baseTableName="documents" 
+                                baseColumnNames="uploaded_by"
+                                referencedTableName="users" 
+                                referencedColumnNames="id"
+                                constraintName="fk_documents_uploaded_by"
+                                onDelete="SET NULL"/>
+        
+        <createIndex tableName="documents" indexName="idx_documents_book">
+            <column name="book_id"/>
+        </createIndex>
+        
+        <createIndex tableName="documents" indexName="idx_documents_type">
+            <column name="document_type"/>
+        </createIndex>
+        
+        <createIndex tableName="documents" indexName="idx_documents_access_level">
+            <column name="access_level"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
