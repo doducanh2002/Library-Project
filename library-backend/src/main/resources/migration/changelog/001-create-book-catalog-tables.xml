@@ -1,0 +1,117 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="20250104-001-add-table-categories" author="library-system">
+        <createTable tableName="categories">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="parent_category_id" type="INT"/>
+            <column name="slug" type="VARCHAR(120)">
+                <constraints unique="true"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="categories" baseColumnNames="parent_category_id" constraintName="FK_categories_parent" referencedTableName="categories" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="20250104-002-add-table-authors" author="library-system">
+        <createTable tableName="authors">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="biography" type="TEXT"/>
+            <column name="birth_date" type="DATE"/>
+            <column name="death_date" type="DATE"/>
+            <column name="nationality" type="VARCHAR(50)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="20250104-003-add-table-publishers" author="library-system">
+        <createTable tableName="publishers">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="TEXT"/>
+            <column name="contact_info" type="VARCHAR(255)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="established_year" type="INT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="20250104-004-add-table-books" author="library-system">
+        <createTable tableName="books">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isbn" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="publication_year" type="INT"/>
+            <column name="description" type="TEXT"/>
+            <column name="cover_image_url" type="VARCHAR(500)"/>
+            <column name="language" type="VARCHAR(10)" defaultValue="vi"/>
+            <column name="number_of_pages" type="INT"/>
+            <column name="edition" type="VARCHAR(50)"/>
+            <column name="total_copies_for_loan" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available_copies_for_loan" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_lendable" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DECIMAL(12,2)"/>
+            <column name="stock_for_sale" type="INT" defaultValueNumeric="0"/>
+            <column name="is_sellable" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="INT"/>
+            <column name="publisher_id" type="INT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="books" baseColumnNames="category_id" constraintName="FK_books_category" referencedTableName="categories" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="books" baseColumnNames="publisher_id" constraintName="FK_books_publisher" referencedTableName="publishers" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="20250104-005-add-table-book_authors" author="library-system">
+        <createTable tableName="book_authors">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_role" type="VARCHAR(50)" defaultValue="AUTHOR"/>
+        </createTable>
+        <addPrimaryKey tableName="book_authors" columnNames="book_id,author_id" constraintName="PK_book_authors"/>
+        <addForeignKeyConstraint baseTableName="book_authors" baseColumnNames="book_id" constraintName="FK_book_authors_book" referencedTableName="books" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="book_authors" baseColumnNames="author_id" constraintName="FK_book_authors_author" referencedTableName="authors" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

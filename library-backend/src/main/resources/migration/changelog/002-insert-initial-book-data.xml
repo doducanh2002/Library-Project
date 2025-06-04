@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="002-1" author="library-system">
+        <comment>Insert initial categories</comment>
+        <insert tableName="categories">
+            <column name="name" value="Khoa học máy tính"/>
+            <column name="description" value="Sách về lập trình, công nghệ thông tin"/>
+            <column name="slug" value="khoa-hoc-may-tinh"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Văn học"/>
+            <column name="description" value="Tiểu thuyết, thơ, truyện ngắn"/>
+            <column name="slug" value="van-hoc"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Kinh tế"/>
+            <column name="description" value="Sách về kinh doanh, tài chính, marketing"/>
+            <column name="slug" value="kinh-te"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Lịch sử"/>
+            <column name="description" value="Sách lịch sử Việt Nam và thế giới"/>
+            <column name="slug" value="lich-su"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Khoa học tự nhiên"/>
+            <column name="description" value="Toán học, vật lý, hóa học, sinh học"/>
+            <column name="slug" value="khoa-hoc-tu-nhien"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-2" author="library-system">
+        <comment>Insert subcategories for Khoa học máy tính</comment>
+        <sql>
+            INSERT INTO categories (name, description, parent_category_id, slug, is_active)
+            SELECT 'Lập trình', 'Sách về các ngôn ngữ lập trình', id, 'lap-trinh', true
+            FROM categories WHERE slug = 'khoa-hoc-may-tinh';
+
+            INSERT INTO categories (name, description, parent_category_id, slug, is_active)
+            SELECT 'Cơ sở dữ liệu', 'Sách về database và SQL', id, 'co-so-du-lieu', true
+            FROM categories WHERE slug = 'khoa-hoc-may-tinh';
+
+            INSERT INTO categories (name, description, parent_category_id, slug, is_active)
+            SELECT 'An toàn thông tin', 'Sách về bảo mật và an ninh mạng', id, 'an-toan-thong-tin', true
+            FROM categories WHERE slug = 'khoa-hoc-may-tinh';
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-3" author="library-system">
+        <comment>Insert initial authors</comment>
+        <insert tableName="authors">
+            <column name="name" value="Robert C. Martin"/>
+            <column name="biography" value="Robert Cecil Martin, also known as Uncle Bob, is an American software engineer and author"/>
+            <column name="birth_date" valueDate="1952-12-05"/>
+            <column name="nationality" value="American"/>
+            <column name="website" value="https://cleancoders.com"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="name" value="Martin Fowler"/>
+            <column name="biography" value="British software developer, author and international public speaker on software development"/>
+            <column name="birth_date" valueDate="1963-12-18"/>
+            <column name="nationality" value="British"/>
+            <column name="website" value="https://martinfowler.com"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="name" value="Nam Cao"/>
+            <column name="biography" value="Nhà văn Việt Nam, tên thật là Trần Hữu Tri, một trong những nhà văn tiêu biểu của văn học hiện thực Việt Nam"/>
+            <column name="birth_date" valueDate="1915-10-29"/>
+            <column name="death_date" valueDate="1951-11-28"/>
+            <column name="nationality" value="Vietnamese"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="name" value="Nguyễn Nhật Ánh"/>
+            <column name="biography" value="Nhà văn Việt Nam đương đại, nổi tiếng với các tác phẩm văn học thiếu nhi và tuổi mới lớn"/>
+            <column name="birth_date" valueDate="1955-05-07"/>
+            <column name="nationality" value="Vietnamese"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-4" author="library-system">
+        <comment>Insert initial publishers</comment>
+        <insert tableName="publishers">
+            <column name="name" value="NXB Kim Đồng"/>
+            <column name="address" value="55 Quang Trung, Hai Bà Trưng, Hà Nội"/>
+            <column name="contact_info" value="024-3943-4730"/>
+            <column name="website" value="https://nxbkimdong.com.vn"/>
+            <column name="email" value="info@nxbkimdong.com.vn"/>
+            <column name="established_year" valueNumeric="1957"/>
+        </insert>
+        <insert tableName="publishers">
+            <column name="name" value="NXB Trẻ"/>
+            <column name="address" value="161B Lý Chính Thắng, Quận 3, TP.HCM"/>
+            <column name="contact_info" value="028-3931-6289"/>
+            <column name="website" value="https://www.nxbtre.com.vn"/>
+            <column name="email" value="info@nxbtre.com.vn"/>
+            <column name="established_year" valueNumeric="1981"/>
+        </insert>
+        <insert tableName="publishers">
+            <column name="name" value="O'Reilly Media"/>
+            <column name="address" value="1005 Gravenstein Highway North, Sebastopol, CA 95472, USA"/>
+            <column name="contact_info" value="+1-707-827-7000"/>
+            <column name="website" value="https://www.oreilly.com"/>
+            <column name="email" value="info@oreilly.com"/>
+            <column name="established_year" valueNumeric="1978"/>
+        </insert>
+        <insert tableName="publishers">
+            <column name="name" value="Addison-Wesley"/>
+            <column name="address" value="Boston, Massachusetts, USA"/>
+            <column name="website" value="https://www.pearson.com"/>
+            <column name="established_year" valueNumeric="1942"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="002-5" author="library-system">
+        <comment>Insert initial books</comment>
+        <sql>
+            -- Clean Code book
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages,
+                             total_copies_for_loan, available_copies_for_loan, is_lendable,
+                             price, stock_for_sale, is_sellable, category_id, publisher_id)
+            SELECT 'Clean Code: A Handbook of Agile Software Craftsmanship',
+                   '978-0132350884',
+                   2008,
+                   'Even bad code can function. But if code isn''t clean, it can bring a development organization to its knees.',
+                   'en',
+                   464,
+                   5, 5, true,
+                   49.99, 10, true,
+                   c.id, p.id
+            FROM categories c, publishers p
+            WHERE c.slug = 'lap-trinh' AND p.name = 'Addison-Wesley';
+
+            -- Refactoring book
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages,
+                             total_copies_for_loan, available_copies_for_loan, is_lendable,
+                             price, stock_for_sale, is_sellable, category_id, publisher_id)
+            SELECT 'Refactoring: Improving the Design of Existing Code',
+                   '978-0134757599',
+                   2018,
+                   'For more than twenty years, experienced programmers worldwide have relied on Martin Fowler''s Refactoring',
+                   'en',
+                   448,
+                   3, 3, true,
+                   54.99, 8, true,
+                   c.id, p.id
+            FROM categories c, publishers p
+            WHERE c.slug = 'lap-trinh' AND p.name = 'Addison-Wesley';
+
+            -- Chí Phèo book
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages,
+                             total_copies_for_loan, available_copies_for_loan, is_lendable,
+                             price, stock_for_sale, is_sellable, category_id, publisher_id)
+            SELECT 'Chí Phèo',
+                   '978-604-2-22090-1',
+                   2020,
+                   'Truyện ngắn nổi tiếng của Nam Cao về một người nông dân bị đẩy vào con đường tha hóa',
+                   'vi',
+                   120,
+                   10, 10, true,
+                   35000, 20, true,
+                   c.id, p.id
+            FROM categories c, publishers p
+            WHERE c.slug = 'van-hoc' AND p.name = 'NXB Kim Đồng';
+
+            -- Cho tôi xin một vé đi tuổi thơ
+            INSERT INTO books (title, isbn, publication_year, description, language, number_of_pages,
+                             total_copies_for_loan, available_copies_for_loan, is_lendable,
+                             price, stock_for_sale, is_sellable, category_id, publisher_id)
+            SELECT 'Cho tôi xin một vé đi tuổi thơ',
+                   '978-604-2-18396-1',
+                   2018,
+                   'Truyện dài của nhà văn Nguyễn Nhật Ánh viết về tuổi thơ',
+                   'vi',
+                   220,
+                   15, 15, true,
+                   80000, 30, true,
+                   c.id, p.id
+            FROM categories c, publishers p
+            WHERE c.slug = 'van-hoc' AND p.name = 'NXB Trẻ';
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-6" author="library-system">
+        <comment>Link books with authors</comment>
+        <sql>
+            -- Link Clean Code with Robert C. Martin
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR'
+            FROM books b, authors a
+            WHERE b.isbn = '978-0132350884' AND a.name = 'Robert C. Martin';
+
+            -- Link Refactoring with Martin Fowler
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR'
+            FROM books b, authors a
+            WHERE b.isbn = '978-0134757599' AND a.name = 'Martin Fowler';
+
+            -- Link Chí Phèo with Nam Cao
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR'
+            FROM books b, authors a
+            WHERE b.isbn = '978-604-2-22090-1' AND a.name = 'Nam Cao';
+
+            -- Link Cho tôi xin một vé đi tuổi thơ with Nguyễn Nhật Ánh
+            INSERT INTO book_authors (book_id, author_id, author_role)
+            SELECT b.id, a.id, 'AUTHOR'
+            FROM books b, authors a
+            WHERE b.isbn = '978-604-2-18396-1' AND a.name = 'Nguyễn Nhật Ánh';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

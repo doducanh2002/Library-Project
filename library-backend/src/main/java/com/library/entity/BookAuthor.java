@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Table(name = "book_authors")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @IdClass(BookAuthor.BookAuthorId.class)
 public class BookAuthor {
     
