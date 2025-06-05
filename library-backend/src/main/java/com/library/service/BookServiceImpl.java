@@ -401,7 +401,7 @@ public class BookServiceImpl implements BookService {
             bookRepository.existsByIsbnAndIdNot(isbn, excludeBookId);
             
         if (exists) {
-            throw new DuplicateBookException(isbn);
+            throw DuplicateBookException.forIsbn(isbn);
         }
     }
     

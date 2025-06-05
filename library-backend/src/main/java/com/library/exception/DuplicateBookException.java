@@ -5,7 +5,7 @@ public class DuplicateBookException extends RuntimeException {
         super(message);
     }
     
-    public DuplicateBookException(String isbn) {
-        super("Book with ISBN " + isbn + " already exists");
+    public static DuplicateBookException forIsbn(String isbn) {
+        return new DuplicateBookException("Book with ISBN " + isbn + " already exists");
     }
 }
