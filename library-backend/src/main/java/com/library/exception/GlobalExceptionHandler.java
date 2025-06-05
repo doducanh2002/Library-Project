@@ -1,6 +1,6 @@
 package com.library.exception;
 
-import com.library.dto.ApiResponse;
+import com.library.dto.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,28 +17,28 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleBookNotFoundException(BookNotFoundException ex) {
+    public ResponseEntity<BaseResponse<Object>> handleBookNotFoundException(BookNotFoundException ex) {
         log.error("Book not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.error("Book not found", ex.getMessage()));
+                .body(BaseResponse.error("BOOK_NOT_FOUND"));
     }
     
     @ExceptionHandler(DuplicateBookException.class)
-    public ResponseEntity<ApiResponse<Object>> handleDuplicateBookException(DuplicateBookException ex) {
+    public ResponseEntity<BaseResponse<Object>> handleDuplicateBookException(DuplicateBookException ex) {
         log.error("Duplicate book: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error("Duplicate book", ex.getMessage()));
+                .body(BaseResponse.error("DUPLICATE_BOOK"));
     }
     
     @ExceptionHandler(InsufficientStockException.class)
-    public ResponseEntity<ApiResponse<Object>> handleInsufficientStockException(InsufficientStockException ex) {
+    public ResponseEntity<BaseResponse<Object>> handleInsufficientStockException(InsufficientStockException ex) {
         log.error("Insufficient stock: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error("Insufficient stock", ex.getMessage()));
+                .body(BaseResponse.error("INSUFFICIENT_STOCK"));
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<BaseResponse<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -48,27 +48,27 @@ public class GlobalExceptionHandler {
         
         log.error("Validation errors: {}", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error("Validation failed", errors.toString()));
+                .body(BaseResponse.error("VALIDATION_FAILED"));
     }
     
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponse<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+    public ResponseEntity<BaseResponse<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
         log.error("Invalid argument: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error("Invalid argument", ex.getMessage()));
+                .body(BaseResponse.error("INVALID_ARGUMENT"));
     }
     
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ApiResponse<Object>> handleIllegalStateException(IllegalStateException ex) {
+    public ResponseEntity<BaseResponse<Object>> handleIllegalStateException(IllegalStateException ex) {
         log.error("Invalid state: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error("Invalid state", ex.getMessage()));
+                .body(BaseResponse.error("INVALID_STATE"));
     }
     
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleGenericException(Exception ex) {
+    public ResponseEntity<BaseResponse<Object>> handleGenericException(Exception ex) {
         log.error("Unexpected error: ", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error("Internal server error", "An unexpected error occurred"));
+                .body(BaseResponse.error("INTERNAL_SERVER_ERROR"));
     }
 }
