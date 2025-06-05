@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
     
     Optional<Category> findByName(String name);
     
@@ -24,14 +24,14 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     
     List<Category> findByParentCategoryIsNull();
     
-    List<Category> findByParentCategoryId(Integer parentId);
+    List<Category> findByParentCategoryId(Long parentId);
     
     @Query("SELECT c FROM Category c LEFT JOIN FETCH c.parentCategory WHERE c.id = :id")
-    Optional<Category> findByIdWithParent(@Param("id") Integer id);
+    Optional<Category> findByIdWithParent(@Param("id") Long id);
     
     @Query("SELECT c FROM Category c LEFT JOIN FETCH c.subcategories WHERE c.id = :id")
-    Optional<Category> findByIdWithSubcategories(@Param("id") Integer id);
+    Optional<Category> findByIdWithSubcategories(@Param("id") Long id);
     
     @Query("SELECT COUNT(b) FROM Book b WHERE b.category.id = :categoryId")
-    Long countBooksByCategoryId(@Param("categoryId") Integer categoryId);
+    Long countBooksByCategoryId(@Param("categoryId") Long categoryId);
 }

@@ -1,10 +1,11 @@
-package com.library.service;
+package com.library.service.impl;
 
 import com.library.dto.*;
 import com.library.entity.*;
 import com.library.exception.*;
 import com.library.mapper.BookMapper;
 import com.library.repository.*;
+import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

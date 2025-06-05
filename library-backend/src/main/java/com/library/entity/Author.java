@@ -23,7 +23,7 @@ import java.util.Set;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotBlank(message = "Author name is required")
     @Size(min = 2, max = 100, message = "Author name must be between 2 and 100 characters")

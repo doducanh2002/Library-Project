@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bb2cce35-0347-485c-909e-00602d6a78a1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Author.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Category.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Publisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/impl/BookServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -24,7 +24,7 @@ import java.util.List;
 public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Size(min = 2, max = 100, message = "Publisher name must be between 2 and 100 characters")
     @Column(nullable = false, length = 100)
