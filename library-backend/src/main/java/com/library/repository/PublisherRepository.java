@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
+public interface PublisherRepository extends JpaRepository<Publisher, Long> {
     
     Optional<Publisher> findByName(String name);
     
@@ -23,10 +23,10 @@ public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
     Page<Publisher> findByNameContainingIgnoreCase(String name, Pageable pageable);
     
     @Query("SELECT p FROM Publisher p LEFT JOIN FETCH p.books WHERE p.id = :id")
-    Optional<Publisher> findByIdWithBooks(@Param("id") Integer id);
+    Optional<Publisher> findByIdWithBooks(@Param("id") Long id);
     
     @Query("SELECT COUNT(b) FROM Book b WHERE b.publisher.id = :publisherId")
-    Long countBooksByPublisherId(@Param("publisherId") Integer publisherId);
+    Long countBooksByPublisherId(@Param("publisherId") Long publisherId);
     
     @Query("SELECT p FROM Publisher p WHERE p.establishedYear BETWEEN :startYear AND :endYear")
     List<Publisher> findByEstablishedYearBetween(@Param("startYear") Integer startYear, 

@@ -14,15 +14,15 @@ public interface BookAuthorRepository extends JpaRepository<BookAuthor, BookAuth
     
     List<BookAuthor> findByBookId(Long bookId);
     
-    List<BookAuthor> findByAuthorId(Integer authorId);
+    List<BookAuthor> findByAuthorId(Long authorId);
     
-    Optional<BookAuthor> findByBookIdAndAuthorId(Long bookId, Integer authorId);
+    Optional<BookAuthor> findByBookIdAndAuthorId(Long bookId, Long authorId);
     
     void deleteByBookId(Long bookId);
     
-    void deleteByAuthorId(Integer authorId);
+    void deleteByAuthorId(Long authorId);
     
-    void deleteByBookIdAndAuthorId(Long bookId, Integer authorId);
+    void deleteByBookIdAndAuthorId(Long bookId, Long authorId);
     
     @Query("SELECT ba FROM BookAuthor ba WHERE ba.authorRole = :role")
     List<BookAuthor> findByAuthorRole(@Param("role") String role);
@@ -31,5 +31,5 @@ public interface BookAuthorRepository extends JpaRepository<BookAuthor, BookAuth
     Long countAuthorsByBookId(@Param("bookId") Long bookId);
     
     @Query("SELECT COUNT(ba) FROM BookAuthor ba WHERE ba.author.id = :authorId")
-    Long countBooksByAuthorId(@Param("authorId") Integer authorId);
+    Long countBooksByAuthorId(@Param("authorId") Long authorId);
 }
