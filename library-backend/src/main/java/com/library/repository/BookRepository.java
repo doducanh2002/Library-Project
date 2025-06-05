@@ -25,9 +25,13 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     @Query("SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.bookAuthors ba LEFT JOIN FETCH ba.author WHERE b.id = :id")
     Optional<Book> findByIdWithAuthors(@Param("id") Long id);
     
-    Page<Book> findByCategoryId(Integer categoryId, Pageable pageable);
+    List<Book> findByCategoryId(Long categoryId);
     
-    Page<Book> findByPublisherId(Integer publisherId, Pageable pageable);
+    List<Book> findByPublisherId(Long publisherId);
+    
+    List<Book> findByBookAuthors_AuthorId(Long authorId);
+    
+    boolean existsByIsbnAndIdNot(String isbn, Long id);
     
     @Query("SELECT b FROM Book b WHERE b.isLendable = true AND b.availableCopiesForLoan > 0")
     Page<Book> findAvailableForLoan(Pageable pageable);
