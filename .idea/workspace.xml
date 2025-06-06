@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: data type">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/dto/BookDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/dto/BookDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/specification/BookSpecification.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/specification/BookSpecification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/specification/BookSpecificationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/specification/BookSpecificationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +17,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/BOOK-002-T1" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -42,7 +51,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/BOOK-002-T1",
+    "Spring Boot.LibraryBackendApplication.executor": "Run",
+    "git-widget-placeholder": "feature/BOOK-002-T2",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/-MSI-/IdeaProjects/Library-Project",

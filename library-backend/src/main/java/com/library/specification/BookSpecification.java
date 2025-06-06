@@ -272,4 +272,141 @@ public class BookSpecification {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
+    
+    // Enhanced search methods for SearchService
+    
+    public static Specification<Book> enhancedKeywordSearch(String keyword) {
+        return (root, query, criteriaBuilder) -> {
+            if (keyword == null || keyword.trim().isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+            
+            String searchKeyword = "%" + keyword.toLowerCase() + "%";
+            
+            // Create predicates for different fields with different weights
+            Predicate titlePredicate = criteriaBuilder.like(
+                criteriaBuilder.lower(root.get("title")), searchKeyword);
+            Predicate descriptionPredicate = criteriaBuilder.like(
+                criteriaBuilder.lower(root.get("description")), searchKeyword);
+            Predicate isbnPredicate = criteriaBuilder.like(
+                criteriaBuilder.lower(root.get("isbn")), searchKeyword);
+            
+            // Also search in author names
+            Join<Book, BookAuthor> bookAuthorJoin = root.join("bookAuthors", JoinType.LEFT);
+            Join<BookAuthor, Author> authorJoin = bookAuthorJoin.join("author", JoinType.LEFT);
+            Predicate authorPredicate = criteriaBuilder.like(
+                criteriaBuilder.lower(authorJoin.get("name")), searchKeyword);
+            
+            query.distinct(true);
+            return criteriaBuilder.or(titlePredicate, descriptionPredicate, isbnPredicate, authorPredicate);
+        };
+    }
+    
+    public static Specification<Book> exactTitleMatch(String title) {
+        return (root, query, criteriaBuilder) -> {
+            if (title == null || title.trim().isEmpty()) {
+                return criteriaBuilder.disjunction(); // Always false
+            }
+            return criteriaBuilder.equal(criteriaBuilder.lower(root.get("title")), title.toLowerCase());
+        };
+    }
+    
+    public static Specification<Book> isbnMatch(String isbn) {
+        return (root, query, criteriaBuilder) -> {
+            if (isbn == null || isbn.trim().isEmpty()) {
+                return criteriaBuilder.disjunction(); // Always false
+            }
+            return criteriaBuilder.equal(root.get("isbn"), isbn);
+        };
+    }
+    
+    public static Specification<Book> writtenByMultipleAuthors(List<Integer> authorIds) {
+        return (root, query, criteriaBuilder) -> {
+            if (authorIds == null || authorIds.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+            Join<Book, BookAuthor> bookAuthorJoin = root.join("bookAuthors", JoinType.INNER);
+            Join<BookAuthor, Author> authorJoin = bookAuthorJoin.join("author", JoinType.INNER);
+            query.distinct(true);
+            return authorJoin.get("id").in(authorIds);
+        };
+    }
+    
+    public static Specification<Book> publishedByMultiple(List<Long> publisherIds) {
+        return (root, query, criteriaBuilder) -> {
+            if (publisherIds == null || publisherIds.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+            Join<Book, Publisher> publisherJoin = root.join("publisher", JoinType.INNER);
+            return publisherJoin.get("id").in(publisherIds);
+        };
+    }
+    
+    public static Specification<Book> pageCountRange(Integer minPages, Integer maxPages) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            
+            if (minPages != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(
+                    root.get("numberOfPages"), minPages));
+            }
+            if (maxPages != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(
+                    root.get("numberOfPages"), maxPages));
+            }
+            
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+    
+    public static Specification<Book> inMultipleCategories(List<Long> categoryIds) {
+        return (root, query, criteriaBuilder) -> {
+            if (categoryIds == null || categoryIds.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+            
+            // Include both direct category matches and parent category matches
+            Join<Book, Category> categoryJoin = root.join("category", JoinType.INNER);
+            Predicate directMatch = categoryJoin.get("id").in(categoryIds);
+            Predicate parentMatch = categoryJoin.get("parentCategory").get("id").in(categoryIds);
+            
+            return criteriaBuilder.or(directMatch, parentMatch);
+        };
+    }
+    
+    public static Specification<Book> availableAndInStock() {
+        return (root, query, criteriaBuilder) -> 
+            criteriaBuilder.or(
+                criteriaBuilder.and(
+                    criteriaBuilder.isTrue(root.get("isLendable")),
+                    criteriaBuilder.greaterThan(root.get("availableCopiesForLoan"), 0)
+                ),
+                criteriaBuilder.and(
+                    criteriaBuilder.isTrue(root.get("isSellable")),
+                    criteriaBuilder.greaterThan(root.get("stockForSale"), 0)
+                )
+            );
+    }
+    
+    public static Specification<Book> withPerformanceOptimization() {
+        return (root, query, criteriaBuilder) -> {
+            // Add fetch joins for commonly accessed relationships
+            if (query.getResultType().equals(Book.class)) {
+                root.fetch("category", JoinType.LEFT);
+                root.fetch("publisher", JoinType.LEFT);
+                // Note: bookAuthors fetch might cause N+1, handle carefully
+            }
+            return criteriaBuilder.conjunction();
+        };
+    }
+    
+    public static Specification<Book> popularBooks(int minimumInteractions) {
+        return (root, query, criteriaBuilder) -> {
+            // This is a placeholder for popularity logic
+            // In real implementation, this would join with loans/orders tables
+            // For now, we'll use creation date as a proxy for popularity
+            LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
+            return criteriaBuilder.greaterThan(root.get("createdAt"), thirtyDaysAgo);
+        };
+    }
 }
