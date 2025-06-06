@@ -47,4 +47,17 @@ public class BookDTO {
     // Timestamps
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
+    // Constructor for dashboard query
+    public BookDTO(Long id, String title, String isbn, BigDecimal price, Integer stockForSale,
+                   Integer availableCopiesForLoan, Boolean isLendable, Boolean isSellable) {
+        this.id = id;
+        this.title = title;
+        this.isbn = isbn;
+        this.price = price;
+        this.stockForSale = stockForSale;
+        this.availableCopiesForLoan = availableCopiesForLoan;
+        this.isLendable = isLendable;
+        this.isSellable = isSellable;
+    }
 }
