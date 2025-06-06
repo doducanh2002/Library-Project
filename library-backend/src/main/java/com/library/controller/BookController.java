@@ -57,6 +57,29 @@ public class BookController {
         return BaseResponse.success(books);
     }
     
+    @PostMapping("/books/search")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Advanced book search", description = "Advanced search with comprehensive criteria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Search completed successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid search criteria")
+    })
+    public BaseResponse<Page<BookDTO>> advancedSearchBooks(
+            @RequestBody BookSearchCriteria criteria,
+            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
+        
+        log.info("Received advanced search books request with criteria: {}", criteria);
+        
+        // Use sorting from criteria or default
+        Sort.Direction direction = criteria.getSortDirection().equalsIgnoreCase("desc") ? 
+            Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, criteria.getSortBy()));
+        
+        Page<BookDTO> books = bookService.searchBooksWithCriteria(criteria, pageable);
+        return BaseResponse.success(books);
+    }
+    
     @GetMapping("/books/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get book by ID", description = "Get detailed information about a specific book")
