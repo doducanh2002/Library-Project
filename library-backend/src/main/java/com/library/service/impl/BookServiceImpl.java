@@ -6,6 +6,7 @@ import com.library.exception.*;
 import com.library.mapper.BookMapper;
 import com.library.repository.*;
 import com.library.service.BookService;
+import com.library.specification.BookSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -124,6 +125,18 @@ public class BookServiceImpl implements BookService {
                                                                isLendable, isSellable, language);
         
         Page<Book> books = bookRepository.findAll(spec, pageable);
+        return books.map(bookMapper::toDTO);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Page<BookDTO> searchBooksWithCriteria(BookSearchCriteria criteria, Pageable pageable) {
+        log.debug("Searching books with advanced criteria: {}", criteria);
+        
+        Specification<Book> spec = BookSpecification.withCriteria(criteria);
+        Page<Book> books = bookRepository.findAll(spec, pageable);
+        
+        log.debug("Found {} books matching criteria", books.getTotalElements());
         return books.map(bookMapper::toDTO);
     }
     

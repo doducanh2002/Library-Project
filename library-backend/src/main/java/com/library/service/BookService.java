@@ -24,6 +24,8 @@ public interface BookService {
                              Boolean isLendable, Boolean isSellable, 
                              String language, Pageable pageable);
     
+    Page<BookDTO> searchBooksWithCriteria(BookSearchCriteria criteria, Pageable pageable);
+    
     Page<BookDTO> getAllBooks(Pageable pageable);
     
     List<BookDTO> getPopularBooks(int limit);
