@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: data type">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/dto/BookDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/dto/BookDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/specification/BookSpecification.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/specification/BookSpecification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/specification/BookSpecificationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/specification/BookSpecificationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +49,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "feature/BOOK-002-T2",
+    "git-widget-placeholder": "feature/BOOK-002-T3",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/-MSI-/IdeaProjects/Library-Project",
@@ -96,6 +93,7 @@
       <workItem from="1749053347188" duration="199000" />
       <workItem from="1749053559718" duration="107000" />
       <workItem from="1749130001523" duration="836000" />
+      <workItem from="1749308649446" duration="1249000" />
     </task>
     <servers />
   </component>
