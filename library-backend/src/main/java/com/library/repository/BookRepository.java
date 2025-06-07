@@ -50,7 +50,10 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     @Query("SELECT b FROM Book b ORDER BY b.createdAt DESC")
     List<Book> findRecentBooks(Pageable pageable);
     
-    @Query("SELECT b FROM Book b LEFT JOIN b.bookAuthors ba GROUP BY b ORDER BY COUNT(ba) DESC")
+    // For now, popular books are based on recent additions and availability
+    // TODO: Update this query when Loan and OrderItem entities are implemented
+    @Query("SELECT b FROM Book b WHERE b.isLendable = true OR b.isSellable = true " +
+           "ORDER BY b.createdAt DESC, b.availableCopiesForLoan DESC, b.stockForSale DESC")
     List<Book> findPopularBooks(Pageable pageable);
     
     // Full-text search queries with PostgreSQL optimization
