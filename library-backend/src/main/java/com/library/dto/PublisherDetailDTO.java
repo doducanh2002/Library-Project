@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PublisherDTO {
+public class PublisherDetailDTO {
     private Long id;
     private String name;
     private String address;
@@ -23,6 +24,7 @@ public class PublisherDTO {
     
     // Statistics
     private Long bookCount;
+    private List<BookDTO> books;
     
     // Computed fields
     private Integer yearsInBusiness;
