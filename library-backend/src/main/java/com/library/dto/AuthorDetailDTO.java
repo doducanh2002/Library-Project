@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorDTO {
+public class AuthorDetailDTO {
     private Long id;
     private String name;
     private String biography;
@@ -24,6 +25,7 @@ public class AuthorDTO {
     
     // Statistics
     private Long bookCount;
+    private List<BookDTO> books;
     
     // Computed fields
     private Integer age;
