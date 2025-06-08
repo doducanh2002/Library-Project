@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin123
+  bucket-name: video-storage
+
+video:
+  max-size: 524288000 # 500MB in bytes
+  upload-path: videos/
+  startup-upload-file: C:\Users\ADMIN\Downloads\70796-538877060.mp4
+logging:
+  level:
+    com.example.videoservice: DEBUG
+    io.minio: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: logs/minio-video-app.log
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health

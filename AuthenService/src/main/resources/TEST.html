@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            margin: 1rem 0;
+        }
+        .token {
+            background-color: #f8f8f8;
+            padding: 1rem;
+            border-radius: 4px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 1rem 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Authentication Successful</h1>
+    <p>You have successfully authenticated with Google!</p>
+    <p>Your authentication token is:</p>
+    <div class="token" id="token-display">${token}</div>
+    <button id="redirect-button">Continue to Application</button>
+</div>
+
+<script>
+    document.getElementById('redirect-button').addEventListener('click', function() {
+        // Redirect to frontend with token in localStorage
+        localStorage.setItem('auth_token', '${token}');
+        window.location.href = '${frontendUrl}';
+    });
+
+    // Store token in localStorage automatically
+    localStorage.setItem('auth_token', '${token}');
+
+    // Auto-redirect after 3 seconds
+    setTimeout(function() {
+        window.location.href = '${frontendUrl}';
+    }, 3000);
+</script>
+</body>
+</html>

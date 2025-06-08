@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20250408-1201-add-table-role" author="DucAnh">
+        <createTable tableName="role">
+            <column name="id" type="VARCHAR(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20250408-1202-add-table-user" author="DucAnh">
+        <createTable tableName="user">
+            <column name="id" type="VARCHAR(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(20)"/>
+            <column name="address" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20250408-1203-add-table-account" author="DucAnh">
+        <createTable tableName="account">
+            <column name="id" type="VARCHAR(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_locked" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="account" baseColumnNames="user_id"
+                                 constraintName="FK_account_user"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="20250408-1204-add-table-account-role" author="DucAnh">
+        <createTable tableName="account_role">
+            <column name="id" type="VARCHAR(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="account_role" baseColumnNames="account_id"
+                                 constraintName="FK_account_role_account"
+                                 referencedTableName="account" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="account_role" baseColumnNames="role_id"
+                                 constraintName="FK_account_role_role"
+                                 referencedTableName="role" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
