@@ -37,6 +37,27 @@ public class GlobalExceptionHandler {
                 .body(BaseResponse.error("INSUFFICIENT_STOCK"));
     }
     
+    @ExceptionHandler(MaxLoansExceededException.class)
+    public ResponseEntity<BaseResponse<Object>> handleMaxLoansExceededException(MaxLoansExceededException ex) {
+        log.error("Max loans exceeded: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponse.error("MAX_LOANS_EXCEEDED"));
+    }
+    
+    @ExceptionHandler(BookNotAvailableException.class)
+    public ResponseEntity<BaseResponse<Object>> handleBookNotAvailableException(BookNotAvailableException ex) {
+        log.error("Book not available: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponse.error("BOOK_NOT_AVAILABLE"));
+    }
+    
+    @ExceptionHandler(DuplicateLoanRequestException.class)
+    public ResponseEntity<BaseResponse<Object>> handleDuplicateLoanRequestException(DuplicateLoanRequestException ex) {
+        log.error("Duplicate loan request: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(BaseResponse.error("DUPLICATE_LOAN_REQUEST"));
+    }
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<BaseResponse<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
