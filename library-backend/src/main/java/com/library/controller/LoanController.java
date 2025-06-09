@@ -3,6 +3,8 @@ package com.library.controller;
 import com.library.dto.BaseResponse;
 import com.library.dto.CreateLoanRequestDTO;
 import com.library.dto.LoanDTO;
+import com.library.dto.LoanHistoryDTO;
+import com.library.dto.CurrentLoanDTO;
 import com.library.service.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -74,16 +76,16 @@ public class LoanController {
     @GetMapping("/my-loans/current")
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get current active loans", description = "Retrieve user's currently borrowed books")
-    public ResponseEntity<BaseResponse<Page<LoanDTO>>> getCurrentLoans(
+    public ResponseEntity<BaseResponse<Page<CurrentLoanDTO>>> getCurrentLoans(
             @RequestAttribute("userId") Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        Page<LoanDTO> loans = loanService.getUserLoansByStatus(userId, "BORROWED", pageable);
+        Page<CurrentLoanDTO> loans = loanService.getUserCurrentLoans(userId, pageable);
         
         return ResponseEntity.ok(
-            BaseResponse.<Page<LoanDTO>>builder()
+            BaseResponse.<Page<CurrentLoanDTO>>builder()
                 .data(loans)
                 .message("Current loans retrieved successfully")
                 .build()
@@ -119,6 +121,46 @@ public class LoanController {
             BaseResponse.<Boolean>builder()
                 .data(canBorrow)
                 .message(String.format("User has %d active loans", activeLoanCount))
+                .build()
+        );
+    }
+    
+    // LOAN-002: History & Current Loans endpoints
+    @GetMapping("/my-history")
+    @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get detailed loan history", description = "Retrieve user's complete loan history with calculations")
+    public ResponseEntity<BaseResponse<Page<LoanHistoryDTO>>> getUserLoanHistory(
+            @RequestAttribute("userId") Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortDirection) {
+        
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        
+        Page<LoanHistoryDTO> loanHistory = loanService.getUserLoanHistory(userId, pageable);
+        
+        return ResponseEntity.ok(
+            BaseResponse.<Page<LoanHistoryDTO>>builder()
+                .data(loanHistory)
+                .message("Loan history retrieved successfully")
+                .build()
+        );
+    }
+    
+    @GetMapping("/current/{loanId}")
+    @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Get current loan details", description = "Retrieve detailed information about a current loan with due date calculations")
+    public ResponseEntity<BaseResponse<CurrentLoanDTO>> getCurrentLoanDetails(
+            @PathVariable Long loanId) {
+        
+        CurrentLoanDTO currentLoan = loanService.getCurrentLoanDetails(loanId);
+        
+        return ResponseEntity.ok(
+            BaseResponse.<CurrentLoanDTO>builder()
+                .data(currentLoan)
+                .message("Current loan details retrieved successfully")
                 .build()
         );
     }

@@ -2,6 +2,8 @@ package com.library.service.impl;
 
 import com.library.dto.CreateLoanRequestDTO;
 import com.library.dto.LoanDTO;
+import com.library.dto.LoanHistoryDTO;
+import com.library.dto.CurrentLoanDTO;
 import com.library.entity.Book;
 import com.library.entity.Loan;
 import com.library.entity.LoanStatus;
@@ -13,6 +15,7 @@ import com.library.mapper.BookMapper;
 import com.library.repository.BookRepository;
 import com.library.repository.LoanRepository;
 import com.library.service.LoanService;
+import com.library.util.LoanStatusMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,10 +45,19 @@ public class LoanServiceImpl implements LoanService {
     @Value("${library.loan.default-loan-period-days:14}")
     private int defaultLoanPeriodDays;
     
+    @Value("${library.loan.max-renewals:2}")
+    private int maxRenewals;
+    
     private static final List<LoanStatus> ACTIVE_LOAN_STATUSES = Arrays.asList(
         LoanStatus.REQUESTED, 
         LoanStatus.APPROVED, 
         LoanStatus.BORROWED
+    );
+    
+    private static final List<LoanStatus> CURRENT_LOAN_STATUSES = Arrays.asList(
+        LoanStatus.APPROVED,
+        LoanStatus.BORROWED,
+        LoanStatus.OVERDUE
     );
     
     @Override
@@ -147,6 +159,120 @@ public class LoanServiceImpl implements LoanService {
                 dto.setDaysUntilDue(ChronoUnit.DAYS.between(now, loan.getDueDate()));
             }
         }
+        
+        return dto;
+    }
+    
+    // LOAN-002: History & Current Loans implementation
+    @Override
+    public Page<LoanHistoryDTO> getUserLoanHistory(Long userId, Pageable pageable) {
+        log.info("Getting loan history for user {}", userId);
+        return loanRepository.findByUserId(userId, pageable)
+            .map(this::mapToHistoryDTO);
+    }
+    
+    @Override
+    public Page<CurrentLoanDTO> getUserCurrentLoans(Long userId, Pageable pageable) {
+        log.info("Getting current loans for user {}", userId);
+        
+        // Get current loans by status
+        List<Loan> currentLoans = loanRepository.findByUserIdAndStatusIn(userId, CURRENT_LOAN_STATUSES);
+        
+        // Convert to DTOs
+        List<CurrentLoanDTO> currentLoanDTOs = currentLoans.stream()
+            .map(this::mapToCurrentLoanDTO)
+            .toList();
+        
+        // Create page manually (for now - in production you'd want pagination at DB level)
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), currentLoanDTOs.size());
+        List<CurrentLoanDTO> pageContent = currentLoanDTOs.subList(start, end);
+        
+        return new org.springframework.data.domain.PageImpl<>(
+            pageContent, pageable, currentLoanDTOs.size()
+        );
+    }
+    
+    @Override
+    public CurrentLoanDTO getCurrentLoanDetails(Long loanId) {
+        log.info("Getting current loan details for loan {}", loanId);
+        Loan loan = loanRepository.findById(loanId)
+            .orElseThrow(() -> new RuntimeException("Loan not found with id: " + loanId));
+        return mapToCurrentLoanDTO(loan);
+    }
+    
+    private LoanHistoryDTO mapToHistoryDTO(Loan loan) {
+        LoanHistoryDTO dto = LoanHistoryDTO.builder()
+            .id(loan.getId())
+            .book(bookMapper.toDTO(loan.getBook()))
+            .loanDate(loan.getLoanDate())
+            .dueDate(loan.getDueDate())
+            .returnDate(loan.getReturnDate())
+            .status(loan.getStatus())
+            .statusDisplayName(LoanStatusMapper.getDisplayName(loan.getStatus()))
+            .fineAmount(loan.getFineAmount())
+            .finePaid(loan.getFinePaid())
+            .userNotes(loan.getUserNotes())
+            .notesByLibrarian(loan.getNotesByLibrarian())
+            .createdAt(loan.getCreatedAt())
+            .build();
+        
+        // Calculate history-specific fields
+        if (loan.getLoanDate() != null) {
+            dto.setLoanDurationDays(LoanStatusMapper.calculateLoanDuration(
+                loan.getLoanDate(), loan.getReturnDate()));
+        }
+        
+        dto.setWasOverdue(loan.getReturnDate() != null && 
+            loan.getDueDate() != null && 
+            loan.getReturnDate().isAfter(loan.getDueDate()));
+        
+        if (dto.isWasOverdue() && loan.getDueDate() != null && loan.getReturnDate() != null) {
+            dto.setDaysOverdue(ChronoUnit.DAYS.between(loan.getDueDate(), loan.getReturnDate()));
+        }
+        
+        dto.setWasReturned(loan.getStatus() == LoanStatus.RETURNED);
+        
+        return dto;
+    }
+    
+    private CurrentLoanDTO mapToCurrentLoanDTO(Loan loan) {
+        CurrentLoanDTO dto = CurrentLoanDTO.builder()
+            .id(loan.getId())
+            .book(bookMapper.toDTO(loan.getBook()))
+            .loanDate(loan.getLoanDate())
+            .dueDate(loan.getDueDate())
+            .status(loan.getStatus())
+            .statusDisplayName(LoanStatusMapper.getDisplayName(loan.getStatus()))
+            .fineAmount(loan.getFineAmount())
+            .finePaid(loan.getFinePaid())
+            .userNotes(loan.getUserNotes())
+            .notesByLibrarian(loan.getNotesByLibrarian())
+            .build();
+        
+        // Calculate current loan specific fields
+        if (loan.getDueDate() != null) {
+            dto.setIsOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
+            dto.setUrgencyLevel(LoanStatusMapper.getUrgencyLevel(loan.getDueDate()));
+            dto.setDueDateFormatted(loan.getDueDate().toLocalDate().toString());
+            
+            if (dto.isIsOverdue()) {
+                dto.setDaysOverdue(LoanStatusMapper.calculateDaysOverdue(loan.getDueDate()));
+            } else {
+                dto.setDaysUntilDue(LoanStatusMapper.calculateDaysUntilDue(loan.getDueDate()));
+            }
+        }
+        
+        if (loan.getLoanDate() != null) {
+            dto.setTotalLoanDays(LoanStatusMapper.calculateLoanDuration(
+                loan.getLoanDate(), null));
+        }
+        
+        // Set renewal information (assuming we track renewals - for now using defaults)
+        dto.setMaxRenewals(maxRenewals);
+        dto.setRenewalCount(0); // TODO: Add renewal tracking to entity
+        dto.setCanRenew(LoanStatusMapper.canRenewLoan(
+            loan.getStatus(), dto.getRenewalCount(), maxRenewals, loan.getDueDate()));
         
         return dto;
     }
