@@ -248,7 +248,7 @@ public class LibrarianLoanServiceImpl implements LibrarianLoanService {
         
         // Add calculated fields
         if (loan.getDueDate() != null) {
-            dto.setIsOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
+            dto.setOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
             if (dto.isOverdue()) {
                 dto.setDaysOverdue(LoanStatusMapper.calculateDaysOverdue(loan.getDueDate()));
             } else {
@@ -286,10 +286,10 @@ public class LibrarianLoanServiceImpl implements LibrarianLoanService {
         
         // Calculate admin-specific fields
         if (loan.getDueDate() != null) {
-            dto.setIsOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
+            dto.setOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
             dto.setUrgencyLevel(LoanStatusMapper.getUrgencyLevel(loan.getDueDate()));
             
-            if (dto.isIsOverdue()) {
+            if (dto.isOverdue()) {
                 dto.setDaysOverdue(LoanStatusMapper.calculateDaysOverdue(loan.getDueDate()));
             } else {
                 dto.setDaysUntilDue(LoanStatusMapper.calculateDaysUntilDue(loan.getDueDate()));

@@ -152,7 +152,7 @@ public class LoanServiceImpl implements LoanService {
         // Calculate additional fields
         LocalDateTime now = LocalDateTime.now();
         if (loan.getStatus() == LoanStatus.BORROWED && loan.getDueDate() != null) {
-            dto.setIsOverdue(now.isAfter(loan.getDueDate()));
+            dto.setOverdue(now.isAfter(loan.getDueDate()));
             if (dto.isOverdue()) {
                 dto.setDaysOverdue(ChronoUnit.DAYS.between(loan.getDueDate(), now));
             } else {
@@ -252,11 +252,11 @@ public class LoanServiceImpl implements LoanService {
         
         // Calculate current loan specific fields
         if (loan.getDueDate() != null) {
-            dto.setIsOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
+            dto.setOverdue(LoanStatusMapper.isOverdue(loan.getDueDate()));
             dto.setUrgencyLevel(LoanStatusMapper.getUrgencyLevel(loan.getDueDate()));
             dto.setDueDateFormatted(loan.getDueDate().toLocalDate().toString());
             
-            if (dto.isIsOverdue()) {
+            if (dto.isOverdue()) {
                 dto.setDaysOverdue(LoanStatusMapper.calculateDaysOverdue(loan.getDueDate()));
             } else {
                 dto.setDaysUntilDue(LoanStatusMapper.calculateDaysUntilDue(loan.getDueDate()));
