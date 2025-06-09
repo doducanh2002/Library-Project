@@ -1,0 +1,225 @@
+version: '3.8'
+
+services:
+  # Database Services
+  postgres-auth:
+    image: postgres:15-alpine
+    container_name: library-postgres-auth
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+      - ./AuthenService/src/main/resources/migration:/docker-entrypoint-initdb.d
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d auth_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres-library:
+    image: postgres:15-alpine
+    container_name: library-postgres-catalog
+    environment:
+      POSTGRES_DB: library_db
+      POSTGRES_USER: library_user
+      POSTGRES_PASSWORD: library_password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_library_data:/var/lib/postgresql/data
+      - ./library-backend/src/main/resources/migration:/docker-entrypoint-initdb.d
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U library_user -d library_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Cache and Storage Services
+  redis:
+    image: redis:7-alpine
+    container_name: library-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  minio:
+    image: minio/minio:latest
+    container_name: library-minio
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - library-network
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Application Services
+  authentication-service:
+    build: 
+      context: ./AuthenService
+      dockerfile: Dockerfile
+    container_name: library-auth-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-auth:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: auth_user
+      SPRING_DATASOURCE_PASSWORD: auth_password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      JWT_SECRET: your-jwt-secret-key-change-in-production
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  book-catalog-service:
+    build: 
+      context: ./library-backend
+      dockerfile: Dockerfile
+    container_name: library-catalog-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-library:5432/library_db
+      SPRING_DATASOURCE_USERNAME: library_user
+      SPRING_DATASOURCE_PASSWORD: library_password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      AUTH_SERVICE_URL: http://authentication-service:8081
+      FILE_SERVICE_URL: http://file-storage-service:8083
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres-library:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      authentication-service:
+        condition: service_healthy
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  file-storage-service:
+    build: 
+      context: ./MinIOService
+      dockerfile: Dockerfile
+    container_name: library-file-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin123
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      AUTH_SERVICE_URL: http://authentication-service:8081
+    ports:
+      - "8083:8083"
+    depends_on:
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      authentication-service:
+        condition: service_healthy
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  api-gateway:
+    build: 
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: library-api-gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      AUTH_SERVICE_URL: http://authentication-service:8081
+      CATALOG_SERVICE_URL: http://book-catalog-service:8082
+      FILE_SERVICE_URL: http://file-storage-service:8083
+      JWT_SECRET: your-jwt-secret-key-change-in-production
+    ports:
+      - "8080:8080"
+    depends_on:
+      authentication-service:
+        condition: service_healthy
+      book-catalog-service:
+        condition: service_healthy
+      file-storage-service:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+networks:
+  library-network:
+    driver: bridge
+
+volumes:
+  postgres_auth_data:
+    driver: local
+  postgres_library_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local

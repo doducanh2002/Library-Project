@@ -1,0 +1,56 @@
+2025-05-26 09:02:10 [main] INFO  c.e.v.VideoServiceApplication - Starting VideoServiceApplication using Java 17.0.15 with PID 10004 (C:\Users\ADMIN\IdeaProjects\VideoService\target\classes started by ADMIN in C:\Users\ADMIN\IdeaProjects\VideoService)
+2025-05-26 09:02:10 [main] INFO  c.e.v.VideoServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-26 09:02:11 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-26 09:02:11 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-26 09:02:11 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-05-26 09:02:11 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-26 09:02:11 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1443 ms
+2025-05-26 09:02:12 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-05-26 09:02:12 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-26 09:02:12 [main] INFO  c.e.v.VideoServiceApplication - Started VideoServiceApplication in 3.182 seconds (process running for 7.76)
+2025-05-26 09:06:46 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-26 09:06:46 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-26 09:06:46 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-26 09:06:48 [http-nio-8080-exec-1] INFO  c.e.v.controller.VideoController - Received video upload request for file: 70796-538877060.mp4
+2025-05-26 09:06:48 [http-nio-8080-exec-1] INFO  c.e.v.service.impl.VideoServiceImpl - Starting video upload process for file: 70796-538877060.mp4
+2025-05-26 09:06:53 [http-nio-8080-exec-1] INFO  c.e.v.service.impl.MinioServiceImpl - Successfully uploaded object: videos/2088dd8c-c04a-4ea5-a799-65639aa91c45.mp4
+2025-05-26 09:06:53 [http-nio-8080-exec-1] INFO  c.e.v.service.impl.VideoServiceImpl - Successfully uploaded video with ID: 2088dd8c-c04a-4ea5-a799-65639aa91c45.mp4
+2025-05-26 09:06:53 [http-nio-8080-exec-1] INFO  c.e.v.controller.VideoController - Video upload completed successfully with ID: 2088dd8c-c04a-4ea5-a799-65639aa91c45.mp4
+2025-05-26T14:42:50.917+07:00  INFO 17156 --- [main] c.e.v.VideoServiceApplication            : Starting VideoServiceApplication using Java 17.0.15 with PID 17156 (C:\Users\ADMIN\IdeaProjects\VideoService\target\classes started by ADMIN in C:\Users\ADMIN\IdeaProjects\VideoService)
+2025-05-26T14:42:50.922+07:00 DEBUG 17156 --- [main] c.e.v.VideoServiceApplication            : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-05-26T14:42:50.923+07:00  INFO 17156 --- [main] c.e.v.VideoServiceApplication            : No active profile set, falling back to 1 default profile: "default"
+2025-05-26T14:42:52.294+07:00  INFO 17156 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-26T14:42:52.302+07:00  INFO 17156 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-26T14:42:52.303+07:00  INFO 17156 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-05-26T14:42:52.374+07:00  INFO 17156 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-26T14:42:52.375+07:00  INFO 17156 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1398 ms
+2025-05-26T14:42:53.236+07:00  INFO 17156 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-05-26T14:42:53.300+07:00  INFO 17156 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2025-05-26T14:42:53.314+07:00  INFO 17156 --- [main] c.e.v.VideoServiceApplication            : Started VideoServiceApplication in 3.087 seconds (process running for 3.92)
+2025-05-26T14:42:53.742+07:00  INFO 17156 --- [RMI TCP Connection(1)-192.168.23.88] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-26T14:42:53.743+07:00  INFO 17156 --- [RMI TCP Connection(1)-192.168.23.88] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-26T14:42:53.745+07:00  INFO 17156 --- [RMI TCP Connection(1)-192.168.23.88] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-05-26T14:44:49.033+07:00  INFO 17156 --- [http-nio-8080-exec-1] c.e.v.controller.VideoController         : Received video upload request for file: 9974049-hd_1920_1080_30fps.mp4
+2025-05-26T14:44:49.036+07:00  INFO 17156 --- [http-nio-8080-exec-1] c.e.v.service.impl.VideoServiceImpl      : Starting video upload process for file: 9974049-hd_1920_1080_30fps.mp4
+2025-05-26T14:44:49.037+07:00 DEBUG 17156 --- [http-nio-8080-exec-1] c.e.v.service.impl.VideoServiceImpl      : Video file validation passed for: 9974049-hd_1920_1080_30fps.mp4
+2025-05-26T14:44:50.124+07:00  INFO 17156 --- [http-nio-8080-exec-1] c.e.v.service.impl.MinioServiceImpl      : Successfully uploaded object: videos/80057856-fe29-48b1-8d9e-94bfb39e6d92.mp4
+2025-05-26T14:44:50.124+07:00  INFO 17156 --- [http-nio-8080-exec-1] c.e.v.service.impl.VideoServiceImpl      : Successfully uploaded video with ID: 80057856-fe29-48b1-8d9e-94bfb39e6d92.mp4
+2025-05-26T14:44:50.125+07:00  INFO 17156 --- [http-nio-8080-exec-1] c.e.v.controller.VideoController         : Video upload completed successfully with ID: 80057856-fe29-48b1-8d9e-94bfb39e6d92.mp4
+2025-05-26T15:13:16.131+07:00  INFO 15544 --- [main] c.e.v.VideoServiceApplication            : Starting VideoServiceApplication using Java 17.0.15 with PID 15544 (C:\Users\ADMIN\IdeaProjects\VideoService\target\classes started by ADMIN in C:\Users\ADMIN\IdeaProjects\VideoService)
+2025-05-26T15:13:16.135+07:00 DEBUG 15544 --- [main] c.e.v.VideoServiceApplication            : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-05-26T15:13:16.136+07:00  INFO 15544 --- [main] c.e.v.VideoServiceApplication            : No active profile set, falling back to 1 default profile: "default"
+2025-05-26T15:13:17.999+07:00  INFO 15544 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-26T15:13:18.007+07:00  INFO 15544 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-26T15:13:18.007+07:00  INFO 15544 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-05-26T15:13:18.075+07:00  INFO 15544 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-26T15:13:18.075+07:00  INFO 15544 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1864 ms
+2025-05-26T15:13:19.183+07:00  INFO 15544 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-05-26T15:13:19.282+07:00  INFO 15544 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2025-05-26T15:13:19.308+07:00  INFO 15544 --- [main] c.e.v.VideoServiceApplication            : Started VideoServiceApplication in 4.065 seconds (process running for 4.92)
+2025-05-26T15:13:19.321+07:00  INFO 15544 --- [main] c.e.v.service.impl.VideoServiceImpl      : Starting video upload process for file: 70796-538877060.mp4
+2025-05-26T15:13:19.323+07:00 DEBUG 15544 --- [main] c.e.v.service.impl.VideoServiceImpl      : Video file validation passed for: 70796-538877060.mp4
+2025-05-26T15:13:24.417+07:00  INFO 15544 --- [main] c.e.v.service.impl.MinioServiceImpl      : Successfully uploaded object: videos/392e9fcf-eeb7-4f3f-8705-5af452992c53.mp4
+2025-05-26T15:13:24.417+07:00  INFO 15544 --- [main] c.e.v.service.impl.VideoServiceImpl      : Successfully uploaded video with ID: 392e9fcf-eeb7-4f3f-8705-5af452992c53.mp4
+2025-05-26T15:13:25.095+07:00  INFO 15544 --- [RMI TCP Connection(1)-192.168.23.88] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-26T15:13:25.097+07:00  INFO 15544 --- [RMI TCP Connection(1)-192.168.23.88] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-26T15:13:25.100+07:00  INFO 15544 --- [RMI TCP Connection(1)-192.168.23.88] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
