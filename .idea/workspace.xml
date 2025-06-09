@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: data type">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/LoanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/impl/LoanServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/impl/LoanServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
