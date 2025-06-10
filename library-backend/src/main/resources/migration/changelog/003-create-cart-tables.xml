@@ -1,0 +1,63 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+                   http://www.liquibase.org/xml/ns/dbchangelog 
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20250104-003-add-table-cart-items" author="library-system">
+        <createTable tableName="cart_items">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_price" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <!-- Add foreign key constraint to books table -->
+        <addForeignKeyConstraint 
+            baseTableName="cart_items" 
+            baseColumnNames="book_id" 
+            constraintName="FK_cart_items_book_id" 
+            referencedTableName="books" 
+            referencedColumnNames="id" 
+            onDelete="CASCADE"/>
+        
+        <!-- Add unique constraint to prevent duplicate items for same user and book -->
+        <addUniqueConstraint 
+            tableName="cart_items" 
+            columnNames="user_id, book_id" 
+            constraintName="UK_cart_items_user_book"/>
+        
+        <!-- Add indexes for performance -->
+        <createIndex tableName="cart_items" indexName="IDX_cart_items_user_id">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <createIndex tableName="cart_items" indexName="IDX_cart_items_book_id">
+            <column name="book_id"/>
+        </createIndex>
+        
+        <createIndex tableName="cart_items" indexName="IDX_cart_items_created_at">
+            <column name="created_at"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

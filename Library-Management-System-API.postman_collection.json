@@ -1,0 +1,2584 @@
+{
+	"info": {
+		"_postman_id": "library-management-system-api",
+		"name": "Library Management System API",
+		"description": "Complete API collection for Library Management System with all endpoints organized by functionality",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "library-system"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health"
+							]
+						},
+						"description": "Check service health status"
+					}
+				}
+			],
+			"description": "Health check endpoints for monitoring system status"
+		},
+		{
+			"name": "Books (Public)",
+			"item": [
+				{
+					"name": "Search Books",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books?title=&author=&categoryId=&isLendable=true&isSellable=&language=vi&page=0&size=20&sortBy=title&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"description": "Book title to search for"
+								},
+								{
+									"key": "author",
+									"value": "",
+									"description": "Author name to search for"
+								},
+								{
+									"key": "categoryId",
+									"value": "",
+									"description": "Category ID to filter by"
+								},
+								{
+									"key": "isLendable",
+									"value": "true",
+									"description": "Filter by lendable books"
+								},
+								{
+									"key": "isSellable",
+									"value": "",
+									"description": "Filter by sellable books"
+								},
+								{
+									"key": "language",
+									"value": "vi",
+									"description": "Language code to filter by"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number (0-based)"
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"description": "Page size"
+								},
+								{
+									"key": "sortBy",
+									"value": "title",
+									"description": "Sort field"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc",
+									"description": "Sort direction"
+								}
+							]
+						},
+						"description": "Search and list books with optional filters"
+					}
+				},
+				{
+					"name": "Advanced Book Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"keyword\": \"programming\",\n  \"title\": \"\",\n  \"isbn\": \"\",\n  \"categoryIds\": [1, 2],\n  \"publisherIds\": [],\n  \"authorIds\": [],\n  \"language\": \"vi\",\n  \"publicationYear\": null,\n  \"publicationYearFrom\": 2020,\n  \"publicationYearTo\": 2024,\n  \"isLendable\": true,\n  \"isSellable\": null,\n  \"availableForLoan\": true,\n  \"availableForSale\": null,\n  \"minPrice\": null,\n  \"maxPrice\": null,\n  \"minPages\": 100,\n  \"maxPages\": 500,\n  \"sortBy\": \"title\",\n  \"sortDirection\": \"ASC\",\n  \"recentlyAdded\": false,\n  \"popular\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/search?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Advanced search with comprehensive criteria"
+					}
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"1"
+							]
+						},
+						"description": "Get detailed information about a specific book"
+					}
+				},
+				{
+					"name": "Get Book by ISBN",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/isbn/978-0134685991",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"isbn",
+								"978-0134685991"
+							]
+						},
+						"description": "Get book information by ISBN"
+					}
+				},
+				{
+					"name": "Get Popular Books",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/popular?limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"popular"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of books to return"
+								}
+							]
+						},
+						"description": "Get list of most popular books"
+					}
+				},
+				{
+					"name": "Get Books by Category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/category/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"category",
+								"1"
+							]
+						},
+						"description": "Get all books in a specific category"
+					}
+				},
+				{
+					"name": "Get Books by Author",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/author/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"author",
+								"1"
+							]
+						},
+						"description": "Get all books by a specific author"
+					}
+				},
+				{
+					"name": "Get Books by Publisher",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/publisher/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"publisher",
+								"1"
+							]
+						},
+						"description": "Get all books by a specific publisher"
+					}
+				}
+			],
+			"description": "Public book endpoints accessible to all users"
+		},
+		{
+			"name": "Books (Admin)",
+			"item": [
+				{
+					"name": "Create Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Effective Java\",\n  \"isbn\": \"978-0134685991\",\n  \"description\": \"The definitive guide to Java programming language best practices\",\n  \"coverImageUrl\": \"https://example.com/covers/effective-java.jpg\",\n  \"language\": \"vi\",\n  \"numberOfPages\": 416,\n  \"publicationYear\": 2018,\n  \"edition\": \"3rd Edition\",\n  \"price\": 599000.00,\n  \"stockForSale\": 50,\n  \"isSellable\": true,\n  \"totalCopiesForLoan\": 10,\n  \"availableCopiesForLoan\": 8,\n  \"isLendable\": true,\n  \"categoryId\": 1,\n  \"publisherId\": 1,\n  \"authorIds\": [1, 2]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books"
+							]
+						},
+						"description": "Create a new book (LIBRARIAN role required)"
+					}
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Effective Java - Updated\",\n  \"description\": \"Updated description for the definitive guide to Java programming\",\n  \"coverImageUrl\": \"https://example.com/covers/effective-java-updated.jpg\",\n  \"language\": \"vi\",\n  \"numberOfPages\": 420,\n  \"publicationYear\": 2018,\n  \"edition\": \"3rd Edition - Revised\",\n  \"price\": 649000.00,\n  \"stockForSale\": 45,\n  \"isSellable\": true,\n  \"totalCopiesForLoan\": 12,\n  \"availableCopiesForLoan\": 10,\n  \"isLendable\": true,\n  \"categoryId\": 1,\n  \"publisherId\": 1,\n  \"authorIds\": [1, 2]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"1"
+							]
+						},
+						"description": "Update an existing book (LIBRARIAN role required)"
+					}
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"1"
+							]
+						},
+						"description": "Delete an existing book (LIBRARIAN role required)"
+					}
+				},
+				{
+					"name": "Get All Books for Admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books?page=0&size=20&sortBy=createdAt&sortDir=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortDir",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Get paginated list of all books for admin management"
+					}
+				},
+				{
+					"name": "Update Book Stock",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/1/stock?stock=100",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"1",
+								"stock"
+							],
+							"query": [
+								{
+									"key": "stock",
+									"value": "100",
+									"description": "New stock quantity"
+								}
+							]
+						},
+						"description": "Update stock quantity for sale"
+					}
+				},
+				{
+					"name": "Update Loan Copies",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/1/loan-copies?totalCopies=15&availableCopies=12",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"1",
+								"loan-copies"
+							],
+							"query": [
+								{
+									"key": "totalCopies",
+									"value": "15",
+									"description": "Total copies for loan"
+								},
+								{
+									"key": "availableCopies",
+									"value": "12",
+									"description": "Available copies for loan"
+								}
+							]
+						},
+						"description": "Update total and available copies for loan"
+					}
+				}
+			],
+			"description": "Admin book management endpoints requiring LIBRARIAN or ADMIN role"
+		},
+		{
+			"name": "Authors (Public)",
+			"item": [
+				{
+					"name": "Get All Authors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors?page=0&size=20&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Retrieve paginated list of all authors"
+					}
+				},
+				{
+					"name": "Search Authors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/search?keyword=nguyen&page=0&size=20&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "nguyen",
+									"description": "Search keyword"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Search authors by name or biography"
+					}
+				},
+				{
+					"name": "Get Author by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"1"
+							]
+						},
+						"description": "Retrieve detailed information about a specific author"
+					}
+				},
+				{
+					"name": "Get Author with Books",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/1/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"1",
+								"books"
+							]
+						},
+						"description": "Retrieve author information including their books"
+					}
+				},
+				{
+					"name": "Search Authors by Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/name/Nguyen",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"name",
+								"Nguyen"
+							]
+						},
+						"description": "Search authors by name (partial match)"
+					}
+				},
+				{
+					"name": "Get Authors by Nationality",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/nationality/Vietnam",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"nationality",
+								"Vietnam"
+							]
+						},
+						"description": "Retrieve authors by nationality"
+					}
+				},
+				{
+					"name": "Get Most Prolific Authors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/prolific?limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"prolific"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Retrieve authors with most books"
+					}
+				},
+				{
+					"name": "Get All Nationalities",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/nationalities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"nationalities"
+							]
+						},
+						"description": "Retrieve list of all author nationalities"
+					}
+				}
+			],
+			"description": "Public author endpoints accessible to all users"
+		},
+		{
+			"name": "Authors (Admin)",
+			"item": [
+				{
+					"name": "Create Author",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Nguyen Van A\",\n  \"biography\": \"Renowned Vietnamese software engineer and author specializing in Java programming\",\n  \"nationality\": \"Vietnam\",\n  \"birthYear\": 1975,\n  \"photoUrl\": \"https://example.com/authors/nguyen-van-a.jpg\",\n  \"website\": \"https://nguyenvana.dev\",\n  \"email\": \"contact@nguyenvana.dev\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors"
+							]
+						},
+						"description": "Create a new author (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Update Author",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Nguyen Van A\",\n  \"biography\": \"Updated biography: Renowned Vietnamese software engineer, author, and tech conference speaker specializing in Java programming and distributed systems\",\n  \"nationality\": \"Vietnam\",\n  \"birthYear\": 1975,\n  \"photoUrl\": \"https://example.com/authors/nguyen-van-a-updated.jpg\",\n  \"website\": \"https://nguyenvana.dev\",\n  \"email\": \"contact@nguyenvana.dev\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors",
+								"1"
+							]
+						},
+						"description": "Update an existing author (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Delete Author",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors",
+								"1"
+							]
+						},
+						"description": "Delete an author (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Get All Authors for Admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors?page=0&size=50&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Retrieve all authors with admin details (Admin/Librarian only)"
+					}
+				}
+			],
+			"description": "Admin author management endpoints requiring LIBRARIAN or ADMIN role"
+		},
+		{
+			"name": "Categories (Public)",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories?page=0&size=20&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Retrieve paginated list of all categories"
+					}
+				},
+				{
+					"name": "Get Active Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"active"
+							]
+						},
+						"description": "Retrieve list of active categories"
+					}
+				},
+				{
+					"name": "Get Root Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/root",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"root"
+							]
+						},
+						"description": "Retrieve list of root categories (categories without parent)"
+					}
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Retrieve detailed information about a specific category"
+					}
+				},
+				{
+					"name": "Get Category by Slug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/slug/programming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"slug",
+								"programming"
+							]
+						},
+						"description": "Retrieve detailed information about a category by its slug"
+					}
+				},
+				{
+					"name": "Get Subcategories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/1/subcategories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1",
+								"subcategories"
+							]
+						},
+						"description": "Retrieve list of subcategories for a specific category"
+					}
+				},
+				{
+					"name": "Get Category Hierarchy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/1/hierarchy",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1",
+								"hierarchy"
+							]
+						},
+						"description": "Retrieve the full hierarchy path from root to the specified category"
+					}
+				},
+				{
+					"name": "Check Category Name Availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/check-name?name=Programming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"check-name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Programming",
+									"description": "Category name to check"
+								}
+							]
+						},
+						"description": "Check if a category name is available"
+					}
+				},
+				{
+					"name": "Check Category Slug Availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/check-slug?slug=programming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"check-slug"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "programming",
+									"description": "Category slug to check"
+								}
+							]
+						},
+						"description": "Check if a category slug is available"
+					}
+				}
+			],
+			"description": "Public category endpoints accessible to all users"
+		},
+		{
+			"name": "Categories (Admin)",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Programming\",\n  \"description\": \"Books related to computer programming, software development, and coding\",\n  \"slug\": \"programming\",\n  \"parentCategoryId\": null,\n  \"isActive\": true,\n  \"displayOrder\": 1,\n  \"iconUrl\": \"https://example.com/icons/programming.svg\",\n  \"color\": \"#007acc\",\n  \"metaTitle\": \"Programming Books\",\n  \"metaDescription\": \"Comprehensive collection of programming and software development books\",\n  \"metaKeywords\": \"programming, coding, software development, java, python\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories"
+							]
+						},
+						"description": "Create a new category (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Programming & Software Development\",\n  \"description\": \"Updated description: Comprehensive collection of books related to computer programming, software development, coding practices, and technology\",\n  \"slug\": \"programming-software-development\",\n  \"parentCategoryId\": null,\n  \"isActive\": true,\n  \"displayOrder\": 1,\n  \"iconUrl\": \"https://example.com/icons/programming-updated.svg\",\n  \"color\": \"#0066cc\",\n  \"metaTitle\": \"Programming & Software Development Books\",\n  \"metaDescription\": \"Comprehensive collection of programming, software development, and technology books\",\n  \"metaKeywords\": \"programming, coding, software development, java, python, javascript, web development\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Update an existing category (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Delete a category (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Get All Categories for Admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories?page=0&size=50&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Retrieve all categories with admin details (Admin/Librarian only)"
+					}
+				}
+			],
+			"description": "Admin category management endpoints requiring LIBRARIAN or ADMIN role"
+		},
+		{
+			"name": "Publishers (Public)",
+			"item": [
+				{
+					"name": "Get All Publishers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers?page=0&size=20&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Retrieve paginated list of all publishers"
+					}
+				},
+				{
+					"name": "Get Publisher by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"1"
+							]
+						},
+						"description": "Retrieve detailed information about a specific publisher"
+					}
+				},
+				{
+					"name": "Get Publisher with Books",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/1/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"1",
+								"books"
+							]
+						},
+						"description": "Retrieve publisher information including their books"
+					}
+				},
+				{
+					"name": "Search Publishers by Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/search?name=Nha",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Nha",
+									"description": "Publisher name"
+								}
+							]
+						},
+						"description": "Search publishers by name (partial match)"
+					}
+				},
+				{
+					"name": "Get Publishers by Established Year Range",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/established?startYear=1990&endYear=2020",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"established"
+							],
+							"query": [
+								{
+									"key": "startYear",
+									"value": "1990",
+									"description": "Start year"
+								},
+								{
+									"key": "endYear",
+									"value": "2020",
+									"description": "End year"
+								}
+							]
+						},
+						"description": "Retrieve publishers established within a year range"
+					}
+				},
+				{
+					"name": "Get Most Active Publishers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/active?limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"active"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Retrieve publishers with most books"
+					}
+				},
+				{
+					"name": "Check Publisher Name Availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/check-name?name=Nha Nam",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"check-name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Nha Nam",
+									"description": "Publisher name to check"
+								}
+							]
+						},
+						"description": "Check if a publisher name is available"
+					}
+				}
+			],
+			"description": "Public publisher endpoints accessible to all users"
+		},
+		{
+			"name": "Publishers (Admin)",
+			"item": [
+				{
+					"name": "Create Publisher",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Nha Xuat Ban Tre\",\n  \"description\": \"Leading Vietnamese publisher specializing in youth and educational books\",\n  \"address\": \"123 Nguyen Trai Street, District 1, Ho Chi Minh City, Vietnam\",\n  \"phone\": \"+84-28-1234-5678\",\n  \"email\": \"contact@nxbtre.com.vn\",\n  \"website\": \"https://nxbtre.com.vn\",\n  \"establishedYear\": 1980,\n  \"logoUrl\": \"https://example.com/logos/nxb-tre.png\",\n  \"country\": \"Vietnam\",\n  \"city\": \"Ho Chi Minh City\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers"
+							]
+						},
+						"description": "Create a new publisher (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Update Publisher",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Nha Xuat Ban Tre - Updated\",\n  \"description\": \"Updated: Premier Vietnamese publisher specializing in youth, educational, and technology books\",\n  \"address\": \"456 Le Loi Street, District 1, Ho Chi Minh City, Vietnam\",\n  \"phone\": \"+84-28-9876-5432\",\n  \"email\": \"info@nxbtre.com.vn\",\n  \"website\": \"https://nxbtre.com.vn\",\n  \"establishedYear\": 1980,\n  \"logoUrl\": \"https://example.com/logos/nxb-tre-updated.png\",\n  \"country\": \"Vietnam\",\n  \"city\": \"Ho Chi Minh City\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers",
+								"1"
+							]
+						},
+						"description": "Update an existing publisher (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Delete Publisher",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers",
+								"1"
+							]
+						},
+						"description": "Delete a publisher (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Get All Publishers for Admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers?page=0&size=50&sortBy=name&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Retrieve all publishers with admin details (Admin/Librarian only)"
+					}
+				}
+			],
+			"description": "Admin publisher management endpoints requiring LIBRARIAN or ADMIN role"
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Full-text Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/fulltext?q=java programming&page=0&size=20&sortBy=relevance&sortDir=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"fulltext"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "java programming",
+									"description": "Search text"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "relevance"
+								},
+								{
+									"key": "sortDir",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Perform full-text search using PostgreSQL capabilities"
+					}
+				},
+				{
+					"name": "Advanced Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"keyword\": \"java\",\n  \"title\": \"\",\n  \"isbn\": \"\",\n  \"categoryIds\": [1],\n  \"publisherIds\": [],\n  \"authorIds\": [],\n  \"language\": \"vi\",\n  \"publicationYear\": null,\n  \"publicationYearFrom\": 2015,\n  \"publicationYearTo\": 2024,\n  \"isLendable\": true,\n  \"isSellable\": null,\n  \"availableForLoan\": true,\n  \"availableForSale\": null,\n  \"minPrice\": null,\n  \"maxPrice\": 1000000,\n  \"minPages\": 200,\n  \"maxPages\": 800,\n  \"sortBy\": \"title\",\n  \"sortDirection\": \"ASC\",\n  \"recentlyAdded\": false,\n  \"popular\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/advanced?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"advanced"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Advanced search with comprehensive filters and performance optimization"
+					}
+				},
+				{
+					"name": "Search by Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/categories?categoryIds=1,2,3&page=0&size=20&sortBy=title&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "categoryIds",
+									"value": "1,2,3",
+									"description": "Category IDs (comma-separated)"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Search books by multiple categories"
+					}
+				},
+				{
+					"name": "Search by Authors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/authors?authorIds=1,2&page=0&size=20&sortBy=title&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"authors"
+							],
+							"query": [
+								{
+									"key": "authorIds",
+									"value": "1,2",
+									"description": "Author IDs (comma-separated)"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Search books by multiple authors"
+					}
+				},
+				{
+					"name": "Search Available for Loan",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/available-for-loan?page=0&size=20&sortBy=title&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"available-for-loan"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Get books currently available for loan"
+					}
+				},
+				{
+					"name": "Search Available for Sale",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/available-for-sale?page=0&size=20&sortBy=title&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"available-for-sale"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Get books currently available for sale"
+					}
+				},
+				{
+					"name": "Search Recently Added",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/recent?days=30&page=0&size=20&sortBy=createdAt&sortDir=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"recent"
+							],
+							"query": [
+								{
+									"key": "days",
+									"value": "30",
+									"description": "Number of days to look back"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortDir",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Get recently added books"
+					}
+				},
+				{
+					"name": "Get Search Suggestions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/suggestions?q=prog&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "prog",
+									"description": "Partial search text"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Maximum number of suggestions"
+								}
+							]
+						},
+						"description": "Get autocomplete suggestions for search"
+					}
+				},
+				{
+					"name": "Get Popular Search Terms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/popular-terms?limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"popular-terms"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20",
+									"description": "Maximum number of terms"
+								}
+							]
+						},
+						"description": "Get popular search terms for suggestions"
+					}
+				},
+				{
+					"name": "Performance Optimized Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"keyword\": \"database\",\n  \"categoryIds\": [1, 2],\n  \"isLendable\": true,\n  \"sortBy\": \"createdAt\",\n  \"sortDirection\": \"DESC\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/filters/performance?page=0&size=50",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"filters",
+								"performance"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								}
+							]
+						},
+						"description": "Search with performance optimizations for large datasets"
+					}
+				}
+			],
+			"description": "Advanced search endpoints for comprehensive book discovery"
+		},
+		{
+			"name": "Loans (User)",
+			"item": [
+				{
+					"name": "Get My Loans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/loans/my?page=0&size=20&status=ACTIVE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"my"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"description": "Loan status filter"
+								}
+							]
+						},
+						"description": "Get current user's loan history"
+					}
+				},
+				{
+					"name": "Request Book Loan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bookId\": 1,\n  \"requestedDays\": 14,\n  \"notes\": \"Need this book for my Java programming course\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/loans/request",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"request"
+							]
+						},
+						"description": "Request to borrow a book"
+					}
+				},
+				{
+					"name": "Return Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"condition\": \"GOOD\",\n  \"notes\": \"Book returned in good condition\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/loans/1/return",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"1",
+								"return"
+							]
+						},
+						"description": "Return a borrowed book"
+					}
+				},
+				{
+					"name": "Renew Loan",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"additionalDays\": 7,\n  \"reason\": \"Need more time to finish reading\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/loans/1/renew",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"1",
+								"renew"
+							]
+						},
+						"description": "Request loan renewal"
+					}
+				}
+			],
+			"description": "User loan management endpoints for borrowing books"
+		},
+		{
+			"name": "Loans (Admin)",
+			"item": [
+				{
+					"name": "Get All Loans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans?page=0&size=50&status=&userId=&bookId=&sortBy=loanDate&sortDir=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "Loan status filter"
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"description": "User ID filter"
+								},
+								{
+									"key": "bookId",
+									"value": "",
+									"description": "Book ID filter"
+								},
+								{
+									"key": "sortBy",
+									"value": "loanDate"
+								},
+								{
+									"key": "sortDir",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Get all loans with filtering options (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Approve Loan Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approvedDays\": 14,\n  \"notes\": \"Loan approved for 14 days\",\n  \"dueDate\": \"2024-01-30\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/1/approve",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"1",
+								"approve"
+							]
+						},
+						"description": "Approve a loan request (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Reject Loan Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Book not available for loan at this time\",\n  \"notes\": \"All copies are currently on loan\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/1/reject",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"1",
+								"reject"
+							]
+						},
+						"description": "Reject a loan request (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Process Book Return",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"returnCondition\": \"GOOD\",\n  \"lateFee\": 0,\n  \"damageFee\": 0,\n  \"notes\": \"Book returned in excellent condition\",\n  \"processedBy\": \"librarian@library.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/1/process-return",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"1",
+								"process-return"
+							]
+						},
+						"description": "Process book return and calculate fees (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Get Overdue Loans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/overdue?page=0&size=50&sortBy=dueDate&sortDir=asc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"overdue"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								},
+								{
+									"key": "sortBy",
+									"value": "dueDate"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Get all overdue loans (Admin/Librarian only)"
+					}
+				},
+				{
+					"name": "Get Loan Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/statistics?startDate=2024-01-01&endDate=2024-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01",
+									"description": "Start date for statistics"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-31",
+									"description": "End date for statistics"
+								}
+							]
+						},
+						"description": "Get loan statistics and reports (Admin/Librarian only)"
+					}
+				}
+			],
+			"description": "Admin loan management endpoints requiring LIBRARIAN or ADMIN role"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
