@@ -58,17 +58,6 @@
         <createIndex tableName="cart_items" indexName="IDX_cart_items_created_at">
             <column name="created_at"/>
         </createIndex>
-        
-        <!-- Add check constraints for business rules -->
-        <sql>
-            ALTER TABLE cart_items ADD CONSTRAINT CHK_cart_items_quantity 
-            CHECK (quantity > 0 AND quantity <= 50);
-        </sql>
-        
-        <sql>
-            ALTER TABLE cart_items ADD CONSTRAINT CHK_cart_items_unit_price 
-            CHECK (unit_price >= 0);
-        </sql>
     </changeSet>
 
 </databaseChangeLog>
