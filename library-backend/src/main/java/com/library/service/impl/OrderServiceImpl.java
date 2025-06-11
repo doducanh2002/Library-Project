@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("Creating order from cart for user: {}", userId);
 
         // Get user's cart items
-        List<CartItem> cartItems = cartItemRepository.findByUserIdOrderByCreatedAtAsc(userId);
+        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
         if (cartItems.isEmpty()) {
             throw new IllegalStateException("Cart is empty");
         }
@@ -183,11 +183,11 @@ public class OrderServiceImpl implements OrderService {
         
         // Validate stock availability
         for (CartItemDTO item : cartSummary.getItems()) {
-            if (item.getBook().getStockForSale() < item.getQuantity()) {
-                validationErrors.add("Insufficient stock for: " + item.getBook().getTitle());
+            if (item.getAvailableStock() < item.getQuantity()) {
+                validationErrors.add("Insufficient stock for: " + item.getBookTitle());
             }
-            if (!item.getBook().getIsSellable()) {
-                validationErrors.add("Book not available for sale: " + item.getBook().getTitle());
+            if (!item.getIsAvailable()) {
+                validationErrors.add("Book not available for sale: " + item.getBookTitle());
             }
         }
 

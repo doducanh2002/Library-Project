@@ -3,6 +3,7 @@ package com.library.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "cart_items", 
        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "book_id"}))
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItem {
