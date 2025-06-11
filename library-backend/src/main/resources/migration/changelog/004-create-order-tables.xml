@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- Create Orders Table -->
+    <changeSet id="004-create-orders-table" author="system">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            
+            <!-- User Information -->
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Order Identification -->
+            <column name="order_code" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            
+            <!-- Timestamps -->
+            <column name="order_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Financial Information -->
+            <column name="sub_total_amount" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="shipping_fee" type="DECIMAL(10,2)" defaultValue="0.00">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="discount_amount" type="DECIMAL(10,2)" defaultValue="0.00">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="tax_amount" type="DECIMAL(10,2)" defaultValue="0.00">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="total_amount" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Order Status -->
+            <column name="status" type="VARCHAR(30)" defaultValue="PENDING_PAYMENT">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Payment Information -->
+            <column name="payment_status" type="VARCHAR(30)" defaultValue="UNPAID">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="payment_method" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <!-- Shipping Information -->
+            <column name="shipping_address_line1" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="shipping_address_line2" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="shipping_city" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="shipping_postal_code" type="VARCHAR(20)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="shipping_country" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <!-- Delivery Tracking -->
+            <column name="shipping_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="delivery_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            
+            <!-- Notes -->
+            <column name="customer_note" type="TEXT">
+                <constraints nullable="true"/>
+            </column>
+            
+            <!-- Audit Columns -->
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <!-- Create indexes for performance -->
+        <createIndex tableName="orders" indexName="idx_orders_user_id">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_order_code">
+            <column name="order_code"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_status">
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_payment_status">
+            <column name="payment_status"/>
+        </createIndex>
+        
+        <createIndex tableName="orders" indexName="idx_orders_order_date">
+            <column name="order_date"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Create Order Items Table -->
+    <changeSet id="004-create-order-items-table" author="system">
+        <createTable tableName="order_items">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            
+            <!-- Relationships -->
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Order Details -->
+            <column name="quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="price_per_unit" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="item_total_price" type="DECIMAL(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Book Snapshot Data (at time of order) -->
+            <column name="book_title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="book_isbn" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <!-- Foreign Key Constraints -->
+        <addForeignKeyConstraint 
+            baseTableName="order_items" 
+            baseColumnNames="order_id" 
+            referencedTableName="orders" 
+            referencedColumnNames="id" 
+            constraintName="fk_order_items_order_id"
+            onDelete="CASCADE"/>
+            
+        <addForeignKeyConstraint 
+            baseTableName="order_items" 
+            baseColumnNames="book_id" 
+            referencedTableName="books" 
+            referencedColumnNames="id" 
+            constraintName="fk_order_items_book_id"
+            onDelete="RESTRICT"/>
+        
+        <!-- Create indexes for performance -->
+        <createIndex tableName="order_items" indexName="idx_order_items_order_id">
+            <column name="order_id"/>
+        </createIndex>
+        
+        <createIndex tableName="order_items" indexName="idx_order_items_book_id">
+            <column name="book_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Add constraints for data integrity -->
+    <changeSet id="004-add-order-constraints" author="system">
+        <!-- Check constraints for amounts -->
+        <sql>
+            ALTER TABLE orders ADD CONSTRAINT chk_orders_sub_total_positive 
+            CHECK (sub_total_amount >= 0);
+        </sql>
+        
+        <sql>
+            ALTER TABLE orders ADD CONSTRAINT chk_orders_shipping_fee_positive 
+            CHECK (shipping_fee >= 0);
+        </sql>
+        
+        <sql>
+            ALTER TABLE orders ADD CONSTRAINT chk_orders_discount_positive 
+            CHECK (discount_amount >= 0);
+        </sql>
+        
+        <sql>
+            ALTER TABLE orders ADD CONSTRAINT chk_orders_tax_positive 
+            CHECK (tax_amount >= 0);
+        </sql>
+        
+        <sql>
+            ALTER TABLE orders ADD CONSTRAINT chk_orders_total_positive 
+            CHECK (total_amount >= 0);
+        </sql>
+        
+        <!-- Check constraints for order items -->
+        <sql>
+            ALTER TABLE order_items ADD CONSTRAINT chk_order_items_quantity_positive 
+            CHECK (quantity > 0);
+        </sql>
+        
+        <sql>
+            ALTER TABLE order_items ADD CONSTRAINT chk_order_items_price_positive 
+            CHECK (price_per_unit >= 0);
+        </sql>
+        
+        <sql>
+            ALTER TABLE order_items ADD CONSTRAINT chk_order_items_total_positive 
+            CHECK (item_total_price >= 0);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -18,14 +18,38 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Library Management System API")
-                        .version("1.0")
-                        .description("RESTful API for Library Management System")
+                        .version("2.0")
+                        .description("""
+                                RESTful API for Library Management System
+                                
+                                ## Features
+                                - **Authentication & Authorization**: JWT-based security with role management
+                                - **Book Catalog Management**: Comprehensive book, author, category, and publisher management
+                                - **Loan Management**: Complete book borrowing system with overdue tracking
+                                - **E-commerce**: Shopping cart and order management with payment integration
+                                - **File Storage**: Document and image management with MinIO
+                                
+                                ## Modules
+                                1. **Books & Catalog** - Browse, search, and manage books
+                                2. **Loans** - Request, approve, and track book loans
+                                3. **Cart & Orders** - Shopping cart and order processing
+                                4. **Admin** - Administrative functions for librarians
+                                
+                                ## Sprint 4 - Order Management
+                                This version includes complete order management functionality:
+                                - Shopping cart operations
+                                - Order creation and checkout
+                                - Order tracking and history
+                                - Admin order management
+                                - Financial calculations (shipping, tax, discounts)
+                                """)
                         .contact(new Contact()
-                                .name("Library Team")
-                                .email("support@library.com"))
+                                .name("Library Development Team")
+                                .email("dev@library.com")
+                                .url("https://github.com/library-project"))
                         .license(new License()
-                                .name("Apache 2.0")
-                                .url("http://springdoc.org")))
+                                .name("MIT License")
+                                .url("https://opensource.org/licenses/MIT")))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(
                         new Components()
