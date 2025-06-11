@@ -69,19 +69,19 @@ class LoanServiceTest {
     void createLoanRequest_Success() {
         // Arrange
         Long userId = 1L;
-        
+
         when(loanRepository.countByUserIdAndStatusIn(eq(userId), any())).thenReturn(2L);
         when(bookRepository.findById(1L)).thenReturn(Optional.of(testBook));
         when(loanRepository.findByUserIdAndBookIdAndStatusIn(eq(userId), eq(1L), any()))
                 .thenReturn(Optional.empty());
-        
+
         Loan savedLoan = Loan.builder()
                 .id(1L)
                 .userId(userId)
                 .book(testBook)
                 .status(LoanStatus.REQUESTED)
                 .build();
-        
+
         when(loanRepository.save(any(Loan.class))).thenReturn(savedLoan);
 
         // Act
@@ -92,7 +92,7 @@ class LoanServiceTest {
         assertEquals(1L, result.getId());
         assertEquals(userId, result.getUserId());
         assertEquals(LoanStatus.REQUESTED, result.getStatus());
-        
+
         verify(loanRepository).save(any(Loan.class));
     }
 
@@ -107,7 +107,7 @@ class LoanServiceTest {
                 MaxLoansExceededException.class,
                 () -> loanService.createLoanRequest(userId, createLoanRequest)
         );
-        
+
         assertTrue(exception.getMessage().contains("maximum loan limit"));
         verify(loanRepository, never()).save(any());
     }
@@ -124,7 +124,7 @@ class LoanServiceTest {
                 BookNotFoundException.class,
                 () -> loanService.createLoanRequest(userId, createLoanRequest)
         );
-        
+
         assertTrue(exception.getMessage().contains("Book not found"));
         verify(loanRepository, never()).save(any());
     }
@@ -134,7 +134,7 @@ class LoanServiceTest {
         // Arrange
         Long userId = 1L;
         testBook.setAvailableCopiesForLoan(0);
-        
+
         when(loanRepository.countByUserIdAndStatusIn(eq(userId), any())).thenReturn(2L);
         when(bookRepository.findById(1L)).thenReturn(Optional.of(testBook));
 
@@ -143,7 +143,7 @@ class LoanServiceTest {
                 BookNotAvailableException.class,
                 () -> loanService.createLoanRequest(userId, createLoanRequest)
         );
-        
+
         assertTrue(exception.getMessage().contains("not available"));
         verify(loanRepository, never()).save(any());
     }
@@ -153,7 +153,7 @@ class LoanServiceTest {
         // Arrange
         Long userId = 1L;
         testBook.setIsLendable(false);
-        
+
         when(loanRepository.countByUserIdAndStatusIn(eq(userId), any())).thenReturn(2L);
         when(bookRepository.findById(1L)).thenReturn(Optional.of(testBook));
 
@@ -162,7 +162,7 @@ class LoanServiceTest {
                 BookNotAvailableException.class,
                 () -> loanService.createLoanRequest(userId, createLoanRequest)
         );
-        
+
         assertTrue(exception.getMessage().contains("not available"));
         verify(loanRepository, never()).save(any());
     }
@@ -177,7 +177,7 @@ class LoanServiceTest {
                 .book(testBook)
                 .status(LoanStatus.REQUESTED)
                 .build();
-        
+
         when(loanRepository.countByUserIdAndStatusIn(eq(userId), any())).thenReturn(2L);
         when(bookRepository.findById(1L)).thenReturn(Optional.of(testBook));
         when(loanRepository.findByUserIdAndBookIdAndStatusIn(eq(userId), eq(1L), any()))
@@ -188,7 +188,7 @@ class LoanServiceTest {
                 DuplicateLoanRequestException.class,
                 () -> loanService.createLoanRequest(userId, createLoanRequest)
         );
-        
+
         assertTrue(exception.getMessage().contains("already has an active loan"));
         verify(loanRepository, never()).save(any());
     }
@@ -243,7 +243,7 @@ class LoanServiceTest {
                 .book(testBook)
                 .status(LoanStatus.REQUESTED)
                 .build();
-        
+
         when(loanRepository.findById(loanId)).thenReturn(Optional.of(loan));
 
         // Act
@@ -267,7 +267,7 @@ class LoanServiceTest {
                 RuntimeException.class,
                 () -> loanService.getLoanDetails(loanId)
         );
-        
+
         assertTrue(exception.getMessage().contains("Loan not found"));
     }
 }

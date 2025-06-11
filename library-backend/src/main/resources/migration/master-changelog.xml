@@ -11,4 +11,5 @@
 <!--    <include file="changelog/001-create-book-catalog-tables-mysql.xml" relativeToChangelogFile="true"/>-->
     <include file="changelog/002-insert-initial-book-data.xml" relativeToChangelogFile="true"/>
     <include file="changelog/003-create-cart-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/004-create-order-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
