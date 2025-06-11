@@ -15,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/BOOK-003-T3" />
+        <entry key="$PROJECT_DIR$" value="feature/CART-001" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,7 +60,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "feature/CART-001",
+    "git-widget-placeholder": "feature/ORDER-001-order-creation-checkout",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/-MSI-/IdeaProjects/Library-Project/api-gateway",
@@ -139,6 +139,7 @@
       <workItem from="1749308649446" duration="1249000" />
       <workItem from="1749475686502" duration="616000" />
       <workItem from="1749569820992" duration="1960000" />
+      <workItem from="1749649649049" duration="2781000" />
     </task>
     <servers />
   </component>
