@@ -4,6 +4,8 @@ import com.library.dto.*;
 import com.library.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,218 +24,218 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Order Management", description = "APIs for managing orders")
+@CrossOrigin(origins = "*")
 public class OrderController {
 
     private final OrderService orderService;
 
     @PostMapping("/checkout")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Create order from cart", description = "Create a new order from user's shopping cart")
-    public ResponseEntity<BaseResponse<OrderDTO>> createOrder(
-            @Valid @RequestBody CreateOrderRequestDTO request,
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Order created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid request data or cannot place order"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden"),
+        @ApiResponse(responseCode = "409", description = "Cart is empty or insufficient stock")
+    })
+    public BaseResponse<OrderDTO> createOrder(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
+            @Valid @RequestBody CreateOrderRequestDTO request) {
         
-        log.info("Creating order for user: {}", userDetails.getUsername());
-        
-        // Extract user ID from UserDetails (assuming username is the ID for now)
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Creating order for user: {}, request: {}", userId, request);
         
         if (!orderService.canUserPlaceOrder(userId)) {
-            return ResponseEntity.badRequest().body(
-                BaseResponse.<OrderDTO>builder()
-                    .success(false)
-                    .message("Cannot place order. You have too many pending orders.")
-                    .build()
-            );
+            throw new IllegalStateException("Cannot place order. You have too many pending orders.");
         }
 
         OrderDTO order = orderService.createOrderFromCart(userId, request);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-            BaseResponse.<OrderDTO>builder()
-                .success(true)
-                .message("Order created successfully")
-                .data(order)
-                .build()
-        );
+        return BaseResponse.success(order);
     }
 
     @GetMapping("/calculate")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Calculate order totals", description = "Calculate order totals before checkout")
-    public ResponseEntity<BaseResponse<OrderCalculationDTO>> calculateOrderTotals(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Order calculation completed"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden")
+    })
+    public BaseResponse<OrderCalculationDTO> calculateOrderTotals(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Calculating order totals for user: {}", userId);
         OrderCalculationDTO calculation = orderService.calculateOrderTotals(userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<OrderCalculationDTO>builder()
-                .success(true)
-                .message("Order calculation completed")
-                .data(calculation)
-                .build()
-        );
+        return BaseResponse.success(calculation);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Get user order history", description = "Get paginated list of user's orders")
-    public ResponseEntity<BaseResponse<Page<OrderSummaryDTO>>> getUserOrderHistory(
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Order history retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden")
+    })
+    public BaseResponse<Page<OrderSummaryDTO>> getUserOrderHistory(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size,
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Getting order history for user: {}, page: {}, size: {}", userId, page, size);
         Pageable pageable = PageRequest.of(page, size);
         Page<OrderSummaryDTO> orders = orderService.getUserOrderHistory(userId, pageable);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<Page<OrderSummaryDTO>>builder()
-                .success(true)
-                .message("Order history retrieved successfully")
-                .data(orders)
-                .build()
-        );
+        return BaseResponse.success(orders);
     }
 
     @GetMapping("/current")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Get current orders", description = "Get user's current active orders")
-    public ResponseEntity<BaseResponse<List<OrderSummaryDTO>>> getCurrentOrders(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Current orders retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden")
+    })
+    public BaseResponse<List<OrderSummaryDTO>> getCurrentOrders(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Getting current orders for user: {}", userId);
         List<OrderSummaryDTO> orders = orderService.getUserCurrentOrders(userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<List<OrderSummaryDTO>>builder()
-                .success(true)
-                .message("Current orders retrieved successfully")
-                .data(orders)
-                .build()
-        );
+        return BaseResponse.success(orders);
     }
 
     @GetMapping("/{orderCode}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Get order details", description = "Get detailed information about a specific order")
-    public ResponseEntity<BaseResponse<OrderDTO>> getOrderDetails(
-            @Parameter(description = "Order code") @PathVariable String orderCode,
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Order details retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden"),
+        @ApiResponse(responseCode = "404", description = "Order not found")
+    })
+    public BaseResponse<OrderDTO> getOrderDetails(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
+            @Parameter(description = "Order code") @PathVariable String orderCode) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Getting order details for user: {}, orderCode: {}", userId, orderCode);
         OrderDTO order = orderService.getOrderByCode(orderCode, userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<OrderDTO>builder()
-                .success(true)
-                .message("Order details retrieved successfully")
-                .data(order)
-                .build()
-        );
+        return BaseResponse.success(order);
     }
 
     @PostMapping("/{orderCode}/cancel")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Cancel order", description = "Cancel an order (only if not yet paid)")
-    public ResponseEntity<BaseResponse<OrderDTO>> cancelOrder(
-            @Parameter(description = "Order code") @PathVariable String orderCode,
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Order cancelled successfully"),
+        @ApiResponse(responseCode = "400", description = "Cannot cancel order"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden"),
+        @ApiResponse(responseCode = "404", description = "Order not found")
+    })
+    public BaseResponse<OrderDTO> cancelOrder(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
+            @Parameter(description = "Order code") @PathVariable String orderCode) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Cancelling order for user: {}, orderCode: {}", userId, orderCode);
         OrderDTO order = orderService.cancelOrder(orderCode, userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<OrderDTO>builder()
-                .success(true)
-                .message("Order cancelled successfully")
-                .data(order)
-                .build()
-        );
+        return BaseResponse.success(order);
     }
 
     @GetMapping("/can-place-order")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Check if user can place order", description = "Check if user meets requirements to place a new order")
-    public ResponseEntity<BaseResponse<Boolean>> canPlaceOrder(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Check completed"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden")
+    })
+    public BaseResponse<Boolean> canPlaceOrder(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Checking if user can place order: {}", userId);
         boolean canPlace = orderService.canUserPlaceOrder(userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<Boolean>builder()
-                .success(true)
-                .message(canPlace ? "User can place order" : "User cannot place order")
-                .data(canPlace)
-                .build()
-        );
+        return BaseResponse.success(canPlace);
     }
 
     @GetMapping("/history")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Get detailed order history", description = "Get detailed order history with enhanced information")
-    public ResponseEntity<BaseResponse<Page<OrderHistoryDTO>>> getDetailedOrderHistory(
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Detailed order history retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden")
+    })
+    public BaseResponse<Page<OrderHistoryDTO>> getDetailedOrderHistory(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size,
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Getting detailed order history for user: {}, page: {}, size: {}", userId, page, size);
         Pageable pageable = PageRequest.of(page, size);
         Page<OrderHistoryDTO> history = orderService.getDetailedOrderHistory(userId, pageable);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<Page<OrderHistoryDTO>>builder()
-                .success(true)
-                .message("Detailed order history retrieved successfully")
-                .data(history)
-                .build()
-        );
+        return BaseResponse.success(history);
     }
 
     @GetMapping("/statistics")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Get user order statistics", description = "Get comprehensive statistics about user's ordering behavior")
-    public ResponseEntity<BaseResponse<UserOrderStatsDTO>> getUserOrderStatistics(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Order statistics retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden")
+    })
+    public BaseResponse<UserOrderStatsDTO> getUserOrderStatistics(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Getting order statistics for user: {}", userId);
         UserOrderStatsDTO stats = orderService.getUserOrderStatistics(userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<UserOrderStatsDTO>builder()
-                .success(true)
-                .message("Order statistics retrieved successfully")
-                .data(stats)
-                .build()
-        );
+        return BaseResponse.success(stats);
     }
 
     @PostMapping("/{orderCode}/reorder")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Reorder from existing order", description = "Create new cart from existing order for reordering")
-    public ResponseEntity<BaseResponse<OrderCalculationDTO>> reorderFromExistingOrder(
-            @Parameter(description = "Order code") @PathVariable String orderCode,
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Items added to cart successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden"),
+        @ApiResponse(responseCode = "404", description = "Order not found")
+    })
+    public BaseResponse<OrderCalculationDTO> reorderFromExistingOrder(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
+            @Parameter(description = "Order code") @PathVariable String orderCode) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Reordering from existing order for user: {}, orderCode: {}", userId, orderCode);
         OrderCalculationDTO calculation = orderService.reorderFromExistingOrder(orderCode, userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<OrderCalculationDTO>builder()
-                .success(true)
-                .message("Items added to cart from previous order")
-                .data(calculation)
-                .build()
-        );
+        return BaseResponse.success(calculation);
     }
 
     @GetMapping("/{orderCode}/track")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Track order", description = "Get detailed tracking information for an order")
-    public ResponseEntity<BaseResponse<OrderTrackingDTO>> trackOrder(
-            @Parameter(description = "Order code") @PathVariable String orderCode,
-            @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Order tracking information retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden"),
+        @ApiResponse(responseCode = "404", description = "Order not found")
+    })
+    public BaseResponse<OrderTrackingDTO> trackOrder(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
+            @Parameter(description = "Order code") @PathVariable String orderCode) {
         
-        Long userId = Long.parseLong(userDetails.getUsername());
+        log.info("Tracking order for user: {}, orderCode: {}", userId, orderCode);
         OrderTrackingDTO tracking = orderService.trackOrder(orderCode, userId);
-        
-        return ResponseEntity.ok(
-            BaseResponse.<OrderTrackingDTO>builder()
-                .success(true)
-                .message("Order tracking information retrieved successfully")
-                .data(tracking)
-                .build()
-        );
+        return BaseResponse.success(tracking);
     }
 }
