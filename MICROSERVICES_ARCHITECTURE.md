@@ -46,13 +46,17 @@ Dự án thư viện được thiết kế theo mô hình microservices với 3 
   - OTP verification
 
 ### 2. **Book Catalog Service** (Port 8082) 
-- **Responsibility**: Book management, categories, authors, publishers
+- **Responsibility**: Book management, categories, authors, publishers, e-commerce
 - **Database**: PostgreSQL (library schema)
 - **Key Features**:
   - Book CRUD operations
   - Category/Author/Publisher management
   - Advanced search and filtering
   - Book availability tracking
+  - Shopping cart management
+  - Order processing and management
+  - VNPay payment integration
+  - Order tracking and history
 
 ### 3. **File Storage Service** (Port 8083)
 - **Responsibility**: File upload, storage, and retrieval
@@ -175,17 +179,24 @@ graph TD
 2. Create shared utilities
 3. Implement common exception handling
 
-### Phase 5: Monitoring & Observability
+### Phase 5: Payment Integration (VNPay)
+1. Implement VNPay payment gateway in Book Catalog Service
+2. Add payment processing workflows
+3. Implement webhook handlers for payment callbacks
+4. Add payment status tracking and reconciliation
+
+### Phase 6: Monitoring & Observability
 1. Add distributed tracing (Sleuth/Zipkin)
 2. Implement centralized logging (ELK stack)
 3. Add metrics collection (Prometheus/Grafana)
+4. Monitor payment success rates and failures
 
 ## 🚦 Next Steps
 
-1. **Immediate**: Rename and standardize services
-2. **Short-term**: Implement API Gateway
+1. **Immediate**: Implement VNPay payment integration
+2. **Short-term**: Complete API Gateway implementation
 3. **Medium-term**: Add service discovery and load balancing
-4. **Long-term**: Implement monitoring and observability
+4. **Long-term**: Implement comprehensive monitoring and observability
 
 ## 📋 Benefits of This Architecture
 
