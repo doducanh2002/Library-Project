@@ -1,0 +1,239 @@
+@startuml VNPay Payment Flow Sequence Diagram
+!theme plain
+title VNPay Payment Integration - Complete Flow
+
+' Actors and Systems
+actor User as U
+participant "Frontend\n(React/Vue)" as FE
+participant "API Gateway\n(Port 8080)" as GW
+participant "Book Catalog Service\n(Port 8082)" as BCS
+participant "Order Service" as OS
+participant "Payment Service" as PS
+participant "VNPay Gateway" as VNP
+participant "Database\n(PostgreSQL)" as DB
+participant "Notification Service" as NS
+
+' Styling
+skinparam participant {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+}
+skinparam actor {
+    BackgroundColor LightGreen
+    BorderColor DarkGreen
+}
+
+== 1. Order Creation Phase ==
+
+U -> FE: Click "Checkout" from Cart
+FE -> GW: POST /api/v1/orders/checkout
+note right: Cart items, shipping info
+GW -> BCS: Forward request with JWT
+BCS -> OS: Process order creation
+OS -> DB: Create order (PENDING_PAYMENT)
+OS --> BCS: Order created with orderCode
+BCS --> GW: OrderDTO with payment info
+GW --> FE: Order confirmation
+FE --> U: Show order summary
+
+== 2. Payment Initiation Phase ==
+
+U -> FE: Click "Pay with VNPay"
+FE -> GW: POST /api/v1/payments/create
+note right: {\n  "orderId": 123,\n  "paymentMethod": "VNPAY_QR",\n  "returnUrl": "...",\n  "ipAddress": "...",\n  "userAgent": "..."\n}
+
+GW -> BCS: Forward payment request
+BCS -> PS: Create VNPay payment
+PS -> DB: Create payment record (PENDING)
+note right: payment_code, vnp_txn_ref,\nexpires_at (15 min)
+
+PS -> PS: Generate VNPay parameters
+note right: vnp_Amount, vnp_OrderInfo,\nvnp_TxnRef, vnp_ReturnUrl, etc.
+
+PS -> PS: Create secure hash (SHA256)
+note right: Hash all parameters with\nVNPay secret key
+
+PS -> VNP: Generate payment URL
+note right: https://sandbox.vnpayment.vn/\npaymentv2/vpcpay.html?params
+
+VNP --> PS: Payment URL with signature
+PS -> DB: Update payment with URL
+PS --> BCS: PaymentResponseDTO
+BCS --> GW: Payment URL response
+GW --> FE: VNPay redirect URL
+FE -> U: Redirect to VNPay
+
+== 3. VNPay Payment Processing ==
+
+U -> VNP: Complete payment on VNPay
+note right: User selects bank,\nenters payment details
+
+VNP -> VNP: Process payment
+note right: Bank authorization,\ntransaction processing
+
+alt Payment Successful
+    VNP -> U: Redirect to return URL
+    note right: GET /payment/vnpay/return?\nvnp_ResponseCode=00&vnp_TxnRef=...
+    
+    U -> FE: Return to application
+    FE -> GW: GET /api/v1/payments/vnpay/return
+    note right: Parse VNPay response parameters
+    
+    GW -> BCS: Process return URL
+    BCS -> PS: Validate return parameters
+    PS -> PS: Verify signature
+    PS -> DB: Update payment status
+    
+    ' Parallel webhook processing
+    par Webhook Processing
+        VNP -> GW: POST /api/v1/payments/webhook/vnpay
+        note right: IPN (Instant Payment Notification)\nwith transaction details
+        
+        GW -> BCS: Process webhook
+        BCS -> PS: Handle webhook
+        PS -> PS: Verify webhook signature
+        PS -> DB: Create payment transaction log
+        
+        alt Payment Confirmed
+            PS -> OS: Update order status (PAID)
+            OS -> DB: Update order.payment_status
+            OS -> DB: Update order.status = 'PROCESSING'
+            
+            PS -> NS: Trigger payment success notification
+            NS -> DB: Create notification
+            NS -> U: Send email/SMS (optional)
+            
+            PS --> BCS: Webhook processed successfully
+            BCS --> GW: 200 OK
+            GW --> VNP: Success response
+        else Payment Failed
+            PS -> OS: Keep order PENDING_PAYMENT
+            PS -> NS: Trigger payment failed notification
+            PS --> BCS: Payment failed
+        end
+    end
+    
+    FE -> GW: GET /api/v1/orders/{orderCode}
+    GW -> BCS: Get updated order
+    BCS -> DB: Fetch order with payment status
+    DB --> BCS: Order details
+    BCS --> GW: OrderDTO
+    GW --> FE: Updated order
+    FE --> U: Show payment success page
+
+else Payment Failed
+    VNP -> U: Redirect to return URL
+    note right: vnp_ResponseCode != 00
+    
+    U -> FE: Return to application
+    FE -> GW: GET /api/v1/payments/vnpay/return
+    GW -> BCS: Process failed return
+    BCS -> PS: Handle payment failure
+    PS -> DB: Update payment (FAILED)
+    PS -> NS: Send failure notification
+    FE --> U: Show payment failed page
+    
+    U -> FE: Option to retry payment
+    note right: User can try different\npayment method or retry
+end
+
+== 4. Post-Payment Processing ==
+
+alt Order Processing (After Successful Payment)
+    OS -> DB: Update inventory
+    note right: Reduce book stock_for_sale
+    
+    OS -> NS: Send order confirmation
+    NS -> U: Email with order details
+    
+    ' Admin processes order
+    OS -> OS: Mark order as PROCESSING
+    note right: Admin can now fulfill order
+end
+
+== 5. Payment Status Checking ==
+
+loop Status Polling (Optional)
+    FE -> GW: GET /api/v1/payments/{paymentId}/status
+    GW -> BCS: Check payment status
+    BCS -> PS: Get payment details
+    PS -> DB: Query payment status
+    DB --> PS: Payment status
+    PS --> BCS: PaymentStatusDTO
+    BCS --> GW: Status response
+    GW --> FE: Current status
+    
+    alt Payment Still Pending
+        FE -> FE: Continue polling
+        note right: Poll every 5 seconds\nfor up to 15 minutes
+    else Payment Completed/Failed
+        FE -> FE: Stop polling
+        FE -> U: Show final result
+    end
+end
+
+== 6. Admin Payment Management ==
+
+par Admin Operations
+    actor Admin as A
+    A -> FE: Access admin dashboard
+    FE -> GW: GET /api/v1/admin/payments
+    GW -> BCS: Get payments list
+    BCS -> PS: Query payments
+    PS -> DB: Fetch payments with filters
+    DB --> PS: Payment records
+    PS --> BCS: PaymentListDTO
+    BCS --> GW: Admin payment data
+    GW --> FE: Payment dashboard
+    FE --> A: Show payments table
+    
+    alt Refund Processing
+        A -> FE: Initiate refund
+        FE -> GW: POST /api/v1/admin/payments/{id}/refund
+        GW -> BCS: Process refund request
+        BCS -> PS: Handle refund
+        PS -> VNP: Call VNPay refund API
+        VNP --> PS: Refund response
+        PS -> DB: Update payment (REFUNDED)
+        PS -> OS: Update order status
+        PS -> NS: Send refund notification
+        PS --> BCS: Refund completed
+        BCS --> GW: Success response
+        GW --> FE: Refund confirmation
+        FE --> A: Show refund status
+    end
+end
+
+== 7. Error Handling & Timeout ==
+
+alt Payment Timeout (15 minutes)
+    note over PS: Scheduled job runs every minute
+    PS -> DB: Find expired payments
+    DB --> PS: Expired payment records
+    
+    loop For each expired payment
+        PS -> VNP: Check payment status
+        VNP --> PS: Final status
+        
+        alt Still Pending
+            PS -> DB: Update payment (EXPIRED)
+            PS -> OS: Keep order PENDING_PAYMENT
+            PS -> NS: Send timeout notification
+        else Payment Completed
+            PS -> DB: Update payment (COMPLETED)
+            PS -> OS: Update order (PAID)
+        end
+    end
+end
+
+alt System Error Handling
+    note over PS: Any API call fails
+    PS -> DB: Log error transaction
+    PS -> NS: Send admin alert
+    PS --> BCS: Error response with code
+    BCS --> GW: Standardized error
+    GW --> FE: User-friendly message
+    FE --> U: Show error with retry option
+end
+
+@enduml

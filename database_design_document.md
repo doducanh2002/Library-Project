@@ -529,6 +529,9 @@ CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_payment_status ON orders(payment_status);
 CREATE INDEX idx_orders_order_date ON orders(order_date);
 CREATE INDEX idx_orders_code ON orders(order_code);
+
+-- Payment-related indexes
+CREATE INDEX idx_orders_payment_pending ON orders(id) WHERE payment_status = 'UNPAID' AND status = 'PENDING_PAYMENT';
 ```
 
 **Mô tả**: Quản lý đơn hàng mua sách
@@ -537,7 +540,109 @@ CREATE INDEX idx_orders_code ON orders(order_code);
 - **Shipping**: Địa chỉ giao hàng và timeline
 - **Auto-generate**: order_code tự động
 
-### 3.11. Bảng `order_items` - Chi tiết đơn hàng
+### 3.11. Bảng `payments` - Thanh toán VNPay
+
+```sql
+CREATE TABLE payments (
+    id BIGSERIAL PRIMARY KEY,
+    payment_code VARCHAR(50) UNIQUE NOT NULL,
+    order_id BIGINT NOT NULL,
+    
+    -- Payment Info
+    amount DECIMAL(15,2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'VND',
+    payment_method VARCHAR(50) NOT NULL, -- 'VNPAY_QR', 'VNPAY_CARD', 'VNPAY_ATM'
+    
+    -- VNPay Specific
+    vnp_txn_ref VARCHAR(100) UNIQUE NOT NULL,
+    vnp_transaction_no VARCHAR(100),
+    vnp_order_info TEXT,
+    vnp_payment_url TEXT,
+    
+    -- Status & Tracking
+    payment_status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, COMPLETED, FAILED, EXPIRED, REFUNDED
+    gateway_status VARCHAR(50), -- VNPay response code
+    gateway_message TEXT,
+    
+    -- Timestamps
+    expires_at TIMESTAMP NOT NULL,
+    paid_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Metadata
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    metadata JSONB,
+    
+    -- Foreign Keys
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_payment_amount CHECK (amount > 0),
+    CONSTRAINT chk_payment_status CHECK (payment_status IN (
+        'PENDING', 'COMPLETED', 'FAILED', 'EXPIRED', 'REFUNDED'
+    )),
+    CONSTRAINT chk_payment_method CHECK (payment_method IN (
+        'VNPAY_QR', 'VNPAY_CARD', 'VNPAY_ATM', 'VNPAY_BANK'
+    ))
+);
+
+-- Triggers
+CREATE TRIGGER update_payments_updated_at 
+    BEFORE UPDATE ON payments
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Indexes
+CREATE INDEX idx_payments_order ON payments(order_id);
+CREATE INDEX idx_payments_code ON payments(payment_code);
+CREATE INDEX idx_payments_vnp_txn_ref ON payments(vnp_txn_ref);
+CREATE INDEX idx_payments_status ON payments(payment_status);
+CREATE INDEX idx_payments_created_at ON payments(created_at);
+CREATE INDEX idx_payments_expires ON payments(expires_at) WHERE payment_status = 'PENDING';
+```
+
+**Mô tả**: Quản lý thanh toán qua VNPay
+- **Payment Info**: amount, currency, payment_method
+- **VNPay Integration**: vnp_txn_ref, vnp_transaction_no, payment_url
+- **Status Tracking**: payment_status với lifecycle đầy đủ
+- **Timeout Management**: expires_at cho payment timeout
+- **Audit Trail**: ip_address, user_agent, metadata
+
+### 3.12. Bảng `payment_transactions` - Lịch sử giao dịch thanh toán
+
+```sql
+CREATE TABLE payment_transactions (
+    id BIGSERIAL PRIMARY KEY,
+    payment_id BIGINT NOT NULL,
+    transaction_type VARCHAR(50) NOT NULL, -- 'PAYMENT', 'REFUND', 'WEBHOOK', 'STATUS_CHECK'
+    status VARCHAR(20) NOT NULL,
+    amount DECIMAL(15,2),
+    gateway_response JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign Keys
+    FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_transaction_type CHECK (transaction_type IN (
+        'PAYMENT', 'REFUND', 'WEBHOOK', 'STATUS_CHECK', 'TIMEOUT'
+    ))
+);
+
+-- Index
+CREATE INDEX idx_payment_transactions_payment ON payment_transactions(payment_id);
+CREATE INDEX idx_payment_transactions_type ON payment_transactions(transaction_type);
+CREATE INDEX idx_payment_transactions_created ON payment_transactions(created_at);
+```
+
+**Mô tả**: Audit log cho mọi giao dịch payment
+- **Transaction Tracking**: Lưu mọi thao tác với payment
+- **Gateway Response**: Lưu full response từ VNPay
+- **Audit Purpose**: Debug và reconciliation
+
+### 3.13. Bảng `order_items` - Chi tiết đơn hàng
 
 ```sql
 CREATE TABLE order_items (
@@ -578,7 +683,7 @@ CREATE INDEX idx_order_items_book ON order_items(book_id);
 - **Snapshot**: Lưu title, isbn tại thời điểm đặt hàng
 - **Calculation**: Auto-validate tổng tiền
 
-### 3.12. Bảng `cart_items` - Giỏ hàng
+### 3.14. Bảng `cart_items` - Giỏ hàng
 
 ```sql
 CREATE TABLE cart_items (
@@ -615,7 +720,7 @@ CREATE INDEX idx_cart_items_book ON cart_items(book_id);
 - **Quantity**: Số lượng muốn mua
 - **Auto-update**: updated_at khi thay đổi
 
-### 3.13. Bảng `documents` - Tài liệu số
+### 3.15. Bảng `documents` - Tài liệu số
 
 ```sql
 CREATE TABLE documents (
@@ -687,7 +792,7 @@ CREATE INDEX idx_documents_minio_object ON documents(minio_object_name);
 - **Version Control**: Hỗ trợ versioning với previous_version_id
 - **Statistics**: download_count, view_count
 
-### 3.14. Bảng `notifications` - Thông báo
+### 3.16. Bảng `notifications` - Thông báo
 
 ```sql
 CREATE TABLE notifications (
@@ -721,7 +826,7 @@ CREATE TABLE notifications (
     CONSTRAINT chk_notification_type CHECK (type IN (
         'LOAN_APPROVED', 'LOAN_DUE_REMINDER', 'LOAN_OVERDUE', 'ORDER_CONFIRMED', 
         'ORDER_SHIPPED', 'ORDER_DELIVERED', 'PAYMENT_SUCCESS', 'PAYMENT_FAILED',
-        'SYSTEM_MAINTENANCE', 'GENERAL'
+        'PAYMENT_EXPIRED', 'PAYMENT_REFUNDED', 'SYSTEM_MAINTENANCE', 'GENERAL'
     )),
     CONSTRAINT chk_priority CHECK (priority IN ('LOW', 'NORMAL', 'HIGH', 'URGENT')),
     CONSTRAINT chk_related_entity CHECK (
@@ -744,7 +849,7 @@ CREATE INDEX idx_notifications_expires ON notifications(expires_at) WHERE expire
 - **Priority**: LOW → URGENT
 - **Expiry**: Tự động hết hạn
 
-### 3.15. Bảng `system_configs` - Cấu hình hệ thống
+### 3.17. Bảng `system_configs` - Cấu hình hệ thống
 
 ```sql
 CREATE TABLE system_configs (
@@ -1194,7 +1299,7 @@ CREATE TRIGGER audit_loans AFTER INSERT OR UPDATE OR DELETE ON loans
 
 ### 10.1. Thống kê Database
 
-**Tổng số bảng**: 15 bảng chính + 1 bảng audit
+**Tổng số bảng**: 17 bảng chính + 1 bảng audit (bao gồm payments và payment_transactions)
 **Tổng số indexes**: 35+ indexes (including fulltext, composite, partial)
 **Tổng số constraints**: 50+ constraints (CHECK, FK, UNIQUE)
 **Tổng số triggers**: 10+ triggers

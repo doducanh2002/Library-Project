@@ -1,0 +1,57 @@
+@startuml VNPay Database State Flow
+!theme plain
+title VNPay Payment - Database State Changes
+
+participant "Order Service" as OS
+participant "Payment Service" as PS
+database "orders table" as OT
+database "payments table" as PT
+database "payment_transactions table" as PTT
+
+== Order Creation ==
+OS -> OT: INSERT order
+note right: status = 'PENDING_PAYMENT'\npayment_status = 'UNPAID'
+
+== Payment Creation ==
+PS -> PT: INSERT payment
+note right: payment_status = 'PENDING'\nvnp_txn_ref = unique_id\nexpires_at = now() + 15min
+
+PS -> PTT: INSERT transaction
+note right: transaction_type = 'PAYMENT'\nstatus = 'INITIATED'
+
+== VNPay Processing ==
+alt Payment Success
+    PS -> PT: UPDATE payment
+    note right: payment_status = 'COMPLETED'\npaid_at = now()\nvnp_transaction_no = vnpay_id
+    
+    PS -> PTT: INSERT transaction
+    note right: transaction_type = 'WEBHOOK'\nstatus = 'SUCCESS'\ngateway_response = vnpay_data
+    
+    PS -> OT: UPDATE order
+    note right: payment_status = 'PAID'\nstatus = 'PROCESSING'\npayment_transaction_id = payment.vnp_txn_ref
+    
+else Payment Failed
+    PS -> PT: UPDATE payment
+    note right: payment_status = 'FAILED'\ngateway_status = error_code
+    
+    PS -> PTT: INSERT transaction
+    note right: transaction_type = 'WEBHOOK'\nstatus = 'FAILED'
+    
+    ' Order remains PENDING_PAYMENT
+end
+
+== Timeout Handling ==
+PS -> PT: UPDATE expired payments
+note right: payment_status = 'EXPIRED'\nWHERE expires_at < now()\nAND payment_status = 'PENDING'
+
+== Refund Processing ==
+PS -> PT: UPDATE payment
+note right: payment_status = 'REFUNDED'
+
+PS -> PTT: INSERT transaction
+note right: transaction_type = 'REFUND'\nstatus = 'COMPLETED'
+
+PS -> OT: UPDATE order
+note right: payment_status = 'REFUNDED'\nstatus = 'REFUNDED'
+
+@enduml

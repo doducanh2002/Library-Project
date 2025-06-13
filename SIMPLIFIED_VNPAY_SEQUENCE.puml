@@ -1,0 +1,51 @@
+@startuml Simplified VNPay Payment Flow
+!theme plain
+title VNPay Payment Flow - Simplified Version
+
+actor User as U
+participant Frontend as FE
+participant "Book Catalog\nService" as BCS
+participant "Payment\nService" as PS
+participant "VNPay\nGateway" as VNP
+database "PostgreSQL" as DB
+
+== Order Creation ==
+U -> FE: Checkout from Cart
+FE -> BCS: POST /orders/checkout
+BCS -> DB: Create Order (PENDING_PAYMENT)
+BCS --> FE: Order created
+
+== Payment Initiation ==
+U -> FE: Click "Pay with VNPay"
+FE -> BCS: POST /payments/create
+BCS -> PS: Create VNPay payment
+PS -> DB: Save payment (PENDING)
+PS -> PS: Generate VNPay URL + signature
+PS --> BCS: VNPay redirect URL
+BCS --> FE: Payment URL
+FE -> U: Redirect to VNPay
+
+== VNPay Processing ==
+U -> VNP: Complete payment
+VNP -> VNP: Process transaction
+
+alt Success
+    VNP -> FE: Redirect to return URL
+    VNP -> BCS: Webhook notification
+    BCS -> PS: Process webhook
+    PS -> PS: Verify signature
+    PS -> DB: Update payment (COMPLETED)
+    PS -> BCS: Update order (PAID)
+    BCS -> DB: Update order status
+    FE --> U: Payment success page
+else Failure
+    VNP -> FE: Redirect with error
+    BCS -> PS: Update payment (FAILED)
+    FE --> U: Payment failed page
+end
+
+== Post-Payment ==
+BCS -> DB: Update inventory
+BCS -> U: Send confirmation email
+
+@enduml

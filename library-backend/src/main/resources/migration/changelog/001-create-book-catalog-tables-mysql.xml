@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="001-1" author="library-system">
+        <comment>Create categories table</comment>
+        <createTable tableName="categories">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="parent_category_id" type="INT"/>
+            <column name="slug" type="VARCHAR(120)">
+                <constraints unique="true"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="categories"
+                                 baseColumnNames="parent_category_id"
+                                 constraintName="fk_category_parent"
+                                 referencedTableName="categories"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"/>
+
+        <createIndex tableName="categories" indexName="idx_categories_name">
+            <column name="name"/>
+        </createIndex>
+
+        <createIndex tableName="categories" indexName="idx_categories_slug">
+            <column name="slug"/>
+        </createIndex>
+
+        <createIndex tableName="categories" indexName="idx_categories_parent">
+            <column name="parent_category_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-2" author="library-system">
+        <comment>Create authors table</comment>
+        <createTable tableName="authors">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="biography" type="TEXT"/>
+            <column name="birth_date" type="DATE"/>
+            <column name="death_date" type="DATE"/>
+            <column name="nationality" type="VARCHAR(50)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="authors" indexName="idx_authors_name">
+            <column name="name"/>
+        </createIndex>
+
+        <createIndex tableName="authors" indexName="idx_authors_nationality">
+            <column name="nationality"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-3" author="library-system">
+        <comment>Create publishers table</comment>
+        <createTable tableName="publishers">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="TEXT"/>
+            <column name="contact_info" type="VARCHAR(255)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="established_year" type="INT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="publishers" indexName="idx_publishers_name">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-4" author="library-system">
+        <comment>Create books table</comment>
+        <createTable tableName="books">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isbn" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="publication_year" type="INT"/>
+            <column name="description" type="TEXT"/>
+            <column name="cover_image_url" type="VARCHAR(500)"/>
+            <column name="language" type="VARCHAR(10)" defaultValue="vi"/>
+            <column name="number_of_pages" type="INT"/>
+            <column name="edition" type="VARCHAR(50)"/>
+            
+            <!-- Loan management fields -->
+            <column name="total_copies_for_loan" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available_copies_for_loan" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_lendable" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Sales management fields -->
+            <column name="price" type="DECIMAL(12,2)"/>
+            <column name="stock_for_sale" type="INT" defaultValueNumeric="0"/>
+            <column name="is_sellable" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Relationships -->
+            <column name="category_id" type="INT"/>
+            <column name="publisher_id" type="INT"/>
+            
+            <!-- Metadata -->
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="books"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_book_category"
+                                 referencedTableName="categories"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="books"
+                                 baseColumnNames="publisher_id"
+                                 constraintName="fk_book_publisher"
+                                 referencedTableName="publishers"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"/>
+        <createIndex tableName="books" indexName="idx_books_isbn">
+            <column name="isbn"/>
+        </createIndex>
+
+        <createIndex tableName="books" indexName="idx_books_title">
+            <column name="title"/>
+        </createIndex>
+
+        <createIndex tableName="books" indexName="idx_books_category">
+            <column name="category_id"/>
+        </createIndex>
+
+        <createIndex tableName="books" indexName="idx_books_publisher">
+            <column name="publisher_id"/>
+        </createIndex>
+
+        <createIndex tableName="books" indexName="idx_books_sellable">
+            <column name="is_sellable"/>
+        </createIndex>
+
+        <createIndex tableName="books" indexName="idx_books_lendable">
+            <column name="is_lendable"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-5" author="library-system">
+        <comment>Create book_authors junction table</comment>
+        <createTable tableName="book_authors">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_role" type="VARCHAR(50)" defaultValue="AUTHOR"/>
+        </createTable>
+
+        <addPrimaryKey tableName="book_authors"
+                       columnNames="book_id,author_id"
+                       constraintName="pk_book_authors"/>
+
+        <addForeignKeyConstraint baseTableName="book_authors"
+                                 baseColumnNames="book_id"
+                                 constraintName="fk_book_author_book"
+                                 referencedTableName="books"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="book_authors"
+                                 baseColumnNames="author_id"
+                                 constraintName="fk_book_author_author"
+                                 referencedTableName="authors"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+        <createIndex tableName="book_authors" indexName="idx_book_authors_book">
+            <column name="book_id"/>
+        </createIndex>
+
+        <createIndex tableName="book_authors" indexName="idx_book_authors_author">
+            <column name="author_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -413,70 +413,179 @@
 
 ---
 
-## 💳 Sprint 5: Payment Integration (2 weeks)
+## 💳 Sprint 5: VNPay Payment Integration (2 weeks)
 
-### Epic: Payment Processing System
+### Epic: VNPay Payment Processing System
 
-#### User Story: PAY-001 - Payment Intent Creation
+#### User Story: VNPAY-001 - VNPay Payment URL Generation
 **As a** user  
-**I want** to initiate payment for my order  
-**So that** I can complete my purchase  
+**I want** to initiate payment through VNPay for my order  
+**So that** I can complete my purchase using Vietnamese payment methods  
 
 **Tasks:**
-- [ ] **PAY-001-T1** (8h): Payment service foundation
-  - Stripe SDK integration
-  - Payment configuration
-  - Error handling framework
+- [ ] **VNPAY-001-T1** (8h): VNPay service foundation
+  - VNPay configuration setup
+  - Hash signature implementation
+  - Payment entity and repository
   
-- [ ] **PAY-001-T2** (6h): Payment Intent service
-  - Create payment intent
-  - Order linking
-  - Amount validation
+- [ ] **VNPAY-001-T2** (6h): Payment URL generation service
+  - Create VNPay payment URL
+  - Order linking and validation
+  - Amount calculation in VND
   
-- [ ] **PAY-001-T3** (4h): Payment endpoint
-  - POST /api/v1/payments/create-payment-intent
-  - Security validation
+- [ ] **VNPAY-001-T3** (4h): Payment creation endpoint
+  - POST /api/v1/payments/create
+  - Return VNPay redirect URL
+  - Payment timeout handling (15 minutes)
 
-#### User Story: PAY-002 - Webhook Processing
+#### User Story: VNPAY-002 - VNPay Webhook & Return URL Processing
 **As a** system  
-**I want** to process payment webhooks  
-**So that** order status updates automatically  
+**I want** to process VNPay payment callbacks  
+**So that** order status updates automatically after payment  
 
 **Tasks:**
-- [ ] **PAY-002-T1** (8h): Webhook handler
-  - Stripe webhook signature verification
-  - Event processing logic
-  - Idempotency handling
+- [ ] **VNPAY-002-T1** (8h): VNPay callback handler
+  - VNPay signature verification
+  - Return URL processing
+  - IPN (webhook) handler implementation
   
-- [ ] **PAY-002-T2** (6h): Order status update
-  - Payment success processing
+- [ ] **VNPAY-002-T2** (6h): Order status update
+  - Payment success/failure processing
   - Inventory finalization
   - Notification triggering
   
-- [ ] **PAY-002-T3** (4h): Webhook endpoint
-  - POST /api/v1/payments/webhook/stripe
+- [ ] **VNPAY-002-T3** (4h): VNPay endpoints
+  - POST /api/v1/payments/webhook/vnpay
+  - GET /api/v1/payments/vnpay/return
   - Error handling and logging
 
-#### User Story: PAY-003 - Payment Status Tracking
-**As a** user  
-**I want** to check my payment status  
-**So that** I know if my payment was successful  
+#### User Story: VNPAY-003 - Payment Management & Refunds
+**As a** user/admin  
+**I want** to check payment status and process refunds  
+**So that** I can manage my payments effectively  
 
 **Tasks:**
-- [ ] **PAY-003-T1** (4h): Payment status service
+- [ ] **VNPAY-003-T1** (6h): Payment management service
   - Payment status retrieval
-  - Order payment linking
+  - Payment history by order
+  - Refund initiation logic
   
-- [ ] **PAY-003-T2** (4h): Payment status endpoint
-  - GET /api/v1/payments/{paymentId}/status
+- [ ] **VNPAY-003-T2** (4h): Payment query endpoints
+  - GET /api/v1/payments/{paymentId}
+  - GET /api/v1/payments/order/{orderId}
+  
+- [ ] **VNPAY-003-T3** (6h): Admin refund functionality
+  - POST /api/v1/admin/payments/{paymentId}/refund
+  - VNPay refund API integration
+  - Refund status tracking
+
+#### User Story: VNPAY-004 - Payment Testing & Monitoring
+**As a** developer  
+**I want** comprehensive testing and monitoring  
+**So that** payments work reliably in production  
+
+**Tasks:**
+- [ ] **VNPAY-004-T1** (6h): VNPay sandbox testing
+  - Test payment scenarios
+  - Error case handling
+  - Performance testing
+  
+- [ ] **VNPAY-004-T2** (4h): Payment monitoring
+  - Payment metrics collection
+  - Success/failure rate tracking
+  - Alert configuration
+
+#### User Story: VNPAY-005 - Database Migration & Setup
+**As a** developer  
+**I want** payment database tables created  
+**So that** payment data can be stored properly  
+
+**Tasks:**
+- [ ] **VNPAY-005-T1** (4h): Database migration scripts
+  - Create payments table
+  - Create payment_transactions table
+  - Add payment-related indexes
+  
+- [ ] **VNPAY-005-T2** (2h): Update order schema
+  - Add payment_transaction_id to orders
+  - Update order status workflow
+  
+#### User Story: VNPAY-006 - Frontend Integration
+**As a** user  
+**I want** a seamless payment experience  
+**So that** I can complete purchases easily  
+
+**Tasks:**
+- [ ] **VNPAY-006-T1** (6h): Payment page UI
+  - Payment method selection
+  - VNPay redirect handling
+  - Payment status polling
+  
+- [ ] **VNPAY-006-T2** (4h): Payment result pages
+  - Success/failure page design
+  - Order confirmation display
+  - Error message handling
+
+#### User Story: VNPAY-007 - Admin Payment Management
+**As an** admin  
+**I want** to manage payments and refunds  
+**So that** I can handle customer payment issues  
+
+**Tasks:**
+- [ ] **VNPAY-007-T1** (6h): Admin payment dashboard
+  - Payment list with filtering
+  - Payment detail views
+  - Refund processing interface
+  
+- [ ] **VNPAY-007-T2** (4h): Payment reports
+  - Daily/monthly payment reports
+  - Failed payment analysis
+  - Revenue tracking
+
+#### User Story: VNPAY-008 - Security & Compliance
+**As a** system administrator  
+**I want** secure payment processing  
+**So that** customer payment data is protected  
+
+**Tasks:**
+- [ ] **VNPAY-008-T1** (6h): Security implementation
+  - HTTPS enforcement
+  - IP whitelist for webhooks
+  - Secure configuration management
+  
+- [ ] **VNPAY-008-T2** (4h): Compliance checks
+  - Payment data encryption
+  - Audit logging
+  - Security testing
+
+**Acceptance Criteria per User Story:**
+
+**VNPAY-001**: Payment URLs generate correctly with valid signatures
+**VNPAY-002**: Webhooks process all payment status changes
+**VNPAY-003**: Refunds can be initiated and tracked
+**VNPAY-004**: All payment scenarios tested in sandbox
+**VNPAY-005**: Database tables created and populated
+**VNPAY-006**: Users can complete payments without issues
+**VNPAY-007**: Admins can view and manage all payments
+**VNPAY-008**: Security audit passes all checks
 
 **Sprint 5 Definition of Done:**
-- Payment intents can be created successfully
-- Webhook processing works reliably
+- VNPay payment URLs can be generated successfully
+- Payment callbacks are processed reliably
 - Order status updates automatically after payment
 - Payment failures are handled gracefully
+- Refund functionality works correctly
+- VNPay signature validation is secure
 - All payment events are logged properly
-- Idempotency prevents duplicate processing
+- Sandbox testing covers all scenarios
+- Database migration for payment tables completed
+- Frontend payment integration working
+- Payment timeout handling implemented
+- Admin payment dashboard functional
+- Payment reconciliation reports available
+- Security audit for payment flow passed
+- Performance testing for 1000 concurrent payments
+- Production deployment checklist completed
 
 ---
 
