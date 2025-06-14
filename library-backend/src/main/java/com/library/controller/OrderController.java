@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.dto.*;
 import com.library.service.OrderService;
+import com.library.util.VNPayUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
@@ -52,6 +54,36 @@ public class OrderController {
 
         OrderDTO order = orderService.createOrderFromCart(userId, request);
         return BaseResponse.success(order);
+    }
+
+    @PostMapping("/checkout-with-payment")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @Operation(summary = "Complete checkout with payment", description = "Create order and initiate payment process")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Order created and payment initiated successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid request data or cannot place order"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "403", description = "Access forbidden"),
+        @ApiResponse(responseCode = "409", description = "Cart is empty or insufficient stock")
+    })
+    public BaseResponse<OrderWithPaymentDTO> createOrderWithPayment(
+            @Parameter(description = "User ID", required = true) @RequestHeader("X-User-Id") Long userId,
+            @Valid @RequestBody CreateOrderRequestDTO request,
+            HttpServletRequest httpRequest) {
+        
+        log.info("Creating order with payment for user: {}, request: {}", userId, request);
+        
+        if (!orderService.canUserPlaceOrder(userId)) {
+            throw new IllegalStateException("Cannot place order. You have too many pending orders.");
+        }
+
+        // Get client IP and User Agent
+        String ipAddress = VNPayUtil.getIpAddress(httpRequest);
+        String userAgent = httpRequest.getHeader("User-Agent");
+        
+        OrderWithPaymentDTO orderWithPayment = orderService.createOrderWithPayment(userId, request, ipAddress, userAgent);
+        return BaseResponse.success(orderWithPayment);
     }
 
     @GetMapping("/calculate")

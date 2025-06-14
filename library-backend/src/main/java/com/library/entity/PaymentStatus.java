@@ -5,7 +5,12 @@ public enum PaymentStatus {
     PAID("Paid"),
     FAILED("Failed"),
     REFUNDED("Refunded"),
-    PARTIALLY_REFUNDED("Partially Refunded");
+    PARTIALLY_REFUNDED("Partially Refunded"),
+    
+    // VNPay specific statuses
+    PENDING("Pending"),
+    COMPLETED("Completed"),
+    EXPIRED("Expired");
 
     private final String displayName;
 

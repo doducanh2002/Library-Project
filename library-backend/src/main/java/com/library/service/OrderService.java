@@ -14,6 +14,11 @@ public interface OrderService {
     OrderDTO createOrderFromCart(Long userId, CreateOrderRequestDTO request);
 
     /**
+     * Create order with payment integration
+     */
+    OrderWithPaymentDTO createOrderWithPayment(Long userId, CreateOrderRequestDTO request, String ipAddress, String userAgent);
+
+    /**
      * Get user's order history
      */
     Page<OrderSummaryDTO> getUserOrderHistory(Long userId, Pageable pageable);

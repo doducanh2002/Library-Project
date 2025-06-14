@@ -7,6 +7,7 @@ import com.library.exception.InsufficientStockException;
 import com.library.repository.*;
 import com.library.service.CartService;
 import com.library.service.OrderService;
+import com.library.service.VNPayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartItemRepository cartItemRepository;
     private final BookRepository bookRepository;
     private final CartService cartService;
+    private final VNPayService vnPayService;
 
     @Override
     @Transactional
@@ -99,6 +101,58 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("Order created successfully: {}", order.getOrderCode());
         return convertToDTO(order);
+    }
+
+    @Override
+    @Transactional
+    public OrderWithPaymentDTO createOrderWithPayment(Long userId, CreateOrderRequestDTO request, String ipAddress, String userAgent) {
+        log.info("Creating order with payment integration for user: {}", userId);
+        
+        try {
+            // Step 1: Create order
+            OrderDTO orderDTO = createOrderFromCart(userId, request);
+            
+            // Step 2: Determine payment method
+            String paymentMethod = request.getPaymentMethod();
+            if (paymentMethod == null || paymentMethod.isEmpty()) {
+                paymentMethod = "VNPAY_QR"; // Default payment method
+            }
+            
+            // Step 3: Create payment if payment method is VNPay
+            if (paymentMethod.startsWith("VNPAY")) {
+                PaymentCreateRequestDTO paymentRequest = PaymentCreateRequestDTO.builder()
+                    .orderId(orderDTO.getId())
+                    .paymentMethod(paymentMethod)
+                    .returnUrl(null) // Will use default from config
+                    .ipAddress(ipAddress)
+                    .userAgent(userAgent)
+                    .locale("vn")
+                    .build();
+                
+                // Create payment URL (pass null for HttpServletRequest since we have IP already)
+                PaymentResponseDTO paymentResponse = vnPayService.createPaymentUrl(paymentRequest, null);
+                
+                return OrderWithPaymentDTO.builder()
+                    .order(orderDTO)
+                    .payment(paymentResponse)
+                    .nextAction("redirect_to_payment")
+                    .message("Order created successfully. Please complete payment.")
+                    .build();
+                    
+            } else {
+                // For other payment methods (future implementation)
+                return OrderWithPaymentDTO.builder()
+                    .order(orderDTO)
+                    .payment(null)
+                    .nextAction("payment_completed")
+                    .message("Order created successfully with " + paymentMethod + " payment method.")
+                    .build();
+            }
+            
+        } catch (Exception e) {
+            log.error("Error creating order with payment for user: {}", userId, e);
+            throw new RuntimeException("Failed to create order with payment: " + e.getMessage());
+        }
     }
 
     @Override
