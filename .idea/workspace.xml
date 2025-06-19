@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: data type">
+    <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="feat: build document">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_7_2025_10_05_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_7_2025_10_05_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/controller/AdminDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/controller/AdminDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/MinioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/CART-001" />
+        <entry key="$PROJECT_DIR$" value="feature/DOC-001-document-management" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -31,7 +39,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/doducanh2002/Library-Project.git&quot;,
-    &quot;accountId&quot;: &quot;74eb2899-ead4-4546-b035-fa4896282682&quot;
+    &quot;accountId&quot;: &quot;0394fa3d-8a68-413e-96fb-5a063a6602db&quot;
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -52,6 +60,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.library-backend.postgres: Compose Deployment.executor": "Run",
+    "Docker.library-backend: Compose Deployment.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -61,7 +71,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "feature/ORDER-001-order-creation-checkout",
+    "git-widget-placeholder": "feature/DOC-006-complete-sprint-6",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/-MSI-/IdeaProjects/Library-Project/api-gateway",
@@ -87,7 +97,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.LibraryBackendApplication">
+  <component name="RunManager" selected="Docker.library-backend.postgres: Compose Deployment">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="api-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.library.gateway.ApiGatewayApplication" />
@@ -117,12 +127,43 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <configuration name="library-backend: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="library-backend/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="library-backend.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="postgres" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="library-backend/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.library-backend.postgres: Compose Deployment" />
+        <item itemvalue="Docker.library-backend: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
       </set>
     </attachedChunks>
   </component>
@@ -141,7 +182,23 @@
       <workItem from="1749475686502" duration="616000" />
       <workItem from="1749569820992" duration="1960000" />
       <workItem from="1749649649049" duration="5013000" />
+      <workItem from="1749918643165" duration="33000" />
+      <workItem from="1749974148650" duration="2716000" />
+      <workItem from="1749976878176" duration="7000" />
+      <workItem from="1749976901492" duration="16000" />
+      <workItem from="1750087418528" duration="2803000" />
+      <workItem from="1750148397723" duration="2376000" />
+      <workItem from="1750297469076" duration="2535000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: build document">
+      <option name="closed" value="true" />
+      <created>1750089940152</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750089940152</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +206,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update: data type" />
-    <option name="LAST_COMMIT_MESSAGE" value="update: data type" />
+    <MESSAGE value="feat: build document" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: build document" />
   </component>
 </project>

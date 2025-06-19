@@ -12,8 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/admin/documents")
@@ -27,6 +30,60 @@ public class AdminDocumentController {
     
     public AdminDocumentController(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Upload document", description = "Upload a new document (LIBRARIAN/ADMIN role required)")
+    public BaseResponse<DocumentDTO> uploadDocument(
+            @Parameter(description = "Document file") 
+            @RequestParam("file") MultipartFile file,
+            @Parameter(description = "Document title") 
+            @RequestParam("title") String title,
+            @Parameter(description = "Document description") 
+            @RequestParam(value = "description", required = false) String description,
+            @Parameter(description = "Access level") 
+            @RequestParam(value = "accessLevel", defaultValue = "PUBLIC") String accessLevel,
+            @Parameter(description = "Book ID (optional)") 
+            @RequestParam(value = "bookId", required = false) Long bookId,
+            @Parameter(description = "Metadata JSON (optional)") 
+            @RequestParam(value = "metadata", required = false) String metadata) {
+        
+        log.info("Admin uploading document: {} with access level: {}", title, accessLevel);
+        
+        CreateDocumentRequestDTO request = CreateDocumentRequestDTO.builder()
+                .title(title)
+                .description(description)
+                .accessLevel(com.library.entity.enums.AccessLevel.valueOf(accessLevel))
+                .bookId(bookId)
+                .metadata(metadata)
+                .build();
+        
+        DocumentDTO document = documentService.uploadDocument(file, request);
+        return BaseResponse.success(document);
+    }
+    
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update document", description = "Update document metadata (LIBRARIAN/ADMIN role required)")
+    public BaseResponse<DocumentDTO> updateDocument(
+            @Parameter(description = "Document ID") @PathVariable Long id,
+            @RequestBody @Valid UpdateDocumentRequestDTO request) {
+        
+        log.info("Admin updating document ID: {}", id);
+        DocumentDTO document = documentService.updateDocument(id, request);
+        return BaseResponse.success(document);
+    }
+    
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Delete document", description = "Delete a document (LIBRARIAN/ADMIN role required)")
+    public BaseResponse<String> deleteDocument(
+            @Parameter(description = "Document ID") @PathVariable Long id) {
+        
+        log.info("Admin deleting document ID: {}", id);
+        documentService.deleteDocument(id);
+        return BaseResponse.success("Document deleted successfully");
     }
     
     @GetMapping("/statistics")
