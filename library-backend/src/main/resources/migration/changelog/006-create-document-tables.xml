@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Create documents table -->
+    <changeSet id="006-1" author="developer">
+        <createTable tableName="documents">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_size" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mime_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bucket_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_key" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="access_level" type="VARCHAR(20)" defaultValue="PUBLIC">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT"/>
+            <column name="uploaded_by" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="download_count" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="metadata" type="JSON"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Add foreign key constraints -->
+    <changeSet id="006-2" author="developer">
+        <addForeignKeyConstraint
+                baseTableName="documents"
+                baseColumnNames="book_id"
+                constraintName="fk_documents_book_id"
+                referencedTableName="books"
+                referencedColumnNames="id"
+                onDelete="SET NULL"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <!-- Create indexes for performance -->
+    <changeSet id="006-3" author="developer">
+        <createIndex tableName="documents" indexName="idx_documents_book_id">
+            <column name="book_id"/>
+        </createIndex>
+        <createIndex tableName="documents" indexName="idx_documents_access_level">
+            <column name="access_level"/>
+        </createIndex>
+        <createIndex tableName="documents" indexName="idx_documents_file_type">
+            <column name="file_type"/>
+        </createIndex>
+        <createIndex tableName="documents" indexName="idx_documents_uploaded_by">
+            <column name="uploaded_by"/>
+        </createIndex>
+        <createIndex tableName="documents" indexName="idx_documents_created_at">
+            <column name="created_at"/>
+        </createIndex>
+        <createIndex tableName="documents" indexName="idx_documents_is_active">
+            <column name="is_active"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Create unique constraint for object_key -->
+    <changeSet id="006-4" author="developer">
+        <addUniqueConstraint
+                tableName="documents"
+                columnNames="object_key"
+                constraintName="uk_documents_object_key"/>
+    </changeSet>
+
+    <!-- Create document_access_logs table for tracking access -->
+    <changeSet id="006-5" author="developer">
+        <createTable tableName="document_access_logs">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="document_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="access_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ip_address" type="VARCHAR(45)"/>
+            <column name="user_agent" type="TEXT"/>
+            <column name="accessed_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Add foreign key for document_access_logs -->
+    <changeSet id="006-6" author="developer">
+        <addForeignKeyConstraint
+                baseTableName="document_access_logs"
+                baseColumnNames="document_id"
+                constraintName="fk_document_access_logs_document_id"
+                referencedTableName="documents"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <!-- Create indexes for document_access_logs -->
+    <changeSet id="006-7" author="developer">
+        <createIndex tableName="document_access_logs" indexName="idx_document_access_logs_document_id">
+            <column name="document_id"/>
+        </createIndex>
+        <createIndex tableName="document_access_logs" indexName="idx_document_access_logs_user_id">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex tableName="document_access_logs" indexName="idx_document_access_logs_accessed_at">
+            <column name="accessed_at"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
