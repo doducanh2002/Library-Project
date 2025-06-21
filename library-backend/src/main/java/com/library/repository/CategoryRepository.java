@@ -34,4 +34,16 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     
     @Query("SELECT COUNT(b) FROM Book b WHERE b.category.id = :categoryId")
     Long countBooksByCategoryId(@Param("categoryId") Long categoryId);
+    
+    // Admin Dashboard and Reports methods
+    @Query("SELECT c.id, c.name, COUNT(DISTINCT b.id) as totalBooks, " +
+           "COUNT(DISTINCT l.id) as totalLoans, COUNT(DISTINCT oi.id) as totalOrders, " +
+           "ROUND(COUNT(DISTINCT l.id) * 100.0 / NULLIF(SUM(COUNT(DISTINCT l.id)) OVER(), 0), 2) as percentage " +
+           "FROM Category c " +
+           "LEFT JOIN Book b ON b.category.id = c.id " +
+           "LEFT JOIN Loan l ON l.book.id = b.id " +
+           "LEFT JOIN OrderItem oi ON oi.book.id = b.id " +
+           "GROUP BY c.id, c.name " +
+           "ORDER BY (COUNT(DISTINCT l.id) + COUNT(DISTINCT oi.id)) DESC")
+    List<Object[]> findMostPopularCategories(@Param("limit") int limit);
 }

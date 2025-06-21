@@ -147,4 +147,17 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
         @Param("isLendable") Boolean isLendable,
         @Param("isSellable") Boolean isSellable,
         Pageable pageable);
+    
+    // Admin Dashboard and Reports methods
+    @Query("SELECT b.id, b.title, b.isbn, a.name as authorName, " +
+           "COUNT(DISTINCT l.id) as totalLoans, COUNT(DISTINCT oi.id) as totalOrders, " +
+           "AVG(CAST(0 as double)) as avgRating, b.coverImageUrl " +
+           "FROM Book b " +
+           "LEFT JOIN b.bookAuthors ba " +
+           "LEFT JOIN ba.author a " +
+           "LEFT JOIN Loan l ON l.book.id = b.id " +
+           "LEFT JOIN OrderItem oi ON oi.book.id = b.id " +
+           "GROUP BY b.id, b.title, b.isbn, a.name, b.coverImageUrl " +
+           "ORDER BY (COUNT(DISTINCT l.id) + COUNT(DISTINCT oi.id)) DESC")
+    List<Object[]> findMostPopularBooks(@Param("limit") int limit);
 }

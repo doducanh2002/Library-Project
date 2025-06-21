@@ -61,4 +61,25 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // Orders that need admin attention
     @Query("SELECT o FROM Order o WHERE o.status IN ('PAID', 'PROCESSING') ORDER BY o.orderDate ASC")
     List<Order> findOrdersNeedingAttention(Pageable pageable);
+    
+    // Admin Dashboard and Reports methods
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.paymentStatus = 'PAID'")
+    BigDecimal calculateTotalRevenue();
+    
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.createdAt BETWEEN :startDate AND :endDate")
+    Long countByCreatedAtBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.paymentStatus = 'PAID' AND o.createdAt BETWEEN :startDate AND :endDate")
+    BigDecimal calculateRevenueByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = :status AND o.createdAt BETWEEN :startDate AND :endDate")
+    Long countByStatusAndCreatedAtBetween(@Param("status") OrderStatus status, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT DATE(o.createdAt) as date, COALESCE(SUM(o.totalAmount), 0) as revenue, COUNT(o) as orderCount " +
+           "FROM Order o WHERE o.createdAt BETWEEN :startDate AND :endDate AND o.paymentStatus = 'PAID' " +
+           "GROUP BY DATE(o.createdAt) ORDER BY DATE(o.createdAt)")
+    List<Object[]> getOrderReportData(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT o FROM Order o ORDER BY o.createdAt DESC")
+    List<Order> findTop5ByOrderByCreatedAtDesc();
 }

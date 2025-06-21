@@ -44,4 +44,31 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
         @Param("endDate") LocalDateTime endDate,
         @Param("status") LoanStatus status
     );
+    
+    // Admin Dashboard and Reports methods
+    @Query("SELECT COUNT(l) FROM Loan l WHERE l.status = :status")
+    Long countByStatus(@Param("status") LoanStatus status);
+    
+    @Query("SELECT COUNT(l) FROM Loan l WHERE l.status = 'BORROWED' AND l.dueDate < CURRENT_TIMESTAMP")
+    Long countOverdueLoans();
+    
+    @Query("SELECT COUNT(l) FROM Loan l WHERE l.createdAt BETWEEN :startDate AND :endDate")
+    Long countLoansByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT COUNT(l) FROM Loan l WHERE l.returnedAt BETWEEN :startDate AND :endDate")
+    Long countReturnsByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT COUNT(l) FROM Loan l WHERE l.status = 'BORROWED' AND l.dueDate < CURRENT_TIMESTAMP AND l.createdAt BETWEEN :startDate AND :endDate")
+    Long countOverdueLoansByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT COUNT(l) FROM Loan l WHERE l.returnedAt BETWEEN :startDate AND :endDate AND l.returnedAt <= l.dueDate")
+    Long countOnTimeReturnsByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT DATE(l.createdAt) as date, l.status, COUNT(l) as count " +
+           "FROM Loan l WHERE l.createdAt BETWEEN :startDate AND :endDate " +
+           "GROUP BY DATE(l.createdAt), l.status ORDER BY DATE(l.createdAt)")
+    List<Object[]> getLoanReportData(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    @Query("SELECT l FROM Loan l ORDER BY l.createdAt DESC")
+    List<Loan> findTop5ByOrderByCreatedAtDesc();
 }
