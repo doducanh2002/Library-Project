@@ -13,6 +13,7 @@ import com.library.repository.BookRepository;
 import com.library.repository.DocumentAccessLogRepository;
 import com.library.repository.DocumentRepository;
 import com.library.specification.DocumentSpecification;
+import com.library.client.MinIOServiceClient;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,7 @@ public class DocumentService {
     private final DocumentAccessControlService accessControlService;
     private final DocumentMapper documentMapper;
     private final HttpServletRequest request;
+    private final MinIOServiceClient minioServiceClient;
     
     private static final String DOCUMENTS_FOLDER = "documents";
     private static final int DEFAULT_URL_EXPIRY_MINUTES = 60;
@@ -51,13 +53,15 @@ public class DocumentService {
                           BookRepository bookRepository,
                           DocumentAccessControlService accessControlService,
                           DocumentMapper documentMapper,
-                          HttpServletRequest request) {
+                          HttpServletRequest request,
+                          MinIOServiceClient minioServiceClient) {
         this.documentRepository = documentRepository;
         this.accessLogRepository = accessLogRepository;
         this.bookRepository = bookRepository;
         this.accessControlService = accessControlService;
         this.documentMapper = documentMapper;
         this.request = request;
+        this.minioServiceClient = minioServiceClient;
     }
     
     /**
@@ -107,10 +111,27 @@ public class DocumentService {
             document.setBook(book);
         }
         
-        // File storage temporarily disabled - MinIO removed
-        // TODO: Implement local file storage or alternative storage solution
-        document.setObjectKey("temp_" + document.getFileName());
-        log.warn("File upload functionality disabled - MinIO removed");
+        // Upload file to MinIO service
+        try {
+            Map<String, Object> uploadResponse = minioServiceClient.uploadFile(file);
+            
+            // Extract file information from MinIO response
+            if (uploadResponse.containsKey("data")) {
+                Map<String, Object> metadata = (Map<String, Object>) uploadResponse.get("data");
+                String fileId = (String) metadata.get("id");
+                String storageKey = (String) metadata.get("storageKey");
+                
+                document.setObjectKey(storageKey != null ? storageKey : fileId);
+                document.setBucketName("video-storage"); // From MinIO service configuration
+                
+                log.info("File uploaded to MinIO service successfully: {}", fileId);
+            } else {
+                throw new FileStorageException("Invalid response from MinIO service");
+            }
+        } catch (Exception e) {
+            log.error("Failed to upload file to MinIO service: {}", e.getMessage(), e);
+            throw new FileStorageException("Failed to upload file: " + e.getMessage());
+        }
         
         // Save document
         Document savedDocument = documentRepository.save(document);
@@ -216,9 +237,15 @@ public class DocumentService {
         // Log download access
         logAccessAttempt(document, AccessType.DOWNLOAD);
         
-        // File download temporarily disabled - MinIO removed
-        // TODO: Implement local file storage download or alternative solution
-        throw new UnsupportedOperationException("Download functionality temporarily disabled - MinIO removed");
+        // Generate download URL from MinIO service
+        try {
+            String downloadUrl = minioServiceClient.getDownloadUrl(document.getObjectKey());
+            log.info("Generated download URL for document ID: {}", documentId);
+            return downloadUrl;
+        } catch (Exception e) {
+            log.error("Failed to generate download URL for document {}: {}", documentId, e.getMessage(), e);
+            throw new FileStorageException("Failed to generate download URL: " + e.getMessage());
+        }
     }
     
     /**
@@ -240,9 +267,15 @@ public class DocumentService {
         // Log view access
         logAccessAttempt(document, AccessType.VIEW);
         
-        // File viewing temporarily disabled - MinIO removed
-        // TODO: Implement local file storage viewing or alternative solution
-        throw new UnsupportedOperationException("View functionality temporarily disabled - MinIO removed");
+        // Generate view URL from MinIO service
+        try {
+            String viewUrl = minioServiceClient.getViewUrl(document.getObjectKey());
+            log.info("Generated view URL for document ID: {}", documentId);
+            return viewUrl;
+        } catch (Exception e) {
+            log.error("Failed to generate view URL for document {}: {}", documentId, e.getMessage(), e);
+            throw new FileStorageException("Failed to generate view URL: " + e.getMessage());
+        }
     }
     
     /**
@@ -301,11 +334,23 @@ public class DocumentService {
             throw new AccessDeniedException("You don't have permission to delete this document");
         }
         
+        // Delete file from MinIO service first
+        try {
+            if (document.getObjectKey() != null) {
+                boolean deleted = minioServiceClient.deleteFile(document.getObjectKey());
+                if (deleted) {
+                    log.info("File deleted from MinIO service: {}", document.getObjectKey());
+                } else {
+                    log.warn("Failed to delete file from MinIO service: {}", document.getObjectKey());
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error deleting file from MinIO service: {}", e.getMessage(), e);
+            // Continue with soft delete even if MinIO deletion fails
+        }
+        
         // Soft delete - just mark as inactive
         documentRepository.softDeleteDocument(id);
-        
-        // File deletion from storage disabled - MinIO removed
-        // TODO: Implement local file storage deletion when implemented
         
         log.info("Document soft deleted: {}", id);
     }
