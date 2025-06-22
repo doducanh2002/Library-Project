@@ -58,14 +58,12 @@ public class Document {
     @Column(name = "mime_type", nullable = false)
     private String mimeType;
 
-    @NotBlank(message = "Bucket name is required")
     @Size(max = 100, message = "Bucket name must not exceed 100 characters")
-    @Column(name = "bucket_name", nullable = false)
+    @Column(name = "bucket_name")
     private String bucketName;
 
-    @NotBlank(message = "Object key is required")
     @Size(max = 500, message = "Object key must not exceed 500 characters")
-    @Column(name = "object_key", nullable = false, unique = true)
+    @Column(name = "object_key", unique = true)
     private String objectKey;
 
     @Enumerated(EnumType.STRING)

@@ -39,7 +39,6 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private final DocumentAccessLogRepository accessLogRepository;
     private final BookRepository bookRepository;
-    private final MinioService minioService;
     private final DocumentAccessControlService accessControlService;
     private final DocumentMapper documentMapper;
     private final HttpServletRequest request;
@@ -50,14 +49,12 @@ public class DocumentService {
     public DocumentService(DocumentRepository documentRepository,
                           DocumentAccessLogRepository accessLogRepository,
                           BookRepository bookRepository,
-                          MinioService minioService,
                           DocumentAccessControlService accessControlService,
                           DocumentMapper documentMapper,
                           HttpServletRequest request) {
         this.documentRepository = documentRepository;
         this.accessLogRepository = accessLogRepository;
         this.bookRepository = bookRepository;
-        this.minioService = minioService;
         this.accessControlService = accessControlService;
         this.documentMapper = documentMapper;
         this.request = request;
@@ -95,7 +92,6 @@ public class DocumentService {
         document.setFileType(getFileExtension(originalFileName));
         document.setFileSize(file.getSize());
         document.setMimeType(file.getContentType() != null ? file.getContentType() : "application/octet-stream");
-        document.setBucketName(minioService.getMinioConfig().getBucketName());
         
         // Set uploader
         String userId = getCurrentUserId();
@@ -111,14 +107,10 @@ public class DocumentService {
             document.setBook(book);
         }
         
-        // Upload file to MinIO
-        try {
-            String objectKey = minioService.uploadFile(file, DOCUMENTS_FOLDER);
-            document.setObjectKey(objectKey);
-        } catch (Exception e) {
-            log.error("Failed to upload file to MinIO", e);
-            throw new FileStorageException("Failed to upload file");
-        }
+        // File storage temporarily disabled - MinIO removed
+        // TODO: Implement local file storage or alternative storage solution
+        document.setObjectKey("temp_" + document.getFileName());
+        log.warn("File upload functionality disabled - MinIO removed");
         
         // Save document
         Document savedDocument = documentRepository.save(document);
@@ -224,8 +216,9 @@ public class DocumentService {
         // Log download access
         logAccessAttempt(document, AccessType.DOWNLOAD);
         
-        // Generate pre-signed URL
-        return minioService.generateDownloadUrl(document.getObjectKey(), DEFAULT_URL_EXPIRY_MINUTES);
+        // File download temporarily disabled - MinIO removed
+        // TODO: Implement local file storage download or alternative solution
+        throw new UnsupportedOperationException("Download functionality temporarily disabled - MinIO removed");
     }
     
     /**
@@ -247,8 +240,9 @@ public class DocumentService {
         // Log view access
         logAccessAttempt(document, AccessType.VIEW);
         
-        // Generate pre-signed URL for viewing
-        return minioService.generateViewUrl(document.getObjectKey());
+        // File viewing temporarily disabled - MinIO removed
+        // TODO: Implement local file storage viewing or alternative solution
+        throw new UnsupportedOperationException("View functionality temporarily disabled - MinIO removed");
     }
     
     /**
@@ -310,8 +304,8 @@ public class DocumentService {
         // Soft delete - just mark as inactive
         documentRepository.softDeleteDocument(id);
         
-        // Optionally delete from MinIO (commented out for soft delete)
-        // minioService.deleteFile(document.getObjectKey());
+        // File deletion from storage disabled - MinIO removed
+        // TODO: Implement local file storage deletion when implemented
         
         log.info("Document soft deleted: {}", id);
     }

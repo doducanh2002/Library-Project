@@ -120,12 +120,6 @@
             <optional>true</optional>
         </dependency>
         
-        <!-- MinIO Client -->
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>8.5.7</version>
-        </dependency>
         
         <!-- Apache Commons for file utilities -->
         <dependency>
