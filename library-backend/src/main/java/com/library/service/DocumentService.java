@@ -13,6 +13,7 @@ import com.library.repository.BookRepository;
 import com.library.repository.DocumentAccessLogRepository;
 import com.library.repository.DocumentRepository;
 import com.library.specification.DocumentSpecification;
+import com.library.client.MinIOServiceClient;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,10 +40,10 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private final DocumentAccessLogRepository accessLogRepository;
     private final BookRepository bookRepository;
-    private final MinioService minioService;
     private final DocumentAccessControlService accessControlService;
     private final DocumentMapper documentMapper;
     private final HttpServletRequest request;
+    private final MinIOServiceClient minioServiceClient;
     
     private static final String DOCUMENTS_FOLDER = "documents";
     private static final int DEFAULT_URL_EXPIRY_MINUTES = 60;
@@ -50,42 +51,57 @@ public class DocumentService {
     public DocumentService(DocumentRepository documentRepository,
                           DocumentAccessLogRepository accessLogRepository,
                           BookRepository bookRepository,
-                          MinioService minioService,
                           DocumentAccessControlService accessControlService,
                           DocumentMapper documentMapper,
-                          HttpServletRequest request) {
+                          HttpServletRequest request,
+                          MinIOServiceClient minioServiceClient) {
         this.documentRepository = documentRepository;
         this.accessLogRepository = accessLogRepository;
         this.bookRepository = bookRepository;
-        this.minioService = minioService;
         this.accessControlService = accessControlService;
         this.documentMapper = documentMapper;
         this.request = request;
+        this.minioServiceClient = minioServiceClient;
     }
     
     /**
      * Upload a new document
      */
     public DocumentDTO uploadDocument(MultipartFile file, CreateDocumentRequestDTO requestDTO) {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be null or empty");
+        }
+        if (requestDTO == null) {
+            throw new IllegalArgumentException("Request DTO cannot be null");
+        }
+        
         log.info("Uploading document: {}", requestDTO.getTitle());
         
         if (!accessControlService.canUploadDocuments()) {
             throw new AccessDeniedException("You don't have permission to upload documents");
         }
         
+        // Validate file name
+        String originalFileName = file.getOriginalFilename();
+        if (originalFileName == null || originalFileName.trim().isEmpty()) {
+            throw new IllegalArgumentException("File must have a valid name");
+        }
+        
         // Create document entity
         Document document = documentMapper.toEntity(requestDTO);
         
         // Set file information
-        document.setOriginalFileName(file.getOriginalFilename());
-        document.setFileName(generateFileName(file.getOriginalFilename()));
-        document.setFileType(getFileExtension(file.getOriginalFilename()));
+        document.setOriginalFileName(originalFileName);
+        document.setFileName(generateFileName(originalFileName));
+        document.setFileType(getFileExtension(originalFileName));
         document.setFileSize(file.getSize());
-        document.setMimeType(file.getContentType());
-        document.setBucketName(minioService.getMinioConfig().getBucketName());
+        document.setMimeType(file.getContentType() != null ? file.getContentType() : "application/octet-stream");
         
         // Set uploader
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userId = getCurrentUserId();
+        if (userId == null) {
+            throw new AccessDeniedException("User must be authenticated to upload documents");
+        }
         document.setUploadedBy(userId);
         
         // Link to book if provided
@@ -95,13 +111,26 @@ public class DocumentService {
             document.setBook(book);
         }
         
-        // Upload file to MinIO
+        // Upload file to MinIO service
         try {
-            String objectKey = minioService.uploadFile(file, DOCUMENTS_FOLDER);
-            document.setObjectKey(objectKey);
+            Map<String, Object> uploadResponse = minioServiceClient.uploadFile(file);
+            
+            // Extract file information from MinIO response
+            if (uploadResponse.containsKey("data")) {
+                Map<String, Object> metadata = (Map<String, Object>) uploadResponse.get("data");
+                String fileId = (String) metadata.get("id");
+                String storageKey = (String) metadata.get("storageKey");
+                
+                document.setObjectKey(storageKey != null ? storageKey : fileId);
+                document.setBucketName("video-storage"); // From MinIO service configuration
+                
+                log.info("File uploaded to MinIO service successfully: {}", fileId);
+            } else {
+                throw new FileStorageException("Invalid response from MinIO service");
+            }
         } catch (Exception e) {
-            log.error("Failed to upload file to MinIO", e);
-            throw new FileStorageException("Failed to upload file");
+            log.error("Failed to upload file to MinIO service: {}", e.getMessage(), e);
+            throw new FileStorageException("Failed to upload file: " + e.getMessage());
         }
         
         // Save document
@@ -119,8 +148,12 @@ public class DocumentService {
      */
     @Transactional(readOnly = true)
     public DocumentDTO getDocument(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", id));
         
         if (!accessControlService.canAccessDocument(document)) {
             logAccessAttempt(document, AccessType.ACCESS_DENIED);
@@ -185,30 +218,46 @@ public class DocumentService {
      * Get download URL for a document
      */
     public String getDownloadUrl(Long documentId) {
+        if (documentId == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(documentId)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", documentId));
         
         if (!accessControlService.canAccessDocument(document)) {
             logAccessAttempt(document, AccessType.ACCESS_DENIED);
             throw new AccessDeniedException("You don't have permission to download this document");
         }
         
-        // Increment download count
+        // Increment download count and refresh entity
         documentRepository.incrementDownloadCount(documentId);
+        documentRepository.flush(); // Ensure the update is flushed to DB
         
         // Log download access
         logAccessAttempt(document, AccessType.DOWNLOAD);
         
-        // Generate pre-signed URL
-        return minioService.generateDownloadUrl(document.getObjectKey(), DEFAULT_URL_EXPIRY_MINUTES);
+        // Generate download URL from MinIO service
+        try {
+            String downloadUrl = minioServiceClient.getDownloadUrl(document.getObjectKey());
+            log.info("Generated download URL for document ID: {}", documentId);
+            return downloadUrl;
+        } catch (Exception e) {
+            log.error("Failed to generate download URL for document {}: {}", documentId, e.getMessage(), e);
+            throw new FileStorageException("Failed to generate download URL: " + e.getMessage());
+        }
     }
     
     /**
      * Get view URL for a document (for browser viewing)
      */
     public String getViewUrl(Long documentId) {
+        if (documentId == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(documentId)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", documentId));
         
         if (!accessControlService.canAccessDocument(document)) {
             logAccessAttempt(document, AccessType.ACCESS_DENIED);
@@ -218,16 +267,30 @@ public class DocumentService {
         // Log view access
         logAccessAttempt(document, AccessType.VIEW);
         
-        // Generate pre-signed URL for viewing
-        return minioService.generateViewUrl(document.getObjectKey());
+        // Generate view URL from MinIO service
+        try {
+            String viewUrl = minioServiceClient.getViewUrl(document.getObjectKey());
+            log.info("Generated view URL for document ID: {}", documentId);
+            return viewUrl;
+        } catch (Exception e) {
+            log.error("Failed to generate view URL for document {}: {}", documentId, e.getMessage(), e);
+            throw new FileStorageException("Failed to generate view URL: " + e.getMessage());
+        }
     }
     
     /**
      * Update document metadata
      */
     public DocumentDTO updateDocument(Long id, UpdateDocumentRequestDTO requestDTO) {
+        if (id == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        if (requestDTO == null) {
+            throw new IllegalArgumentException("Update request DTO cannot be null");
+        }
+        
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", id));
         
         if (!accessControlService.canManageDocument(document)) {
             throw new AccessDeniedException("You don't have permission to update this document");
@@ -239,11 +302,11 @@ public class DocumentService {
         // Update book link if changed
         if (requestDTO.getBookId() != null && !requestDTO.getBookId().equals(
             document.getBook() != null ? document.getBook().getId() : null)) {
-            if (requestDTO.getBookId() == 0L) {
+            if (Long.valueOf(0L).equals(requestDTO.getBookId())) {
                 document.setBook(null);
             } else {
                 Book book = bookRepository.findById(requestDTO.getBookId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Book", "id", requestDTO.getBookId()));
                 document.setBook(book);
             }
         }
@@ -260,18 +323,34 @@ public class DocumentService {
      * Delete a document
      */
     public void deleteDocument(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", id));
         
         if (!accessControlService.canManageDocument(document)) {
             throw new AccessDeniedException("You don't have permission to delete this document");
         }
         
+        // Delete file from MinIO service first
+        try {
+            if (document.getObjectKey() != null) {
+                boolean deleted = minioServiceClient.deleteFile(document.getObjectKey());
+                if (deleted) {
+                    log.info("File deleted from MinIO service: {}", document.getObjectKey());
+                } else {
+                    log.warn("Failed to delete file from MinIO service: {}", document.getObjectKey());
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error deleting file from MinIO service: {}", e.getMessage(), e);
+            // Continue with soft delete even if MinIO deletion fails
+        }
+        
         // Soft delete - just mark as inactive
         documentRepository.softDeleteDocument(id);
-        
-        // Optionally delete from MinIO (commented out for soft delete)
-        // minioService.deleteFile(document.getObjectKey());
         
         log.info("Document soft deleted: {}", id);
     }
@@ -288,21 +367,16 @@ public class DocumentService {
         DocumentStatisticsDTO stats = new DocumentStatisticsDTO();
         
         // Total documents
-        stats.setTotalDocuments(documentRepository.count());
+        stats.setTotalDocuments(documentRepository.countActiveDocuments());
         
-        // Total downloads
-        List<Document> allDocs = documentRepository.findAll();
-        long totalDownloads = allDocs.stream()
-            .mapToLong(doc -> doc.getDownloadCount() != null ? doc.getDownloadCount() : 0)
-            .sum();
-        stats.setTotalDownloads(totalDownloads);
+        // Total downloads - use database aggregation
+        Long totalDownloads = documentRepository.sumDownloadCounts();
+        stats.setTotalDownloads(totalDownloads != null ? totalDownloads : 0L);
         
-        // Total size
-        long totalSize = allDocs.stream()
-            .mapToLong(doc -> doc.getFileSize() != null ? doc.getFileSize() : 0)
-            .sum();
-        stats.setTotalSize(totalSize);
-        stats.setTotalSizeFormatted(formatFileSize(totalSize));
+        // Total size - use database aggregation
+        Long totalSize = documentRepository.sumFileSizes();
+        stats.setTotalSize(totalSize != null ? totalSize : 0L);
+        stats.setTotalSizeFormatted(formatFileSize(totalSize != null ? totalSize : 0L));
         
         // Documents by access level
         List<Object[]> accessLevelCounts = documentRepository.countDocumentsByAccessLevel();
@@ -312,13 +386,12 @@ public class DocumentService {
         }
         stats.setDocumentsByAccessLevel(accessLevelMap);
         
-        // Documents by file type
-        Map<String, Long> fileTypeMap = allDocs.stream()
-            .filter(doc -> doc.getIsActive())
-            .collect(Collectors.groupingBy(
-                Document::getFileType,
-                Collectors.counting()
-            ));
+        // Documents by file type - use database aggregation
+        List<Object[]> fileTypeCounts = documentRepository.countDocumentsByFileType();
+        Map<String, Long> fileTypeMap = new HashMap<>();
+        for (Object[] row : fileTypeCounts) {
+            fileTypeMap.put(row[0].toString(), (Long) row[1]);
+        }
         stats.setDocumentsByFileType(fileTypeMap);
         
         // Recent uploads
@@ -392,9 +465,15 @@ public class DocumentService {
     
     private void logAccessAttempt(Document document, AccessType accessType) {
         try {
+            String userId = getCurrentUserId();
+            if (userId == null) {
+                log.warn("Cannot log access attempt - user not authenticated");
+                return;
+            }
+            
             DocumentAccessLog log = DocumentAccessLog.builder()
                 .document(document)
-                .userId(SecurityContextHolder.getContext().getAuthentication().getName())
+                .userId(userId)
                 .accessType(accessType)
                 .ipAddress(getClientIpAddress())
                 .userAgent(request.getHeader("User-Agent"))
@@ -428,10 +507,14 @@ public class DocumentService {
     }
     
     private String getFileExtension(String fileName) {
-        if (fileName == null || !fileName.contains(".")) {
+        if (fileName == null || fileName.trim().isEmpty() || !fileName.contains(".")) {
             return "";
         }
-        return fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        int lastDotIndex = fileName.lastIndexOf(".");
+        if (lastDotIndex == fileName.length() - 1) {
+            return "";
+        }
+        return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
     
     private String formatFileSize(long bytes) {
@@ -439,5 +522,15 @@ public class DocumentService {
         int exp = (int) (Math.log(bytes) / Math.log(1024));
         String pre = "KMGTPE".charAt(exp - 1) + "";
         return String.format("%.1f %sB", bytes / Math.pow(1024, exp), pre);
+    }
+    
+    private String getCurrentUserId() {
+        try {
+            var authentication = SecurityContextHolder.getContext().getAuthentication();
+            return authentication != null ? authentication.getName() : null;
+        } catch (Exception e) {
+            log.warn("Failed to get current user ID", e);
+            return null;
+        }
     }
 }

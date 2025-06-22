@@ -87,4 +87,21 @@ public interface DocumentRepository extends JpaRepository<Document, Long>, JpaSp
            "(d.accessLevel = 'LOGGED_IN_USER' AND :userId IS NOT NULL) OR " +
            "(d.accessLevel = 'PRIVATE' AND d.uploadedBy = :userId))")
     Page<Document> findAccessibleDocuments(@Param("userId") String userId, Pageable pageable);
+    
+    // Count active documents
+    @Query("SELECT COUNT(d) FROM Document d WHERE d.isActive = true")
+    Long countActiveDocuments();
+    
+    // Sum download counts
+    @Query("SELECT COALESCE(SUM(d.downloadCount), 0) FROM Document d WHERE d.isActive = true")
+    Long sumDownloadCounts();
+    
+    // Sum file sizes
+    @Query("SELECT COALESCE(SUM(d.fileSize), 0) FROM Document d WHERE d.isActive = true")
+    Long sumFileSizes();
+    
+    // Count documents by file type
+    @Query("SELECT d.fileType, COUNT(d) FROM Document d WHERE d.isActive = true " +
+           "GROUP BY d.fileType")
+    List<Object[]> countDocumentsByFileType();
 }

@@ -5,8 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: data type">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/MinioConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Document.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/DocumentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/MinioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentAccessControlServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentAccessControlServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/LoanServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/LoanServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/MinioServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +73,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "feature/ORDER-001-order-creation-checkout",
+    "git-widget-placeholder": "feature/system-intergration-authen",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/-MSI-/IdeaProjects/Library-Project/api-gateway",
@@ -141,6 +153,7 @@
       <workItem from="1749475686502" duration="616000" />
       <workItem from="1749569820992" duration="1960000" />
       <workItem from="1749649649049" duration="5013000" />
+      <workItem from="1750587187932" duration="6147000" />
     </task>
     <servers />
   </component>
