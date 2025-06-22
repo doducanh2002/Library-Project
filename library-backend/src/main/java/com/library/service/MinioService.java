@@ -283,4 +283,12 @@ public class MinioService {
         }
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+    
+    public String getDefaultBucketName() {
+        return minioConfig.getBucketName();
+    }
+    
+    public MinioConfig getMinioConfig() {
+        return minioConfig;
+    }
 }

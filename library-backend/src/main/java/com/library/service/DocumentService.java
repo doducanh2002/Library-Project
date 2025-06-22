@@ -67,25 +67,41 @@ public class DocumentService {
      * Upload a new document
      */
     public DocumentDTO uploadDocument(MultipartFile file, CreateDocumentRequestDTO requestDTO) {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be null or empty");
+        }
+        if (requestDTO == null) {
+            throw new IllegalArgumentException("Request DTO cannot be null");
+        }
+        
         log.info("Uploading document: {}", requestDTO.getTitle());
         
         if (!accessControlService.canUploadDocuments()) {
             throw new AccessDeniedException("You don't have permission to upload documents");
         }
         
+        // Validate file name
+        String originalFileName = file.getOriginalFilename();
+        if (originalFileName == null || originalFileName.trim().isEmpty()) {
+            throw new IllegalArgumentException("File must have a valid name");
+        }
+        
         // Create document entity
         Document document = documentMapper.toEntity(requestDTO);
         
         // Set file information
-        document.setOriginalFileName(file.getOriginalFilename());
-        document.setFileName(generateFileName(file.getOriginalFilename()));
-        document.setFileType(getFileExtension(file.getOriginalFilename()));
+        document.setOriginalFileName(originalFileName);
+        document.setFileName(generateFileName(originalFileName));
+        document.setFileType(getFileExtension(originalFileName));
         document.setFileSize(file.getSize());
-        document.setMimeType(file.getContentType());
+        document.setMimeType(file.getContentType() != null ? file.getContentType() : "application/octet-stream");
         document.setBucketName(minioService.getMinioConfig().getBucketName());
         
         // Set uploader
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userId = getCurrentUserId();
+        if (userId == null) {
+            throw new AccessDeniedException("User must be authenticated to upload documents");
+        }
         document.setUploadedBy(userId);
         
         // Link to book if provided
@@ -119,8 +135,12 @@ public class DocumentService {
      */
     @Transactional(readOnly = true)
     public DocumentDTO getDocument(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", id));
         
         if (!accessControlService.canAccessDocument(document)) {
             logAccessAttempt(document, AccessType.ACCESS_DENIED);
@@ -185,16 +205,21 @@ public class DocumentService {
      * Get download URL for a document
      */
     public String getDownloadUrl(Long documentId) {
+        if (documentId == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(documentId)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", documentId));
         
         if (!accessControlService.canAccessDocument(document)) {
             logAccessAttempt(document, AccessType.ACCESS_DENIED);
             throw new AccessDeniedException("You don't have permission to download this document");
         }
         
-        // Increment download count
+        // Increment download count and refresh entity
         documentRepository.incrementDownloadCount(documentId);
+        documentRepository.flush(); // Ensure the update is flushed to DB
         
         // Log download access
         logAccessAttempt(document, AccessType.DOWNLOAD);
@@ -207,8 +232,12 @@ public class DocumentService {
      * Get view URL for a document (for browser viewing)
      */
     public String getViewUrl(Long documentId) {
+        if (documentId == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(documentId)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", documentId));
         
         if (!accessControlService.canAccessDocument(document)) {
             logAccessAttempt(document, AccessType.ACCESS_DENIED);
@@ -226,8 +255,15 @@ public class DocumentService {
      * Update document metadata
      */
     public DocumentDTO updateDocument(Long id, UpdateDocumentRequestDTO requestDTO) {
+        if (id == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        if (requestDTO == null) {
+            throw new IllegalArgumentException("Update request DTO cannot be null");
+        }
+        
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", id));
         
         if (!accessControlService.canManageDocument(document)) {
             throw new AccessDeniedException("You don't have permission to update this document");
@@ -239,11 +275,11 @@ public class DocumentService {
         // Update book link if changed
         if (requestDTO.getBookId() != null && !requestDTO.getBookId().equals(
             document.getBook() != null ? document.getBook().getId() : null)) {
-            if (requestDTO.getBookId() == 0L) {
+            if (Long.valueOf(0L).equals(requestDTO.getBookId())) {
                 document.setBook(null);
             } else {
                 Book book = bookRepository.findById(requestDTO.getBookId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Book", "id", requestDTO.getBookId()));
                 document.setBook(book);
             }
         }
@@ -260,8 +296,12 @@ public class DocumentService {
      * Delete a document
      */
     public void deleteDocument(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Document ID cannot be null");
+        }
+        
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Document", "id", id));
         
         if (!accessControlService.canManageDocument(document)) {
             throw new AccessDeniedException("You don't have permission to delete this document");
@@ -288,21 +328,16 @@ public class DocumentService {
         DocumentStatisticsDTO stats = new DocumentStatisticsDTO();
         
         // Total documents
-        stats.setTotalDocuments(documentRepository.count());
+        stats.setTotalDocuments(documentRepository.countActiveDocuments());
         
-        // Total downloads
-        List<Document> allDocs = documentRepository.findAll();
-        long totalDownloads = allDocs.stream()
-            .mapToLong(doc -> doc.getDownloadCount() != null ? doc.getDownloadCount() : 0)
-            .sum();
-        stats.setTotalDownloads(totalDownloads);
+        // Total downloads - use database aggregation
+        Long totalDownloads = documentRepository.sumDownloadCounts();
+        stats.setTotalDownloads(totalDownloads != null ? totalDownloads : 0L);
         
-        // Total size
-        long totalSize = allDocs.stream()
-            .mapToLong(doc -> doc.getFileSize() != null ? doc.getFileSize() : 0)
-            .sum();
-        stats.setTotalSize(totalSize);
-        stats.setTotalSizeFormatted(formatFileSize(totalSize));
+        // Total size - use database aggregation
+        Long totalSize = documentRepository.sumFileSizes();
+        stats.setTotalSize(totalSize != null ? totalSize : 0L);
+        stats.setTotalSizeFormatted(formatFileSize(totalSize != null ? totalSize : 0L));
         
         // Documents by access level
         List<Object[]> accessLevelCounts = documentRepository.countDocumentsByAccessLevel();
@@ -312,13 +347,12 @@ public class DocumentService {
         }
         stats.setDocumentsByAccessLevel(accessLevelMap);
         
-        // Documents by file type
-        Map<String, Long> fileTypeMap = allDocs.stream()
-            .filter(doc -> doc.getIsActive())
-            .collect(Collectors.groupingBy(
-                Document::getFileType,
-                Collectors.counting()
-            ));
+        // Documents by file type - use database aggregation
+        List<Object[]> fileTypeCounts = documentRepository.countDocumentsByFileType();
+        Map<String, Long> fileTypeMap = new HashMap<>();
+        for (Object[] row : fileTypeCounts) {
+            fileTypeMap.put(row[0].toString(), (Long) row[1]);
+        }
         stats.setDocumentsByFileType(fileTypeMap);
         
         // Recent uploads
@@ -392,9 +426,15 @@ public class DocumentService {
     
     private void logAccessAttempt(Document document, AccessType accessType) {
         try {
+            String userId = getCurrentUserId();
+            if (userId == null) {
+                log.warn("Cannot log access attempt - user not authenticated");
+                return;
+            }
+            
             DocumentAccessLog log = DocumentAccessLog.builder()
                 .document(document)
-                .userId(SecurityContextHolder.getContext().getAuthentication().getName())
+                .userId(userId)
                 .accessType(accessType)
                 .ipAddress(getClientIpAddress())
                 .userAgent(request.getHeader("User-Agent"))
@@ -428,10 +468,14 @@ public class DocumentService {
     }
     
     private String getFileExtension(String fileName) {
-        if (fileName == null || !fileName.contains(".")) {
+        if (fileName == null || fileName.trim().isEmpty() || !fileName.contains(".")) {
             return "";
         }
-        return fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        int lastDotIndex = fileName.lastIndexOf(".");
+        if (lastDotIndex == fileName.length() - 1) {
+            return "";
+        }
+        return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
     
     private String formatFileSize(long bytes) {
@@ -439,5 +483,15 @@ public class DocumentService {
         int exp = (int) (Math.log(bytes) / Math.log(1024));
         String pre = "KMGTPE".charAt(exp - 1) + "";
         return String.format("%.1f %sB", bytes / Math.pow(1024, exp), pre);
+    }
+    
+    private String getCurrentUserId() {
+        try {
+            var authentication = SecurityContextHolder.getContext().getAuthentication();
+            return authentication != null ? authentication.getName() : null;
+        } catch (Exception e) {
+            log.warn("Failed to get current user ID", e);
+            return null;
+        }
     }
 }

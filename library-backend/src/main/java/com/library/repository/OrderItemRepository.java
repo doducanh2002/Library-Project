@@ -31,4 +31,15 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     // Revenue by book
     @Query("SELECT SUM(oi.itemTotalPrice) FROM OrderItem oi JOIN oi.order o WHERE oi.book.id = :bookId AND o.paymentStatus = 'PAID'")
     BigDecimal getTotalRevenueByBookId(@Param("bookId") Long bookId);
+    
+    // Check if user has purchased a book with specific order statuses
+    @Query(value = "SELECT CASE WHEN COUNT(oi.id) > 0 THEN true ELSE false END FROM order_items oi " +
+           "JOIN orders o ON oi.order_id = o.id " +
+           "WHERE oi.book_id = :bookId AND CAST(o.user_id AS VARCHAR) = :userId " +
+           "AND o.status IN (:statuses)", nativeQuery = true)
+    boolean existsByBookIdAndOrderUserIdAndOrderStatusIn(
+        @Param("bookId") Long bookId,
+        @Param("userId") String userId,
+        @Param("statuses") java.util.List<String> statuses
+    );
 }
