@@ -14,8 +14,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class NotificationSecurityAspect {
 
-    @Around("execution(* com.library.service.NotificationService.*(..)) && args(userId,..)")
-    public Object checkUserAccess(ProceedingJoinPoint joinPoint, String userId) throws Throwable {
+    @Around("execution(* com.library.service.NotificationService.*(..))")
+    public Object checkUserAccess(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object[] args = joinPoint.getArgs();
+        String userId = null;
+        if (args != null && args.length > 0 && args[0] instanceof String) {
+            userId = (String) args[0];
+        }
+        
+        if (userId == null) {
+            return joinPoint.proceed();
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -42,9 +51,21 @@ public class NotificationSecurityAspect {
         return joinPoint.proceed();
     }
 
-    @Around("execution(* com.library.service.NotificationService.markAsRead(Long, String)) && args(notificationId, userId)")
-    public Object checkNotificationOwnership(ProceedingJoinPoint joinPoint, Long notificationId, String userId) throws Throwable {
-        // This will also trigger the user access check above
+    @Around("execution(* com.library.service.NotificationService.markAsRead(..))")
+    public Object checkNotificationOwnership(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object[] args = joinPoint.getArgs();
+        Long notificationId = null;
+        String userId = null;
+        
+        if (args != null && args.length >= 2) {
+            if (args[0] instanceof Long) {
+                notificationId = (Long) args[0];
+            }
+            if (args[1] instanceof String) {
+                userId = (String) args[1];
+            }
+        }
+        
         log.debug("Checking notification ownership: {} for user: {}", notificationId, userId);
         return joinPoint.proceed();
     }

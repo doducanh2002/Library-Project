@@ -12,6 +12,7 @@
     <include file="changelog/002-insert-initial-book-data.xml" relativeToChangelogFile="true"/>
     <include file="changelog/003-create-cart-tables.xml" relativeToChangelogFile="true"/>
     <include file="changelog/004-create-order-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/005-create-loan-tables.xml" relativeToChangelogFile="true"/>
     <include file="changelog/006-create-document-tables.xml" relativeToChangelogFile="true"/>
     <include file="changelog/007-create-notification-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

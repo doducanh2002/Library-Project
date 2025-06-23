@@ -5,20 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: data type">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/MinioConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/entity/Document.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/DocumentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/service/MinioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/OpenApiConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/OpenApiConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/OpenApiNotificationConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/scheduler/NotificationScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/scheduler/NotificationScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/security/InputValidationAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/security/InputValidationAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/security/NotificationSecurityAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/security/NotificationSecurityAspect.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentAccessControlServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentAccessControlServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/migration/changelog/007-create-notification-tables.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/migration/changelog/007-create-notification-tables.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/migration/master-changelog.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/migration/master-changelog.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/controller/NotificationControllerIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/controller/NotificationControllerIntegrationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/DocumentServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/LoanServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/LoanServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/MinioServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceIntegrationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/test/java/com/library/service/OrderServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/CART-001" />
+        <entry key="$PROJECT_DIR$" value="feature/system-intergration-authen" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,7 +50,7 @@
   &quot;isMigrated&quot;: true
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -73,7 +72,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "feature/system-intergration-authen",
+    "git-widget-placeholder": "feature/sprint-8-notifications-integration",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/-MSI-/IdeaProjects/Library-Project/api-gateway",

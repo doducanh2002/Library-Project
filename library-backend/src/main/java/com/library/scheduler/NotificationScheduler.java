@@ -28,7 +28,7 @@ public class NotificationScheduler {
      * Check for loans due within next 24 hours and send due soon notifications
      * Runs every 6 hours
      */
-    @Scheduled(fixedRate = 6 * 60 * 60 * 1000) // 6 hours in milliseconds
+    @Scheduled(fixedRate = 6 * 60 * 60 * 1000, initialDelay = 60000) // 6 hours in milliseconds, 1 minute initial delay
     public void checkLoansDueSoon() {
         log.info("Checking for loans due soon...");
         
@@ -73,7 +73,7 @@ public class NotificationScheduler {
      * Check for overdue loans and send overdue notifications
      * Runs every 2 hours
      */
-    @Scheduled(fixedRate = 2 * 60 * 60 * 1000) // 2 hours in milliseconds
+    @Scheduled(fixedRate = 2 * 60 * 60 * 1000, initialDelay = 60000) // 2 hours in milliseconds, 1 minute initial delay
     public void checkOverdueLoans() {
         log.info("Checking for overdue loans...");
         
