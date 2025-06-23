@@ -28,18 +28,19 @@ public class InputValidationAspect {
             "(?i)(<[^>]*>|&[^;]+;)", 
             Pattern.CASE_INSENSITIVE);
 
-    @Around("execution(* com.library.controller.*Controller.*(..)) && args(.., @RequestBody requestBody, ..)")
-    public Object validateInput(ProceedingJoinPoint joinPoint, Object requestBody) throws Throwable {
-        if (requestBody != null) {
-            validateObject(requestBody);
-        }
-        return joinPoint.proceed();
-    }
-
-    @Around("execution(* com.library.controller.*Controller.*(..)) && args(.., @RequestParam String param, ..)")
-    public Object validateParam(ProceedingJoinPoint joinPoint, String param) throws Throwable {
-        if (param != null) {
-            validateString(param, "Request parameter");
+    @Around("execution(* com.library.controller.*Controller.*(..))")
+    public Object validateInput(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object[] args = joinPoint.getArgs();
+        if (args != null) {
+            for (Object arg : args) {
+                if (arg != null) {
+                    if (arg instanceof String) {
+                        validateString((String) arg, "Request parameter");
+                    } else {
+                        validateObject(arg);
+                    }
+                }
+            }
         }
         return joinPoint.proceed();
     }

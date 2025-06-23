@@ -28,20 +28,24 @@ public class OpenApiConfig {
                                 - **Loan Management**: Complete book borrowing system with overdue tracking
                                 - **E-commerce**: Shopping cart and order management with payment integration
                                 - **File Storage**: Document and image management with MinIO
+                                - **Notification System**: Real-time notifications with event-driven architecture
                                 
                                 ## Modules
                                 1. **Books & Catalog** - Browse, search, and manage books
                                 2. **Loans** - Request, approve, and track book loans
                                 3. **Cart & Orders** - Shopping cart and order processing
-                                4. **Admin** - Administrative functions for librarians
+                                4. **Notifications** - User notifications and system alerts
+                                5. **Admin** - Administrative functions for librarians
                                 
-                                ## Sprint 4 - Order Management
-                                This version includes complete order management functionality:
-                                - Shopping cart operations
-                                - Order creation and checkout
-                                - Order tracking and history
-                                - Admin order management
-                                - Financial calculations (shipping, tax, discounts)
+                                ## Sprint 8 - Notification System & Final Integration
+                                This version includes complete notification system functionality:
+                                - Real-time user notifications
+                                - Event-driven notification triggers
+                                - Scheduled notifications for overdue books
+                                - Admin notification management
+                                - Performance optimization with caching
+                                - Security hardening and rate limiting
+                                - Comprehensive testing and documentation
                                 """)
                         .contact(new Contact()
                                 .name("Library Development Team")

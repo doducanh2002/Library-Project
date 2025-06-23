@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="005-create-loans-table" author="system">
+        <createTable tableName="loans">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="loan_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="return_date" type="TIMESTAMP"/>
+            <column name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fine_amount" type="DECIMAL(10,2)" defaultValueNumeric="0.00"/>
+            <column name="fine_paid" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="notes_by_librarian" type="TEXT"/>
+            <column name="user_notes" type="TEXT"/>
+            <column name="approved_by" type="BIGINT"/>
+            <column name="approved_at" type="TIMESTAMP"/>
+            <column name="returned_to" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="005-add-loans-foreign-keys" author="system">
+        <addForeignKeyConstraint
+                baseTableName="loans"
+                baseColumnNames="book_id"
+                constraintName="fk_loans_book"
+                referencedTableName="books"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="005-add-loans-indexes" author="system">
+        <createIndex tableName="loans" indexName="idx_loan_user_id">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loan_status">
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loan_due_date">
+            <column name="due_date"/>
+        </createIndex>
+        
+        <createIndex tableName="loans" indexName="idx_loan_status_due_date">
+            <column name="status"/>
+            <column name="due_date"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="005-add-loan-status-constraint" author="system">
+        <sql>
+            ALTER TABLE loans 
+            ADD CONSTRAINT chk_loan_status 
+            CHECK (status IN ('REQUESTED', 'APPROVED', 'BORROWED', 'RETURNED', 'CANCELLED', 'OVERDUE'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
