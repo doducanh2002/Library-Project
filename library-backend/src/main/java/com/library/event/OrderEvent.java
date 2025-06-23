@@ -26,7 +26,7 @@ public class OrderEvent extends ApplicationEvent {
     private final String orderCode;
     private final BigDecimal amount;
     private final String reason;
-    private final LocalDateTime timestamp;
+    private final LocalDateTime eventTime;
 
     public OrderEvent(Object source, OrderEventType eventType, String userId, Long orderId, String orderCode) {
         super(source);
@@ -36,7 +36,7 @@ public class OrderEvent extends ApplicationEvent {
         this.orderCode = orderCode;
         this.amount = null;
         this.reason = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public OrderEvent(Object source, OrderEventType eventType, String userId, Long orderId, String orderCode, BigDecimal amount) {
@@ -47,7 +47,7 @@ public class OrderEvent extends ApplicationEvent {
         this.orderCode = orderCode;
         this.amount = amount;
         this.reason = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public OrderEvent(Object source, OrderEventType eventType, String userId, Long orderId, String orderCode, String reason) {
@@ -58,6 +58,6 @@ public class OrderEvent extends ApplicationEvent {
         this.orderCode = orderCode;
         this.amount = null;
         this.reason = reason;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 }

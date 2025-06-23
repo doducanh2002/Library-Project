@@ -24,7 +24,7 @@ public class LoanEvent extends ApplicationEvent {
     private final LocalDateTime dueDate;
     private final String reason;
     private final Integer daysOverdue;
-    private final LocalDateTime timestamp;
+    private final LocalDateTime eventTime;
 
     public LoanEvent(Object source, LoanEventType eventType, String userId, Long loanId, String bookTitle) {
         super(source);
@@ -35,7 +35,7 @@ public class LoanEvent extends ApplicationEvent {
         this.dueDate = null;
         this.reason = null;
         this.daysOverdue = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public LoanEvent(Object source, LoanEventType eventType, String userId, Long loanId, String bookTitle, String reason) {
@@ -47,7 +47,7 @@ public class LoanEvent extends ApplicationEvent {
         this.dueDate = null;
         this.reason = reason;
         this.daysOverdue = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public LoanEvent(Object source, LoanEventType eventType, String userId, Long loanId, String bookTitle, LocalDateTime dueDate) {
@@ -59,7 +59,7 @@ public class LoanEvent extends ApplicationEvent {
         this.dueDate = dueDate;
         this.reason = null;
         this.daysOverdue = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public LoanEvent(Object source, LoanEventType eventType, String userId, Long loanId, String bookTitle, Integer daysOverdue) {
@@ -71,6 +71,6 @@ public class LoanEvent extends ApplicationEvent {
         this.dueDate = null;
         this.reason = null;
         this.daysOverdue = daysOverdue;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 }

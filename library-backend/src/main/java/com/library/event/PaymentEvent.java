@@ -27,7 +27,7 @@ public class PaymentEvent extends ApplicationEvent {
     private final String paymentMethod;
     private final String transactionId;
     private final String reason;
-    private final LocalDateTime timestamp;
+    private final LocalDateTime eventTime;
 
     public PaymentEvent(Object source, PaymentEventType eventType, String userId, Long paymentId, 
                        Long orderId, BigDecimal amount, String currency) {
@@ -41,7 +41,7 @@ public class PaymentEvent extends ApplicationEvent {
         this.paymentMethod = null;
         this.transactionId = null;
         this.reason = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public PaymentEvent(Object source, PaymentEventType eventType, String userId, Long paymentId, 
@@ -56,7 +56,7 @@ public class PaymentEvent extends ApplicationEvent {
         this.paymentMethod = paymentMethod;
         this.transactionId = transactionId;
         this.reason = null;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public PaymentEvent(Object source, PaymentEventType eventType, String userId, Long paymentId, 
@@ -71,6 +71,6 @@ public class PaymentEvent extends ApplicationEvent {
         this.paymentMethod = null;
         this.transactionId = null;
         this.reason = reason;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 }

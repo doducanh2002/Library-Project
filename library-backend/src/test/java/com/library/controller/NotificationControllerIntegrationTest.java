@@ -67,7 +67,7 @@ class NotificationControllerIntegrationTest {
                 .param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("success"))
-                .andExpected(jsonPath("$.data.content").isArray());
+                .andExpect(jsonPath("$.data.content").isArray());
     }
 
     @Test
@@ -229,7 +229,7 @@ class NotificationControllerIntegrationTest {
         Long notificationId = notifications.getContent().get(0).getId();
 
         mockMvc.perform(put("/api/v1/notifications/{id}/archive", notificationId))
-                .andExpected(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("success"))
                 .andExpect(jsonPath("$.data.status").value("ARCHIVED"));
     }

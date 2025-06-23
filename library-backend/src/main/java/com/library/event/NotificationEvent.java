@@ -16,7 +16,7 @@ public class NotificationEvent extends ApplicationEvent {
     private final Long referenceId;
     private final String referenceType;
     private final Integer priority;
-    private final LocalDateTime timestamp;
+    private final LocalDateTime eventTime;
 
     public NotificationEvent(Object source, String userId, NotificationType type, 
                            String title, String message, Long referenceId, String referenceType, Integer priority) {
@@ -28,7 +28,7 @@ public class NotificationEvent extends ApplicationEvent {
         this.referenceId = referenceId;
         this.referenceType = referenceType;
         this.priority = priority;
-        this.timestamp = LocalDateTime.now();
+        this.eventTime = LocalDateTime.now();
     }
 
     public NotificationEvent(Object source, String userId, NotificationType type, String title, String message) {

@@ -24,12 +24,11 @@ public interface NotificationMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
-    @Mapping(target = "isEmailSent", ignore = true)
     @Mapping(target = "emailSentAt", ignore = true)
     @Mapping(target = "readAt", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "sendEmail", ignore = true)
+    @Mapping(source = "sendEmail", target = "isEmailSent")
     Notification toEntity(CreateNotificationRequestDTO dto);
 
     @Mapping(target = "id", ignore = true)
