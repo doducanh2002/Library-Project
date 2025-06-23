@@ -37,8 +37,8 @@ public class NotificationScheduler {
             LocalDateTime tomorrow = now.plusDays(1);
             
             // Find active loans due within next 24 hours
-            List<Loan> loansDueSoon = loanRepository.findByStatusAndDueDateBetween(
-                    LoanStatus.BORROWED, now, tomorrow);
+            List<Loan> loansDueSoon = loanRepository.findLoansApproachingDueDate(
+                    now, tomorrow, LoanStatus.BORROWED);
             
             log.info("Found {} loans due within next 24 hours", loansDueSoon.size());
             
@@ -51,7 +51,7 @@ public class NotificationScheduler {
                         LoanEvent event = new LoanEvent(
                                 this,
                                 LoanEvent.LoanEventType.LOAN_DUE_SOON,
-                                loan.getUserId(),
+                                loan.getUserId().toString(),
                                 loan.getId(),
                                 loan.getBook().getTitle(),
                                 loan.getDueDate()
@@ -81,7 +81,7 @@ public class NotificationScheduler {
             LocalDateTime now = LocalDateTime.now();
             
             // Find active loans that are overdue
-            List<Loan> overdueLoans = loanRepository.findByStatusAndDueDateBefore(
+            List<Loan> overdueLoans = loanRepository.findOverdueLoans(
                     LoanStatus.BORROWED, now);
             
             log.info("Found {} overdue loans", overdueLoans.size());
@@ -97,7 +97,7 @@ public class NotificationScheduler {
                         LoanEvent event = new LoanEvent(
                                 this,
                                 LoanEvent.LoanEventType.LOAN_OVERDUE,
-                                loan.getUserId(),
+                                loan.getUserId().toString(),
                                 loan.getId(),
                                 loan.getBook().getTitle(),
                                 Integer.valueOf(daysOverdue)
