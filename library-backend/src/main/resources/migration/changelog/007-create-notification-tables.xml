@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="007-create-notifications-table" author="system">
+        <createTable tableName="notifications">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)" defaultValue="UNREAD">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reference_id" type="BIGINT"/>
+            <column name="reference_type" type="VARCHAR(50)"/>
+            <column name="action_url" type="VARCHAR(500)"/>
+            <column name="priority" type="INT" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_email_sent" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_sent_at" type="TIMESTAMP"/>
+            <column name="read_at" type="TIMESTAMP"/>
+            <column name="expires_at" type="TIMESTAMP"/>
+            <column name="metadata" type="JSON"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="007-create-notification-indexes" author="system">
+        <createIndex tableName="notifications" indexName="idx_notification_user_id">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notification_status">
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notification_type">
+            <column name="type"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notification_created_at">
+            <column name="created_at"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notification_user_status">
+            <column name="user_id"/>
+            <column name="status"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notification_reference">
+            <column name="reference_id"/>
+            <column name="reference_type"/>
+        </createIndex>
+        
+        <createIndex tableName="notifications" indexName="idx_notification_priority_status">
+            <column name="priority"/>
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="007-add-notification-constraints" author="system">
+        <addCheckConstraint tableName="notifications" constraintName="chk_notification_priority">
+            <checkConstraint>priority BETWEEN 1 AND 4</checkConstraint>
+        </addCheckConstraint>
+        
+        <addCheckConstraint tableName="notifications" constraintName="chk_notification_status">
+            <checkConstraint>status IN ('UNREAD', 'READ', 'ARCHIVED')</checkConstraint>
+        </addCheckConstraint>
+        
+        <addCheckConstraint tableName="notifications" constraintName="chk_notification_type">
+            <checkConstraint>type IN (
+                'LOAN_APPROVED', 'LOAN_REJECTED', 'LOAN_DUE_SOON', 'LOAN_OVERDUE', 'LOAN_RETURNED',
+                'ORDER_CONFIRMED', 'ORDER_SHIPPED', 'ORDER_DELIVERED', 'ORDER_CANCELLED',
+                'PAYMENT_SUCCESS', 'PAYMENT_FAILED', 'PAYMENT_REFUND',
+                'DOCUMENT_UPLOADED', 'DOCUMENT_ACCESS_GRANTED',
+                'SYSTEM_MAINTENANCE', 'ACCOUNT_ACTIVATED', 'ACCOUNT_DEACTIVATED',
+                'GENERAL'
+            )</checkConstraint>
+        </addCheckConstraint>
+    </changeSet>
+
+</databaseChangeLog>
