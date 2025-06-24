@@ -1,6 +1,7 @@
 package com.library.entity;
 
 public enum PaymentStatus {
+    PENDING("Pending"),
     UNPAID("Unpaid"),
     PAID("Paid"),
     FAILED("Failed"),

@@ -44,4 +44,14 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
         @Param("endDate") LocalDateTime endDate,
         @Param("status") LoanStatus status
     );
+    
+    // Check if loan exists by string userId and book ID for specified statuses
+    @Query(value = "SELECT CASE WHEN COUNT(l.id) > 0 THEN true ELSE false END FROM loans l " +
+           "WHERE CAST(l.user_id AS VARCHAR) = :userId AND l.book_id = :bookId " +
+           "AND l.status IN (:statuses)", nativeQuery = true)
+    boolean existsByUserIdAndBookIdAndStatusIn(
+        @Param("userId") String userId, 
+        @Param("bookId") Long bookId, 
+        @Param("statuses") java.util.List<String> statuses
+    );
 }
