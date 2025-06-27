@@ -63,7 +63,12 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
         response.setStatusCode(status);
         response.getHeaders().add("Content-Type", "application/json");
         
-        String body = String.format("{\"error\":\"%s\",\"message\":\"%s\"}", status.getReasonPhrase(), message);
+        java.time.Instant timestamp = java.time.Instant.now();
+        String body = String.format(
+            "{\"code\":\"Unauthorized\",\"message\":\"Unauthorized\",\"status\":%d,\"timestamp\":\"%s\"}",
+            status.value(),
+            timestamp.toString()
+        );
         org.springframework.core.io.buffer.DataBuffer buffer = response.bufferFactory().wrap(body.getBytes());
         
         return response.writeWith(Mono.just(buffer));
