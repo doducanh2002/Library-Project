@@ -1,4 +1,4 @@
-package org.library.fileservice.autheb;
+package com.library.gateway.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import java.util.Base64;
 
 //      private static final Logger log = LoggerFactory.getLogger(JwkClient.class);
 
-      @Value("${auth.service.jwk.url:http://localhost:8080/api/v1/auth/jwk/token}")
+      @Value("${jwt.auth-service.jwk-url}")
       private String jwkUrl;
 
       private final WebClient webClient;

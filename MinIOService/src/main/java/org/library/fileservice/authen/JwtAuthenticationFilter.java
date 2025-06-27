@@ -1,6 +1,5 @@
-package org.library.fileservice.autheb;
+package org.library.fileservice.authen;
 
-import com.library.util.JwtVerifier;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,13 +49,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           }
 
           filterChain.doFilter(request, response);
-      }
-
-      @Override
-      protected boolean shouldNotFilter(HttpServletRequest request) {
-          String path = request.getRequestURI();
-          // Skip JWT validation for public endpoints
-          return path.startsWith("/api/v1/books/public") ||
-                 path.startsWith("/actuator/");
       }
   }

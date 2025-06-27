@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: api-gateway
+  main:
+    allow-bean-definition-overriding: true
   
   # Redis Configuration for Rate Limiting
   data:
@@ -34,16 +36,6 @@ spring:
               - OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
-            
-      # Default Filters
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-        - name: RequestRateLimiter
-          args:
-            redis-rate-limiter.replenishRate: 10
-            redis-rate-limiter.burstCapacity: 20
-            redis-rate-limiter.requestedTokens: 1
-            key-resolver: "#{@userKeyResolver}"
       
       # Route Configuration
       routes:
@@ -75,7 +67,7 @@ spring:
           predicates:
             - Path=/api/v1/auth/**
           filters:
-            - JwtAuthenticationFilter
+            - JwtAuthentication
             
         # Book Catalog Service Routes (Public)
         - id: catalog-books-public
@@ -108,8 +100,7 @@ spring:
           predicates:
             - Path=/api/v1/admin/**
           filters:
-            - JwtAuthenticationFilter
-            - RoleAuthorizationFilter=LIBRARIAN,ADMIN
+            - JwtAuthentication
             
         # File Storage Service Routes
         - id: file-upload
@@ -118,7 +109,7 @@ spring:
             - Path=/api/v1/files/upload
             - Method=POST
           filters:
-            - JwtAuthenticationFilter
+            - JwtAuthentication
             - name: RequestSize
               args:
                 maxSize: 500MB
@@ -128,7 +119,7 @@ spring:
           predicates:
             - Path=/api/v1/files/**
           filters:
-            - JwtAuthenticationFilter
+            - JwtAuthentication
 
 # Management Endpoints
 management:
@@ -150,18 +141,7 @@ logging:
   file:
     name: logs/api-gateway.log
 
-# Gateway Specific Configuration
-gateway:
-  jwt:
-    secret: ${JWT_SECRET:your-secret-key-here-change-in-production}
-    expiration: 86400000 # 24 hours
-  
-  rate-limit:
-    enabled: true
-    default-requests-per-minute: 60
-    
-  cors:
-    enabled: true
-    allowed-origins: "*"
-    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
-    allowed-headers: "*"
+# JWT Configuration
+jwt:
+  auth-service:
+    jwk-url: http://localhost:8081/api/v1/auth/jwk/token

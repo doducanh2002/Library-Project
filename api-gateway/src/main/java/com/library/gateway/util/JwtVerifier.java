@@ -1,8 +1,7 @@
-package org.library.fileservice.autheb;
+package com.library.gateway.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.library.util.JwkClient;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -12,7 +11,7 @@ import java.util.Base64;
 @Component
   public class JwtVerifier {
 
-      private final JwkClient jwkClient;
+      private final com.library.gateway.util.JwkClient jwkClient;
 
       public JwtVerifier(JwkClient jwkClient) {
           this.jwkClient = jwkClient;

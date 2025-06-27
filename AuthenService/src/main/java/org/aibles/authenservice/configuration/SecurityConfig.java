@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/forgot-password").permitAll()
                         .requestMatchers("/api/v1/auth/reset-password").permitAll()
                         .requestMatchers("/api/v1/test/**").hasRole("USER")
+                        .requestMatchers("/api/v1/auth/jwk/token").permitAll()
                         .requestMatchers("/api/v1/auth/change-password").hasRole("USER")
                         .anyRequest().authenticated()
                 )

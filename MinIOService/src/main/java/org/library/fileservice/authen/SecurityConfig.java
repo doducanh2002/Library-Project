@@ -1,7 +1,5 @@
-package org.library.fileservice.autheb;
+package org.library.fileservice.authen;
 
-import com.library.fillter.JwtAuthenticationFilter;
-import com.library.util.JwtVerifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,25 +9,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
-  @EnableWebSecurity
-  public class SecurityConfig {
+@EnableWebSecurity
+public class SecurityConfig {
 
-      private final JwtVerifier jwtVerifier;
+    private final JwtVerifier jwtVerifier;
 
-      public SecurityConfig(JwtVerifier jwtVerifier) {
-          this.jwtVerifier = jwtVerifier;
-      }
+    public SecurityConfig(JwtVerifier jwtVerifier) {
+        this.jwtVerifier = jwtVerifier;
+    }
 
-      @Bean
-      public PasswordEncoder passwordEncoder() {
-          return new BCryptPasswordEncoder();
-      }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-      @Bean
-      public JwtAuthenticationFilter jwtAuthenticationFilter() {
-          return new JwtAuthenticationFilter(jwtVerifier);
-      }
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtVerifier);
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,4 +44,4 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
         return http.build();
     }
-  }
+}
