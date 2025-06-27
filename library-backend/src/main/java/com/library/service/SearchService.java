@@ -42,7 +42,7 @@ public interface SearchService {
      * @param pageable Pagination information
      * @return Page of books by the specified authors
      */
-    Page<BookDTO> searchByAuthors(List<Integer> authorIds, Pageable pageable);
+    Page<BookDTO> searchByAuthors(List<Long> authorIds, Pageable pageable);
     
     /**
      * Search available books for loan

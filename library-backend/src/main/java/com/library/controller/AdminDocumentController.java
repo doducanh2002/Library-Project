@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/admin/documents")
 @Slf4j
 @Tag(name = "Admin Documents", description = "Document management APIs for administrators")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('LIBRARIAN') or hasRole('ADMIN')")
 public class AdminDocumentController {
     

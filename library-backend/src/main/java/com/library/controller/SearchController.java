@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Search", description = "Advanced search APIs for books")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class SearchController {
     
     private final SearchService searchService;
@@ -100,7 +100,7 @@ public class SearchController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search by authors", description = "Search books by multiple authors")
     public BaseResponse<Page<BookDTO>> searchByAuthors(
-            @Parameter(description = "Author IDs (comma-separated)") @RequestParam List<Integer> authorIds,
+            @Parameter(description = "Author IDs (comma-separated)") @RequestParam List<Long> authorIds,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
             @Parameter(description = "Sort field") @RequestParam(defaultValue = "title") String sortBy,

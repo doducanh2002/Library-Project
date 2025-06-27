@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Shopping Cart", description = "Shopping cart management APIs")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class CartController {
     
     private final CartService cartService;

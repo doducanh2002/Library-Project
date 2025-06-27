@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Admin Order Management", description = "APIs for managing orders by admin/librarian")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('LIBRARIAN') or hasRole('ADMIN')")
 public class AdminOrderController {
 

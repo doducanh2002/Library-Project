@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Admin Notifications", description = "Admin notification management APIs")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @SecurityRequirement(name = "bearerAuth")
 @PreAuthorize("hasRole('LIBRARIAN') or hasRole('ADMIN')")
 public class AdminNotificationController {

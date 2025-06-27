@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @Slf4j
 @Tag(name = "Books", description = "Book management APIs")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class BookController {
     
     private final BookService bookService;

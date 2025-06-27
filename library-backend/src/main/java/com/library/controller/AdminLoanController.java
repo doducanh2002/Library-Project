@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @Slf4j
 @Tag(name = "Admin Loan Management", description = "APIs for librarians to manage book loans")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class AdminLoanController {
     
     private final LibrarianLoanService librarianLoanService;

@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Notifications", description = "Notification management APIs")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @SecurityRequirement(name = "bearerAuth")
 public class NotificationController {
 
