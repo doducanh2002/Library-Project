@@ -14,7 +14,7 @@ import com.library.repository.BookRepository;
 import com.library.repository.LoanRepository;
 import com.library.service.FineCalculationService;
 import com.library.service.LibrarianLoanService;
-import com.library.util.LoanStatusMapper;
+import com.library.mapper.LoanStatusMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

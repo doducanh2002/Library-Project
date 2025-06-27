@@ -31,6 +31,10 @@ public class JwtUtil {
     public String generateAccessToken(String username) {
         return createToken(username, ACCESS_TOKEN_EXPIRATION);
     }
+    
+    public String generateAccessTokenWithClaims(String username, String userId, String email, String role) {
+        return createTokenWithClaims(username, userId, email, role, ACCESS_TOKEN_EXPIRATION);
+    }
 
     public String generateRefreshToken(String username) {
         String refreshToken = createToken(username, REFRESH_TOKEN_EXPIRATION);
@@ -45,6 +49,35 @@ public class JwtUtil {
 
             long now = System.currentTimeMillis();
             String payload = "{\"sub\":\"" + username + "\",\"iat\":" + (now / 1000) + ",\"exp\":" + ((now + expiration) / 1000) + "}";
+            String encodedPayload = Base64.getUrlEncoder().withoutPadding().encodeToString(payload.getBytes(StandardCharsets.UTF_8));
+
+            String dataToSign = encodedHeader + "." + encodedPayload;
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            signature.initSign(keyPair.getPrivate());
+            signature.update(dataToSign.getBytes(StandardCharsets.UTF_8));
+            String encodedSignature = Base64.getUrlEncoder().withoutPadding().encodeToString(signature.sign());
+
+            return dataToSign + "." + encodedSignature;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate token", e);
+        }
+    }
+    
+    private String createTokenWithClaims(String username, String userId, String email, String role, long expiration) {
+        try {
+            String header = "{\"alg\":\"RS256\",\"kid\":\"" + UUID.randomUUID().toString() + "\"}";
+            String encodedHeader = Base64.getUrlEncoder().withoutPadding().encodeToString(header.getBytes(StandardCharsets.UTF_8));
+
+            long now = System.currentTimeMillis();
+            String payload = "{" +
+                "\"sub\":\"" + email + "\"," +
+                "\"userId\":\"" + userId + "\"," +
+                "\"email\":\"" + email + "\"," +
+                "\"role\":\"" + role + "\"," +
+                "\"username\":\"" + username + "\"," +
+                "\"iat\":" + (now / 1000) + "," +
+                "\"exp\":" + ((now + expiration) / 1000) + 
+                "}";
             String encodedPayload = Base64.getUrlEncoder().withoutPadding().encodeToString(payload.getBytes(StandardCharsets.UTF_8));
 
             String dataToSign = encodedHeader + "." + encodedPayload;
@@ -112,11 +145,31 @@ public class JwtUtil {
 
     public String getJwk() {
         try {
-            String modulus = Base64.getUrlEncoder().withoutPadding().encodeToString(keyPair.getPublic().getEncoded());
-            String exponent = Base64.getUrlEncoder().withoutPadding().encodeToString(((RSAPublicKey) keyPair.getPublic()).getPublicExponent().toByteArray());
+            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+            String modulus = Base64.getUrlEncoder().withoutPadding().encodeToString(rsaPublicKey.getModulus().toByteArray());
+            String exponent = Base64.getUrlEncoder().withoutPadding().encodeToString(rsaPublicKey.getPublicExponent().toByteArray());
             return "{\"kty\":\"RSA\",\"n\":\"" + modulus + "\",\"e\":\"" + exponent + "\",\"alg\":\"RS256\",\"use\":\"sig\"}";
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate JWK", e);
+        }
+    }
+    
+    public String getPublicKeyPem() {
+        try {
+            byte[] encoded = keyPair.getPublic().getEncoded();
+            String base64 = Base64.getEncoder().encodeToString(encoded);
+            StringBuilder pemBuilder = new StringBuilder();
+            pemBuilder.append("-----BEGIN PUBLIC KEY-----\n");
+            
+            // Add line breaks every 64 characters
+            for (int i = 0; i < base64.length(); i += 64) {
+                pemBuilder.append(base64, i, Math.min(i + 64, base64.length())).append("\n");
+            }
+            
+            pemBuilder.append("-----END PUBLIC KEY-----");
+            return pemBuilder.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate PEM public key", e);
         }
     }
 }

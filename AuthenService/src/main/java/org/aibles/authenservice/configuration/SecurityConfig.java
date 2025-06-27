@@ -54,66 +54,67 @@ public class SecurityConfig {
         return new JwtRequestFilter(userDetailsService(), jwtUtil);
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/v1/auth/register").permitAll()
-//                        .requestMatchers("/api/v1/auth/sendotp").permitAll()
-//                        .requestMatchers("/api/v1/auth/active").permitAll()
-//                        .requestMatchers("/api/v1/auth/login").permitAll()
-//                        .requestMatchers("/api/v1/auth/forgot-password").permitAll()
-//                        .requestMatchers("/api/v1/auth/reset-password").permitAll()
-//                        .requestMatchers("/api/v1/test/**").hasRole("USER")
-//                        .requestMatchers("/api/v1/auth/change-password").hasRole("USER")
-//                        .anyRequest().authenticated()
-//                )
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/login/oauth2/code/**").permitAll()
+                        .requestMatchers("/api/v1/auth/register").permitAll()
+                        .requestMatchers("/api/v1/auth/sendotp").permitAll()
+                        .requestMatchers("/api/v1/auth/active").permitAll()
+                        .requestMatchers("/api/v1/auth/login").permitAll()
+                        .requestMatchers("/api/v1/auth/forgot-password").permitAll()
+                        .requestMatchers("/api/v1/auth/reset-password").permitAll()
+                        .requestMatchers("/api/v1/test/**").hasRole("USER")
+                        .requestMatchers("/api/v1/auth/jwk/token").permitAll()
+                        .requestMatchers("/api/v1/auth/change-password").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/api/v1/auth/google/callback")
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .oidcUserService(oidcUserService())
-                        )
-                        .successHandler((request, response, authentication) -> {
-                            String email = authentication.getName();
-                            var loginResponse = authService.loginWithGoogle(email);
-                            response.setContentType("application/json");
-                            response.getWriter().write(String.format(
-                                    "{\"status\":\"SUCCESS\",\"timestamp\":%d,\"data\":{\"accessToken\":\"%s\",\"refreshToken\":\"%s\",\"accessTokenExpiration\":%d,\"refreshTokenExpiration\":%d}}",
-                                    System.currentTimeMillis(),
-                                    loginResponse.getData().getAccessToken(),
-                                    loginResponse.getData().getRefreshToken(),
-                                    loginResponse.getData().getAccessTokenExpiration(),
-                                    loginResponse.getData().getRefreshTokenExpiration()
-                            ));
-                        })
-                )
-                .addFilterBefore(tokenTypeFilter(), UsernamePasswordAuthenticationFilter.class)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable())
+//                .formLogin(form -> form.disable())
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/api/v1/auth/**").permitAll()
+//                        .requestMatchers("/login/oauth2/code/**").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
+//                .oauth2Login(oauth2 -> oauth2
+//                        .loginPage("/api/v1/auth/google/callback")
+//                        .userInfoEndpoint(userInfo -> userInfo
+//                                .oidcUserService(oidcUserService())
+//                        )
+//                        .successHandler((request, response, authentication) -> {
+//                            String email = authentication.getName();
+//                            var loginResponse = authService.loginWithGoogle(email);
+//                            response.setContentType("application/json");
+//                            response.getWriter().write(String.format(
+//                                    "{\"status\":\"SUCCESS\",\"timestamp\":%d,\"data\":{\"accessToken\":\"%s\",\"refreshToken\":\"%s\",\"accessTokenExpiration\":%d,\"refreshTokenExpiration\":%d}}",
+//                                    System.currentTimeMillis(),
+//                                    loginResponse.getData().getAccessToken(),
+//                                    loginResponse.getData().getRefreshToken(),
+//                                    loginResponse.getData().getAccessTokenExpiration(),
+//                                    loginResponse.getData().getRefreshTokenExpiration()
+//                            ));
+//                        })
+//                )
+//                .addFilterBefore(tokenTypeFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 
     @Bean
     public TokenTypeFilter tokenTypeFilter() {

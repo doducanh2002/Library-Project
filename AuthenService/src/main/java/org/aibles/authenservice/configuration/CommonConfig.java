@@ -15,15 +15,15 @@ public class CommonConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Value("${spring.key.decrypt}")
-    private String decryptKey;
-
-    @Bean
-    public FilterRegistrationBean<AESRequestFilter> requestFilter() {
-        FilterRegistrationBean<AESRequestFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new AESRequestFilter(decryptKey));
-        registrationBean.addUrlPatterns("/api/v1/*");
-        return registrationBean;
-    }
+//
+//    @Value("${spring.key.decrypt}")
+//    private String decryptKey;
+//
+//    @Bean
+//    public FilterRegistrationBean<AESRequestFilter> requestFilter() {
+//        FilterRegistrationBean<AESRequestFilter> registrationBean = new FilterRegistrationBean<>();
+//        registrationBean.setFilter(new AESRequestFilter(decryptKey));
+//        registrationBean.addUrlPatterns("/api/v1/*");
+//        return registrationBean;
+//    }
 }
