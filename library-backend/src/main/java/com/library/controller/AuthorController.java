@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @Slf4j
 @Tag(name = "Author Management", description = "APIs for managing book authors")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class AuthorController {
     
     private final AuthorService authorService;

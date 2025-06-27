@@ -83,7 +83,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     
     // Search by multiple authors with performance optimization
     @Query("SELECT DISTINCT b FROM Book b JOIN b.bookAuthors ba WHERE ba.author.id IN :authorIds")
-    Page<Book> findByMultipleAuthors(@Param("authorIds") List<Integer> authorIds, Pageable pageable);
+    Page<Book> findByMultipleAuthors(@Param("authorIds") List<Long> authorIds, Pageable pageable);
     
     // Search by multiple publishers
     @Query("SELECT b FROM Book b WHERE b.publisher.id IN :publisherIds")

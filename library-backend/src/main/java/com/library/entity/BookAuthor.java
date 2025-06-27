@@ -43,7 +43,7 @@ public class BookAuthor {
     @AllArgsConstructor
     public static class BookAuthorId implements Serializable {
         private Long book;
-        private Integer author;
+        private Long author;
     }
 
     // Business validation

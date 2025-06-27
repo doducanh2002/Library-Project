@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 @Slf4j
 @Tag(name = "Loan Management", description = "APIs for managing book loans")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class LoanController {
     
     private final LoanService loanService;

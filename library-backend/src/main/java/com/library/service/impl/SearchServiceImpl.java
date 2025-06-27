@@ -71,7 +71,7 @@ public class SearchServiceImpl implements SearchService {
     }
     
     @Override
-    public Page<BookDTO> searchByAuthors(List<Integer> authorIds, Pageable pageable) {
+    public Page<BookDTO> searchByAuthors(List<Long> authorIds, Pageable pageable) {
         log.debug("Searching books by authors: {}", authorIds);
         
         if (authorIds == null || authorIds.isEmpty()) {

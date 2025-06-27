@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @Slf4j
 @Tag(name = "Category Management", description = "APIs for managing book categories")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class CategoryController {
     
     private final CategoryService categoryService;
