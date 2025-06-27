@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
@@ -17,6 +18,7 @@ public class RateLimitConfig {
     private JwtUtil jwtUtil;
 
     @Bean
+    @Primary
     public KeyResolver userKeyResolver() {
         return exchange -> {
             String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
@@ -24,16 +26,13 @@ public class RateLimitConfig {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 try {
                     String userId = jwtUtil.extractUserIdForRateLimit(authHeader);
-                    log.debug("Rate limiting key for user: {}", userId);
                     return Mono.just(userId);
                 } catch (Exception e) {
-                    log.debug("Could not extract user ID for rate limiting: {}", e.getMessage());
                 }
             }
             
             // Fallback to IP-based rate limiting for unauthenticated requests
             String clientIP = getClientIP(exchange);
-            log.debug("Rate limiting key for IP: {}", clientIP);
             return Mono.just(clientIP);
         };
     }
@@ -42,7 +41,6 @@ public class RateLimitConfig {
     public KeyResolver ipKeyResolver() {
         return exchange -> {
             String clientIP = getClientIP(exchange);
-            log.debug("IP-based rate limiting key: {}", clientIP);
             return Mono.just(clientIP);
         };
     }

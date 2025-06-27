@@ -229,7 +229,9 @@ public class AuthServiceImpl implements AuthService {
                         log.error("User not found for userId: {}", userId);
                         return new UserNotFoundException(userId);
                     });
-
+            if (!passwordEncoder.matches(request.getOldPassword(), account.getPassword())) {
+                throw new PasswordInvalidException();
+            }
             if (Objects.equals(request.getNewPassword(), request.getOldPassword())) {
                 log.warn("New password is the same as old password for userId: {}", userId);
                 throw new PasswordSimilarException();

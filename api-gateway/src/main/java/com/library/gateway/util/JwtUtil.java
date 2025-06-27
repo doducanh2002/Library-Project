@@ -6,8 +6,13 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.crypto.SecretKey;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -15,14 +20,40 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    @Value("${gateway.jwt.secret}")
-    private String jwtSecret;
+    @Value("${auth.service.jwk.url:http://localhost:8081/api/v1/auth/jwk/token}")
+    private String jwkUrl;
 
-    @Value("${gateway.jwt.expiration}")
-    private Long jwtExpiration;
+    private final WebClient webClient = WebClient.create();
+    private PublicKey cachedPublicKey;
 
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    private PublicKey getPublicKey() {
+        if (cachedPublicKey == null) {
+            try {
+                String publicKeyPem = webClient.get()
+                        .uri(jwkUrl)
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
+                
+                cachedPublicKey = parsePublicKey(publicKeyPem);
+            } catch (Exception e) {
+                log.error("Failed to fetch public key: {}", e.getMessage());
+                throw new RuntimeException("Could not fetch public key", e);
+            }
+        }
+        return cachedPublicKey;
+    }
+
+    private PublicKey parsePublicKey(String publicKeyPem) throws Exception {
+        String publicKeyContent = publicKeyPem
+                .replace("-----BEGIN PUBLIC KEY-----", "")
+                .replace("-----END PUBLIC KEY-----", "")
+                .replaceAll("\\s", "");
+        
+        byte[] decoded = Base64.getDecoder().decode(publicKeyContent);
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePublic(spec);
     }
 
     public String getUserIdFromToken(String token) {
@@ -48,7 +79,7 @@ public class JwtUtil {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey())
+                .verifyWith(getPublicKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -62,7 +93,7 @@ public class JwtUtil {
     public Boolean validateToken(String token) {
         try {
             Jwts.parser()
-                .verifyWith(getSigningKey())
+                .verifyWith(getPublicKey())
                 .build()
                 .parseSignedClaims(token);
             return !isTokenExpired(token);

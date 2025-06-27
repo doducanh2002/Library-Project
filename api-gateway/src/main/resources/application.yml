@@ -25,7 +25,7 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOriginPatterns: "*"
             allowedMethods:
               - GET
               - POST
@@ -121,7 +121,7 @@ spring:
             - JwtAuthenticationFilter
             - name: RequestSize
               args:
-                maxSize: 50MB
+                maxSize: 500MB
                 
         - id: file-service-general
           uri: http://localhost:8083

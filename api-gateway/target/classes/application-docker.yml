@@ -1,0 +1,167 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  
+  # Redis Configuration for Rate Limiting
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:redis}
+      port: ${SPRING_REDIS_PORT:6379}
+      password: # Add password if needed
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+  
+  # Gateway Configuration
+  cloud:
+    gateway:
+      # Global CORS Configuration
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            
+      # Default Filters
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+            redis-rate-limiter.requestedTokens: 1
+            key-resolver: "#{@userKeyResolver}"
+      
+      # Route Configuration
+      routes:
+        # Authentication Service Routes
+        - id: auth-login
+          uri: ${AUTH_SERVICE_URL:http://authentication-service:8081}
+          predicates:
+            - Path=/api/v1/auth/login
+            - Method=POST
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                
+        - id: auth-register
+          uri: ${AUTH_SERVICE_URL:http://authentication-service:8081}
+          predicates:
+            - Path=/api/v1/auth/register
+            - Method=POST
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 2
+                redis-rate-limiter.burstCapacity: 5
+                
+        - id: auth-service-general
+          uri: ${AUTH_SERVICE_URL:http://authentication-service:8081}
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - JwtAuthenticationFilter
+            
+        # Book Catalog Service Routes (Public)
+        - id: catalog-books-public
+          uri: ${CATALOG_SERVICE_URL:http://book-catalog-service:8082}
+          predicates:
+            - Path=/api/v1/books,/api/v1/books/search,/api/v1/books/popular,/api/v1/books/{id},/api/v1/books/isbn/{isbn}
+            - Method=GET
+            
+        - id: catalog-categories-public
+          uri: ${CATALOG_SERVICE_URL:http://book-catalog-service:8082}
+          predicates:
+            - Path=/api/v1/categories,/api/v1/categories/active,/api/v1/categories/root,/api/v1/categories/{id}
+            - Method=GET
+            
+        - id: catalog-authors-public
+          uri: ${CATALOG_SERVICE_URL:http://book-catalog-service:8082}
+          predicates:
+            - Path=/api/v1/authors,/api/v1/authors/search,/api/v1/authors/{id}
+            - Method=GET
+            
+        - id: catalog-publishers-public
+          uri: ${CATALOG_SERVICE_URL:http://book-catalog-service:8082}
+          predicates:
+            - Path=/api/v1/publishers,/api/v1/publishers/{id}
+            - Method=GET
+            
+        # Book Catalog Service Routes (Protected)
+        - id: catalog-admin
+          uri: ${CATALOG_SERVICE_URL:http://book-catalog-service:8082}
+          predicates:
+            - Path=/api/v1/admin/**
+          filters:
+            - JwtAuthenticationFilter
+            - RoleAuthorizationFilter=LIBRARIAN,ADMIN
+            
+        # File Storage Service Routes
+        - id: file-upload
+          uri: ${FILE_SERVICE_URL:http://file-storage-service:8083}
+          predicates:
+            - Path=/api/v1/files/upload
+            - Method=POST
+          filters:
+            - JwtAuthenticationFilter
+            - name: RequestSize
+              args:
+                maxSize: 50MB
+                
+        - id: file-service-general
+          uri: ${FILE_SERVICE_URL:http://file-storage-service:8083}
+          predicates:
+            - Path=/api/v1/files/**
+          filters:
+            - JwtAuthenticationFilter
+
+# Management Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+      
+# Logging Configuration
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.library.gateway: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: logs/api-gateway.log
+
+# Gateway Specific Configuration
+gateway:
+  jwt:
+    secret: ${JWT_SECRET:your-secret-key-here-change-in-production}
+    expiration: 86400000 # 24 hours
+  
+  rate-limit:
+    enabled: true
+    default-requests-per-minute: 60
+    
+  cors:
+    enabled: true
+    allowed-origins: "*"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "*"

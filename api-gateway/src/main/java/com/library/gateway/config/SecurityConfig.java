@@ -22,7 +22,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/actuator/**", "/health/**").permitAll()
-                        .anyExchange().permitAll()
+                        .pathMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
+                        .pathMatchers("/api/v1/books/**", "/api/v1/categories/**", "/api/v1/authors/**", "/api/v1/publishers/**").permitAll()
+                        .anyExchange().authenticated()
                 )
                 .build();
     }
@@ -30,10 +32,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(false); // Set to false when allowing all origins
+        configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

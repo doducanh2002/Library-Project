@@ -1,34 +1,52 @@
 server:
-  port: 8080
+  port: 8083
 
 spring:
+  application:
+    name: file-service
   servlet:
     multipart:
       enabled: true
       max-file-size: 500MB
       max-request-size: 500MB
-  jpa:
-    hibernate:
-      ddl-auto: update
 
 minio:
   endpoint: http://localhost:9000
   access-key: minioadmin
   secret-key: minioadmin123
-  bucket-name: video-storage
+  bucket-name: file-storage
 
-video:
+file:
   max-size: 524288000 # 500MB in bytes
-  upload-path: videos/
-  startup-upload-file: C:\Users\ADMIN\Downloads\70796-538877060.mp4
+  upload-path: files/
+  allowed-types: 
+    - pdf
+    - doc
+    - docx
+    - xls
+    - xlsx
+    - ppt
+    - pptx
+    - txt
+    - jpg
+    - jpeg
+    - png
+    - gif
+    - mp4
+    - avi
+    - mov
+    - mkv
+    - webm
+    - flv
+
 logging:
   level:
-    com.example.videoservice: DEBUG
+    org.library.fileservice: DEBUG
     io.minio: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
   file:
-    name: logs/minio-video-app.log
+    name: logs/file-service.log
 
 management:
   security:
