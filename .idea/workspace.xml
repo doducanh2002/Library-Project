@@ -5,30 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="fix: fix develop">
-      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwkClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwtVerifier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/configuration/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/autheb/JwkClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/JwkClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/autheb/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/autheb/JwtVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/JwtVerifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/autheb/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/config/RateLimitConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/JwtAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/RoleAuthorizationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwtUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/config/RateLimitConfig.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationFilter$Config.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/RoleAuthorizationFilter$Config.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/RoleAuthorizationFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwtUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory$Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory$Config.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/api-gateway.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/api-gateway.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/file-service.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/file-service.log" afterDir="false" />
     </list>
@@ -63,7 +44,7 @@
   &quot;isMigrated&quot;: true
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -74,39 +55,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ApiGatewayApplication.executor": "Run",
-    "Application.AuthenServiceApplication.executor": "Run",
-    "Application.FileServiceApplication.executor": "Run",
-    "Application.VideoServiceApplication.executor": "Run",
-    "Docker.docker-compose.yml.minio: Compose Deployment.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "fix/fix-develop",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ADMIN/OneDrive/Desktop/Library-Project/api-gateway/src/main/java/com/library/gateway/config",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AuthenServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FileServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.VideoServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.LibraryBackendApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fix/fix-develop&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ADMIN/OneDrive/Desktop/Library-Project/api-gateway/src/main/java/com/library/gateway/config&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ADMIN\OneDrive\Desktop\Library-Project\api-gateway\src\main\java\com\library\gateway\config" />
@@ -216,7 +197,9 @@
       </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml" />
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="docker-compose.yml.minio: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
