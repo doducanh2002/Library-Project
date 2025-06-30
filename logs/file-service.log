@@ -710,7 +710,7 @@ Using generated security password: 62f4bcee-3978-400f-924d-cc3facc8d675
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T15:50:29.443+07:00  INFO 21208 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T15:50:29.531+07:00  INFO 21208 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@30d5e37c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1da745a2, org.springframework.security.web.context.SecurityContextHolderFilter@171aa66, org.springframework.security.web.header.HeaderWriterFilter@7548e1fb, org.springframework.web.filter.CorsFilter@4597e6e3, org.springframework.security.web.authentication.logout.LogoutFilter@36f6d25c, org.library.fileservice.authen.JwtAuthenticationFilter@10f477e2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4e2cdc51, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2969a9a6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@41ece227, org.springframework.security.web.session.SessionManagementFilter@58e03769, org.springframework.security.web.access.ExceptionTranslationFilter@6736f40f, org.springframework.security.web.access.intercept.AuthorizationFilter@18e6b72b]
+2025-06-27T15:50:29.531+07:00  INFO 21208 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@30d5e37c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1da745a2, org.springframework.security.web.context.SecurityContextHolderFilter@171aa66, org.springframework.security.web.header.HeaderWriterFilter@7548e1fb, org.springframework.web.filter.CorsFilter@4597e6e3, org.springframework.security.web.authentication.logout.LogoutFilter@36f6d25c, org.library.fileservice.filter.JwtAuthenticationFilter@10f477e2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4e2cdc51, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2969a9a6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@41ece227, org.springframework.security.web.session.SessionManagementFilter@58e03769, org.springframework.security.web.access.ExceptionTranslationFilter@6736f40f, org.springframework.security.web.access.intercept.AuthorizationFilter@18e6b72b]
 2025-06-27T15:50:30.143+07:00  INFO 21208 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T15:50:30.160+07:00  INFO 21208 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 6.616 seconds (process running for 7.547)
 2025-06-27T15:51:12.073+07:00  INFO 21208 --- [file-service] [http-nio-8083-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -734,7 +734,7 @@ Using generated security password: 9b914a52-33f0-416a-be60-168d7fe3903d
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T16:03:58.331+07:00  INFO 16932 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T16:03:58.443+07:00  INFO 16932 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3313463c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@9c0d0bd, org.springframework.security.web.context.SecurityContextHolderFilter@36d697ab, org.springframework.security.web.header.HeaderWriterFilter@1b791dca, org.springframework.web.filter.CorsFilter@176333ee, org.springframework.security.web.authentication.logout.LogoutFilter@4a9b92c6, org.library.fileservice.authen.JwtAuthenticationFilter@1e98b788, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@315b4202, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@58e03769, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@18e6b72b, org.springframework.security.web.session.SessionManagementFilter@3335afcf, org.springframework.security.web.access.ExceptionTranslationFilter@1d944fc0, org.springframework.security.web.access.intercept.AuthorizationFilter@3321291a]
+2025-06-27T16:03:58.443+07:00  INFO 16932 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3313463c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@9c0d0bd, org.springframework.security.web.context.SecurityContextHolderFilter@36d697ab, org.springframework.security.web.header.HeaderWriterFilter@1b791dca, org.springframework.web.filter.CorsFilter@176333ee, org.springframework.security.web.authentication.logout.LogoutFilter@4a9b92c6, org.library.fileservice.filter.JwtAuthenticationFilter@1e98b788, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@315b4202, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@58e03769, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@18e6b72b, org.springframework.security.web.session.SessionManagementFilter@3335afcf, org.springframework.security.web.access.ExceptionTranslationFilter@1d944fc0, org.springframework.security.web.access.intercept.AuthorizationFilter@3321291a]
 2025-06-27T16:03:59.409+07:00  INFO 16932 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T16:03:59.430+07:00  INFO 16932 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 7.932 seconds (process running for 8.765)
 2025-06-27T16:06:55.502+07:00  INFO 16932 --- [file-service] [http-nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -804,7 +804,7 @@ org.library.fileservice.exception.FileProcessingException: File not found with I
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -942,7 +942,7 @@ org.library.fileservice.exception.FileProcessingException: File not found with I
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -1052,7 +1052,7 @@ Using generated security password: 2fc42ce6-6368-4cbc-a6fe-7f43f86af77b
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T19:29:05.988+07:00  INFO 23220 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T19:29:06.012+07:00  INFO 23220 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2c3f43d1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@632d4cf2, org.springframework.security.web.context.SecurityContextHolderFilter@a4df251, org.springframework.security.web.header.HeaderWriterFilter@429e7914, org.springframework.web.filter.CorsFilter@f10d055, org.springframework.security.web.authentication.logout.LogoutFilter@a03529c, org.library.fileservice.authen.JwtAuthenticationFilter@437ed416, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3feebf9c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@305e95a4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@542ff147, org.springframework.security.web.session.SessionManagementFilter@3e98b933, org.springframework.security.web.access.ExceptionTranslationFilter@150f41b9, org.springframework.security.web.access.intercept.AuthorizationFilter@5922cff3]
+2025-06-27T19:29:06.012+07:00  INFO 23220 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2c3f43d1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@632d4cf2, org.springframework.security.web.context.SecurityContextHolderFilter@a4df251, org.springframework.security.web.header.HeaderWriterFilter@429e7914, org.springframework.web.filter.CorsFilter@f10d055, org.springframework.security.web.authentication.logout.LogoutFilter@a03529c, org.library.fileservice.filter.JwtAuthenticationFilter@437ed416, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3feebf9c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@305e95a4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@542ff147, org.springframework.security.web.session.SessionManagementFilter@3e98b933, org.springframework.security.web.access.ExceptionTranslationFilter@150f41b9, org.springframework.security.web.access.intercept.AuthorizationFilter@5922cff3]
 2025-06-27T19:29:06.343+07:00  INFO 23220 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T19:29:06.353+07:00  INFO 23220 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 2.845 seconds (process running for 3.515)
 2025-06-27T19:29:06.632+07:00  INFO 23220 --- [file-service] [RMI TCP Connection(4)-192.168.110.143] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -1111,7 +1111,7 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -1238,7 +1238,7 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -1373,7 +1373,7 @@ org.springframework.web.multipart.MultipartException: Current request is not a m
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -1479,7 +1479,7 @@ Using generated security password: 4ca83db7-5ce6-4ca2-bf88-b383d80d991c
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T21:18:36.554+07:00  INFO 26912 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T21:18:36.575+07:00  INFO 26912 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2d801d8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@b9b97ad, org.springframework.security.web.context.SecurityContextHolderFilter@55e42684, org.springframework.security.web.header.HeaderWriterFilter@2b1a901d, org.springframework.web.filter.CorsFilter@2807cf3, org.springframework.security.web.authentication.logout.LogoutFilter@4b32465, org.library.fileservice.authen.JwtAuthenticationFilter@5cfed0ba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@528e5e38, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@16391278, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@298e002d, org.springframework.security.web.session.SessionManagementFilter@71e7830a, org.springframework.security.web.access.ExceptionTranslationFilter@466fedfa, org.springframework.security.web.access.intercept.AuthorizationFilter@632d4cf2]
+2025-06-27T21:18:36.575+07:00  INFO 26912 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2d801d8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@b9b97ad, org.springframework.security.web.context.SecurityContextHolderFilter@55e42684, org.springframework.security.web.header.HeaderWriterFilter@2b1a901d, org.springframework.web.filter.CorsFilter@2807cf3, org.springframework.security.web.authentication.logout.LogoutFilter@4b32465, org.library.fileservice.filter.JwtAuthenticationFilter@5cfed0ba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@528e5e38, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@16391278, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@298e002d, org.springframework.security.web.session.SessionManagementFilter@71e7830a, org.springframework.security.web.access.ExceptionTranslationFilter@466fedfa, org.springframework.security.web.access.intercept.AuthorizationFilter@632d4cf2]
 2025-06-27T21:18:36.917+07:00  INFO 26912 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T21:18:36.929+07:00  INFO 26912 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 3.453 seconds (process running for 4.352)
 2025-06-27T21:18:37.537+07:00  INFO 26912 --- [file-service] [RMI TCP Connection(4)-192.168.110.143] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -1501,7 +1501,7 @@ Using generated security password: 9270e0a7-fcc4-4726-9eea-231b3ae8b823
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T21:19:28.790+07:00  INFO 21088 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T21:19:28.821+07:00  INFO 21088 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4fa5cc73, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@224e6e88, org.springframework.security.web.context.SecurityContextHolderFilter@11bdab37, org.springframework.security.web.header.HeaderWriterFilter@38e00b47, org.springframework.web.filter.CorsFilter@70139a81, org.springframework.security.web.authentication.logout.LogoutFilter@73b0ed03, org.library.fileservice.authen.JwtAuthenticationFilter@5a9840f3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a6f6cac, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@258a8584, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60f9dc7e, org.springframework.security.web.session.SessionManagementFilter@466fedfa, org.springframework.security.web.access.ExceptionTranslationFilter@534762ed, org.springframework.security.web.access.intercept.AuthorizationFilter@146f3d22]
+2025-06-27T21:19:28.821+07:00  INFO 21088 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4fa5cc73, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@224e6e88, org.springframework.security.web.context.SecurityContextHolderFilter@11bdab37, org.springframework.security.web.header.HeaderWriterFilter@38e00b47, org.springframework.web.filter.CorsFilter@70139a81, org.springframework.security.web.authentication.logout.LogoutFilter@73b0ed03, org.library.fileservice.filter.JwtAuthenticationFilter@5a9840f3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a6f6cac, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@258a8584, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60f9dc7e, org.springframework.security.web.session.SessionManagementFilter@466fedfa, org.springframework.security.web.access.ExceptionTranslationFilter@534762ed, org.springframework.security.web.access.intercept.AuthorizationFilter@146f3d22]
 2025-06-27T21:19:29.184+07:00  INFO 21088 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T21:19:29.199+07:00  INFO 21088 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 2.945 seconds (process running for 3.539)
 2025-06-27T21:19:29.621+07:00  INFO 21088 --- [file-service] [RMI TCP Connection(3)-192.168.110.143] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -1523,7 +1523,7 @@ Using generated security password: 29202f97-d8a6-4a90-8bc0-58a9bac1975c
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T21:23:24.593+07:00  INFO 12236 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T21:23:24.616+07:00  INFO 12236 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4fa5cc73, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@224e6e88, org.springframework.security.web.context.SecurityContextHolderFilter@11bdab37, org.springframework.security.web.header.HeaderWriterFilter@38e00b47, org.springframework.web.filter.CorsFilter@70139a81, org.springframework.security.web.authentication.logout.LogoutFilter@73b0ed03, org.library.fileservice.authen.JwtAuthenticationFilter@5a9840f3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a6f6cac, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@258a8584, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60f9dc7e, org.springframework.security.web.session.SessionManagementFilter@466fedfa, org.springframework.security.web.access.ExceptionTranslationFilter@534762ed, org.springframework.security.web.access.intercept.AuthorizationFilter@146f3d22]
+2025-06-27T21:23:24.616+07:00  INFO 12236 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4fa5cc73, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@224e6e88, org.springframework.security.web.context.SecurityContextHolderFilter@11bdab37, org.springframework.security.web.header.HeaderWriterFilter@38e00b47, org.springframework.web.filter.CorsFilter@70139a81, org.springframework.security.web.authentication.logout.LogoutFilter@73b0ed03, org.library.fileservice.filter.JwtAuthenticationFilter@5a9840f3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a6f6cac, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@258a8584, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60f9dc7e, org.springframework.security.web.session.SessionManagementFilter@466fedfa, org.springframework.security.web.access.ExceptionTranslationFilter@534762ed, org.springframework.security.web.access.intercept.AuthorizationFilter@146f3d22]
 2025-06-27T21:23:24.899+07:00  INFO 12236 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T21:23:24.909+07:00  INFO 12236 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 2.448 seconds (process running for 3.152)
 2025-06-27T21:23:25.519+07:00  INFO 12236 --- [file-service] [RMI TCP Connection(2)-192.168.110.143] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -1593,7 +1593,7 @@ org.library.fileservice.exception.FileProcessingException: File not found with I
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -1692,7 +1692,7 @@ Using generated security password: af4c530b-7d16-4722-ab7d-6919b8dc11f3
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T21:31:19.646+07:00  INFO 1704 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T21:31:19.680+07:00  INFO 1704 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@f10d055, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@542ff147, org.springframework.security.web.context.SecurityContextHolderFilter@3feebf9c, org.springframework.security.web.header.HeaderWriterFilter@466fedfa, org.springframework.web.filter.CorsFilter@2d801d8, org.springframework.security.web.authentication.logout.LogoutFilter@4af70b83, org.library.fileservice.authen.JwtAuthenticationFilter@de77146, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@55e42684, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@18d610e1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@b9b97ad, org.springframework.security.web.session.SessionManagementFilter@4269aad7, org.springframework.security.web.access.ExceptionTranslationFilter@429e7914, org.springframework.security.web.access.intercept.AuthorizationFilter@70c56434]
+2025-06-27T21:31:19.680+07:00  INFO 1704 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@f10d055, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@542ff147, org.springframework.security.web.context.SecurityContextHolderFilter@3feebf9c, org.springframework.security.web.header.HeaderWriterFilter@466fedfa, org.springframework.web.filter.CorsFilter@2d801d8, org.springframework.security.web.authentication.logout.LogoutFilter@4af70b83, org.library.fileservice.filter.JwtAuthenticationFilter@de77146, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@55e42684, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@18d610e1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@b9b97ad, org.springframework.security.web.session.SessionManagementFilter@4269aad7, org.springframework.security.web.access.ExceptionTranslationFilter@429e7914, org.springframework.security.web.access.intercept.AuthorizationFilter@70c56434]
 2025-06-27T21:31:20.096+07:00  INFO 1704 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T21:31:20.112+07:00  INFO 1704 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 3.292 seconds (process running for 4.073)
 2025-06-27T21:31:20.694+07:00  INFO 1704 --- [file-service] [RMI TCP Connection(4)-192.168.110.143] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -1982,7 +1982,7 @@ Using generated security password: 7d9e9ee9-ee22-4fd6-86a1-7bc04090b194
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
 2025-06-27T22:42:31.366+07:00  INFO 21160 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2025-06-27T22:42:31.388+07:00  INFO 21160 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@70c56434, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c3f43d1, org.springframework.security.web.context.SecurityContextHolderFilter@4269aad7, org.springframework.security.web.header.HeaderWriterFilter@6e364f1f, org.springframework.web.filter.CorsFilter@632d4cf2, org.springframework.security.web.authentication.logout.LogoutFilter@1179fc8c, org.library.fileservice.authen.JwtAuthenticationFilter@14de1901, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@71e7830a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3feebf9c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@f10d055, org.springframework.security.web.session.SessionManagementFilter@344f9467, org.springframework.security.web.access.ExceptionTranslationFilter@65db548, org.springframework.security.web.access.intercept.AuthorizationFilter@14590fe2]
+2025-06-27T22:42:31.388+07:00  INFO 21160 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@70c56434, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c3f43d1, org.springframework.security.web.context.SecurityContextHolderFilter@4269aad7, org.springframework.security.web.header.HeaderWriterFilter@6e364f1f, org.springframework.web.filter.CorsFilter@632d4cf2, org.springframework.security.web.authentication.logout.LogoutFilter@1179fc8c, org.library.fileservice.filter.JwtAuthenticationFilter@14de1901, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@71e7830a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3feebf9c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@f10d055, org.springframework.security.web.session.SessionManagementFilter@344f9467, org.springframework.security.web.access.ExceptionTranslationFilter@65db548, org.springframework.security.web.access.intercept.AuthorizationFilter@14590fe2]
 2025-06-27T22:42:31.662+07:00  INFO 21160 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
 2025-06-27T22:42:31.672+07:00  INFO 21160 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 2.5 seconds (process running for 3.064)
 2025-06-27T22:42:31.886+07:00  INFO 21160 --- [file-service] [RMI TCP Connection(1)-192.168.110.143] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
@@ -2052,7 +2052,7 @@ org.library.fileservice.exception.FileProcessingException: File not found with I
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.0.jar:6.2.0]
-	at org.library.fileservice.authen.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.library.fileservice.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.0.jar:6.2.0]
 	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.0.jar:6.2.0]
@@ -2135,3 +2135,404 @@ org.library.fileservice.exception.FileProcessingException: File not found with I
 2025-06-27T22:43:33.555+07:00  INFO 21160 --- [file-service] [http-nio-8083-exec-4] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: bf2e6a4b-45ae-4e55-86e6-c4cda0fd3055.pdf
 2025-06-27T22:43:33.556+07:00  INFO 21160 --- [file-service] [http-nio-8083-exec-4] o.l.f.controller.FileController          : File upload completed successfully with ID: bf2e6a4b-45ae-4e55-86e6-c4cda0fd3055.pdf
 2025-06-27T22:43:41.036+07:00  INFO 21160 --- [file-service] [http-nio-8083-exec-6] o.l.f.controller.FileController          : Received request to retrieve file with ID: bf2e6a4b-45ae-4e55-86e6-c4cda0fd3055.pdf
+2025-06-28T10:33:58.402+07:00  INFO 17612 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Starting FileServiceApplication using Java 17.0.15 with PID 17612 (C:\Users\ADMIN\OneDrive\Desktop\Library-Project\MinIOService\target\classes started by ADMIN in C:\Users\ADMIN\OneDrive\Desktop\Library-Project)
+2025-06-28T10:33:58.406+07:00 DEBUG 17612 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-06-28T10:33:58.408+07:00  INFO 17612 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-06-28T10:34:00.810+07:00  INFO 17612 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-06-28T10:34:00.825+07:00  INFO 17612 --- [file-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-28T10:34:00.825+07:00  INFO 17612 --- [file-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-06-28T10:34:00.953+07:00  INFO 17612 --- [file-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-28T10:34:00.954+07:00  INFO 17612 --- [file-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2445 ms
+2025-06-28T10:34:02.207+07:00  INFO 17612 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-06-28T10:34:02.361+07:00  INFO 17612 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
+2025-06-28T10:34:02.383+07:00  INFO 17612 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 4.969 seconds (process running for 6.088)
+2025-06-28T10:46:23.996+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-28T10:46:23.997+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-28T10:46:23.999+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-06-28T10:46:24.071+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-3] o.l.f.controller.FileController          : Received request to retrieve file with ID: d7e30aa9-8d50-4aa0-845f-9c497a3e9b93.txt
+2025-06-28T10:46:24.075+07:00 ERROR 17612 --- [file-service] [http-nio-8083-exec-3] o.l.f.controller.FileController          : Failed to retrieve file d7e30aa9-8d50-4aa0-845f-9c497a3e9b93.txt: File not found with ID: d7e30aa9-8d50-4aa0-845f-9c497a3e9b93.txt
+
+org.library.fileservice.exception.FileProcessingException: File not found with ID: d7e30aa9-8d50-4aa0-845f-9c497a3e9b93.txt
+	at org.library.fileservice.service.impl.FileServiceImpl.getFileMetadata(FileServiceImpl.java:82) ~[classes/:na]
+	at org.library.fileservice.controller.FileController.getFile(FileController.java:56) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:254) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:182) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-06-28T10:46:58.460+07:00 ERROR 17612 --- [file-service] [http-nio-8083-exec-4] o.l.f.exception.GlobalExceptionHandler   : Unexpected error occurred: Current request is not a multipart request
+
+org.springframework.web.multipart.MultipartException: Current request is not a multipart request
+	at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.handleMissingValueInternal(RequestParamMethodArgumentResolver.java:210) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.handleMissingValue(RequestParamMethodArgumentResolver.java:193) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:218) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:171) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-06-28T10:47:07.821+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-7] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T10:47:07.821+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-7] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T10:47:07.823+07:00 DEBUG 17612 --- [file-service] [http-nio-8083-exec-7] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T10:47:08.185+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-7] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+2025-06-28T10:47:08.186+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-7] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+2025-06-28T10:47:08.186+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-7] o.l.f.controller.FileController          : File upload completed successfully with ID: 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+2025-06-28T10:47:58.050+07:00  INFO 17612 --- [file-service] [http-nio-8083-exec-2] o.l.f.controller.FileController          : Received request to retrieve file with ID: 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+2025-06-28T11:17:50.517+07:00  INFO 14760 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Starting FileServiceApplication using Java 17.0.15 with PID 14760 (C:\Users\ADMIN\OneDrive\Desktop\Library-Project\MinIOService\target\classes started by ADMIN in C:\Users\ADMIN\OneDrive\Desktop\Library-Project)
+2025-06-28T11:17:50.521+07:00 DEBUG 14760 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-06-28T11:17:50.522+07:00  INFO 14760 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-06-28T11:17:52.771+07:00  INFO 14760 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-06-28T11:17:52.782+07:00  INFO 14760 --- [file-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-28T11:17:52.783+07:00  INFO 14760 --- [file-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-06-28T11:17:52.895+07:00  INFO 14760 --- [file-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-28T11:17:52.895+07:00  INFO 14760 --- [file-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2276 ms
+2025-06-28T11:17:54.079+07:00  INFO 14760 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-06-28T11:17:54.169+07:00  INFO 14760 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
+2025-06-28T11:17:54.185+07:00  INFO 14760 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 4.586 seconds (process running for 5.253)
+2025-06-28T11:18:15.658+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-28T11:18:15.659+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-28T11:18:15.661+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-06-28T11:18:15.746+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-2] o.l.f.controller.FileController          : Received request to retrieve file with ID: 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+2025-06-28T11:18:15.751+07:00 ERROR 14760 --- [file-service] [http-nio-8083-exec-2] o.l.f.controller.FileController          : Failed to retrieve file 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt: File not found with ID: 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+
+org.library.fileservice.exception.FileProcessingException: File not found with ID: 9e515046-14f6-4bd9-a9d0-a0ba852853b1.txt
+	at org.library.fileservice.service.impl.FileServiceImpl.getFileMetadata(FileServiceImpl.java:82) ~[classes/:na]
+	at org.library.fileservice.controller.FileController.getFile(FileController.java:56) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:254) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:182) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-06-28T11:18:20.835+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-3] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T11:18:20.835+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-3] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T11:18:20.837+07:00 DEBUG 14760 --- [file-service] [http-nio-8083-exec-3] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T11:18:21.184+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-3] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/2e0f12c9-225c-484c-8b16-49a3f2f471ad.txt
+2025-06-28T11:18:21.185+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-3] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 2e0f12c9-225c-484c-8b16-49a3f2f471ad.txt
+2025-06-28T11:18:21.186+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-3] o.l.f.controller.FileController          : File upload completed successfully with ID: 2e0f12c9-225c-484c-8b16-49a3f2f471ad.txt
+2025-06-28T11:18:30.351+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-4] o.l.f.controller.FileController          : Received request to retrieve file with ID: 2e0f12c9-225c-484c-8b16-49a3f2f471ad.txt
+2025-06-28T11:18:46.397+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-5] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T11:18:46.399+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-5] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T11:18:46.399+07:00 DEBUG 14760 --- [file-service] [http-nio-8083-exec-5] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T11:18:46.425+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-5] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/1a04b635-54e1-4f01-bc60-cd4dcc940add.txt
+2025-06-28T11:18:46.426+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-5] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 1a04b635-54e1-4f01-bc60-cd4dcc940add.txt
+2025-06-28T11:18:46.426+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-5] o.l.f.controller.FileController          : File upload completed successfully with ID: 1a04b635-54e1-4f01-bc60-cd4dcc940add.txt
+2025-06-28T11:19:08.435+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-6] o.l.f.controller.FileController          : Received request to retrieve file with ID: 2e0f12c9-225c-484c-8b16-49a3f2f471ad.txt
+2025-06-28T11:34:43.932+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-9] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T11:34:43.933+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-9] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T11:34:43.934+07:00 DEBUG 14760 --- [file-service] [http-nio-8083-exec-9] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T11:34:43.967+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-9] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/9979215f-4f0a-4eee-a394-67fb68a66209.txt
+2025-06-28T11:34:43.968+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-9] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 9979215f-4f0a-4eee-a394-67fb68a66209.txt
+2025-06-28T11:34:43.968+07:00  INFO 14760 --- [file-service] [http-nio-8083-exec-9] o.l.f.controller.FileController          : File upload completed successfully with ID: 9979215f-4f0a-4eee-a394-67fb68a66209.txt
+2025-06-28T11:48:43.858+07:00 ERROR 14760 --- [file-service] [http-nio-8083-exec-2] o.l.f.exception.GlobalExceptionHandler   : Unexpected error occurred: No static resource api/v1/books.
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/books.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-06-28T11:49:04.096+07:00 ERROR 14760 --- [file-service] [http-nio-8083-exec-4] o.l.f.exception.GlobalExceptionHandler   : Unexpected error occurred: No static resource api/v1/books.
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/books.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-06-28T14:25:54.236+07:00  INFO 19056 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Starting FileServiceApplication using Java 17.0.15 with PID 19056 (C:\Users\ADMIN\OneDrive\Desktop\Library-Project\MinIOService\target\classes started by ADMIN in C:\Users\ADMIN\OneDrive\Desktop\Library-Project)
+2025-06-28T14:25:54.240+07:00 DEBUG 19056 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-06-28T14:25:54.242+07:00  INFO 19056 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-06-28T14:25:58.311+07:00  INFO 19056 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-06-28T14:25:58.331+07:00  INFO 19056 --- [file-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-28T14:25:58.331+07:00  INFO 19056 --- [file-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-06-28T14:25:58.502+07:00  INFO 19056 --- [file-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-28T14:25:58.503+07:00  INFO 19056 --- [file-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4118 ms
+2025-06-28T14:25:59.975+07:00  INFO 19056 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-06-28T14:26:00.107+07:00  INFO 19056 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
+2025-06-28T14:26:00.130+07:00  INFO 19056 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 7.044 seconds (process running for 7.925)
+2025-06-28T14:30:36.473+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-28T14:30:36.474+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-28T14:30:36.479+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2025-06-28T14:30:36.582+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T14:30:36.584+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T14:30:36.585+07:00 DEBUG 19056 --- [file-service] [http-nio-8083-exec-1] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T14:30:36.987+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/a087502e-39ef-4035-8956-3774d4fdd2d4.txt
+2025-06-28T14:30:36.987+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: a087502e-39ef-4035-8956-3774d4fdd2d4.txt
+2025-06-28T14:30:36.988+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-1] o.l.f.controller.FileController          : File upload completed successfully with ID: a087502e-39ef-4035-8956-3774d4fdd2d4.txt
+2025-06-28T14:31:05.405+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-2] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T14:31:05.406+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-2] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T14:31:05.406+07:00 DEBUG 19056 --- [file-service] [http-nio-8083-exec-2] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T14:31:05.473+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-2] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/49b5ad42-fa82-474b-a993-057ad6979d16.txt
+2025-06-28T14:31:05.474+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-2] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 49b5ad42-fa82-474b-a993-057ad6979d16.txt
+2025-06-28T14:31:05.474+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-2] o.l.f.controller.FileController          : File upload completed successfully with ID: 49b5ad42-fa82-474b-a993-057ad6979d16.txt
+2025-06-28T14:53:04.492+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-4] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T14:53:04.493+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-4] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T14:53:04.493+07:00 DEBUG 19056 --- [file-service] [http-nio-8083-exec-4] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T14:53:04.516+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-4] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/43a66478-aead-46d7-b6a3-9b802622b2e8.txt
+2025-06-28T14:53:04.517+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-4] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 43a66478-aead-46d7-b6a3-9b802622b2e8.txt
+2025-06-28T14:53:04.519+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-4] o.l.f.controller.FileController          : File upload completed successfully with ID: 43a66478-aead-46d7-b6a3-9b802622b2e8.txt
+2025-06-28T15:26:45.068+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-6] o.l.f.controller.FileController          : Received file upload request for file: DB TMDT.txt
+2025-06-28T15:26:45.069+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-6] o.l.f.service.impl.FileServiceImpl       : Starting file upload process for file: DB TMDT.txt
+2025-06-28T15:26:45.069+07:00 DEBUG 19056 --- [file-service] [http-nio-8083-exec-6] o.l.f.service.impl.FileServiceImpl       : File validation passed for: DB TMDT.txt
+2025-06-28T15:26:45.097+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-6] o.l.f.service.impl.MinioServiceImpl      : Successfully uploaded object: files/8f6ba132-52b5-4827-a507-851f9f50398c.txt
+2025-06-28T15:26:45.097+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-6] o.l.f.service.impl.FileServiceImpl       : Successfully uploaded file with ID: 8f6ba132-52b5-4827-a507-851f9f50398c.txt
+2025-06-28T15:26:45.097+07:00  INFO 19056 --- [file-service] [http-nio-8083-exec-6] o.l.f.controller.FileController          : File upload completed successfully with ID: 8f6ba132-52b5-4827-a507-851f9f50398c.txt
+2025-06-28T16:59:20.730+07:00  INFO 19928 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Starting FileServiceApplication using Java 17.0.15 with PID 19928 (C:\Users\ADMIN\OneDrive\Desktop\Library-Project\MinIOService\target\classes started by ADMIN in C:\Users\ADMIN\OneDrive\Desktop\Library-Project)
+2025-06-28T16:59:20.734+07:00 DEBUG 19928 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-06-28T16:59:20.736+07:00  INFO 19928 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-06-28T16:59:25.744+07:00  INFO 19928 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-06-28T16:59:25.766+07:00  INFO 19928 --- [file-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-06-28T16:59:25.766+07:00  INFO 19928 --- [file-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-06-28T16:59:26.227+07:00  INFO 19928 --- [file-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-06-28T16:59:26.229+07:00  INFO 19928 --- [file-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5338 ms
+2025-06-28T16:59:27.112+07:00 DEBUG 19928 --- [file-service] [main] o.l.f.filter.JwtAuthenticationFilter     : Filter 'jwtAuthenticationFilter' configured for use
+2025-06-28T16:59:27.783+07:00  WARN 19928 --- [file-service] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 254a37d8-7d0f-41f6-a891-8c0daf9a13aa
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-06-28T16:59:28.360+07:00  INFO 19928 --- [file-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-06-28T16:59:28.430+07:00  INFO 19928 --- [file-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7db791df, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1bfa5a13, org.springframework.security.web.context.SecurityContextHolderFilter@12f9f896, org.springframework.security.web.header.HeaderWriterFilter@67a8bcbb, org.springframework.web.filter.CorsFilter@1b1e1f02, org.springframework.security.web.authentication.logout.LogoutFilter@27d73d22, org.library.fileservice.filter.JwtAuthenticationFilter@1e98b788, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@505f45cc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@994544, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1da75dde, org.springframework.security.web.session.SessionManagementFilter@2af9a5ef, org.springframework.security.web.access.ExceptionTranslationFilter@6f0a4e30, org.springframework.security.web.access.intercept.AuthorizationFilter@7893c715]
+2025-06-28T16:59:29.177+07:00  INFO 19928 --- [file-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path ''
+2025-06-28T16:59:29.207+07:00  INFO 19928 --- [file-service] [main] o.l.fileservice.FileServiceApplication   : Started FileServiceApplication in 9.834 seconds (process running for 11.103)
+2025-06-28T16:59:59.949+07:00  INFO 19928 --- [file-service] [http-nio-8083-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-28T16:59:59.950+07:00  INFO 19928 --- [file-service] [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-06-28T16:59:59.958+07:00  INFO 19928 --- [file-service] [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2025-06-28T17:00:00.044+07:00  WARN 19928 --- [file-service] [http-nio-8083-exec-3] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/api/v1/files/upload' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+2025-06-28T17:00:00.064+07:00  WARN 19928 --- [file-service] [http-nio-8083-exec-3] o.l.f.filter.JwtAuthenticationFilter     : Invalid JWT token provided
+2025-06-28T17:04:19.481+07:00  WARN 19928 --- [file-service] [http-nio-8083-exec-6] o.l.f.filter.JwtAuthenticationFilter     : Invalid JWT token provided
+2025-06-28T17:04:28.096+07:00  WARN 19928 --- [file-service] [http-nio-8083-exec-7] o.l.f.filter.JwtAuthenticationFilter     : Invalid JWT token provided
+2025-06-28T17:04:35.974+07:00  WARN 19928 --- [file-service] [http-nio-8083-exec-1] o.l.f.filter.JwtAuthenticationFilter     : Invalid JWT token provided
+2025-06-28T17:04:45.258+07:00  WARN 19928 --- [file-service] [http-nio-8083-exec-4] o.l.f.filter.JwtAuthenticationFilter     : Invalid JWT token provided

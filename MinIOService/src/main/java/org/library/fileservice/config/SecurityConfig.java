@@ -1,7 +1,7 @@
-package com.library.config;
+package org.library.fileservice.config;
 
-import com.library.fillter.JwtAuthenticationFilter;
-import com.library.util.JwtVerifier;
+import org.library.fileservice.filter.JwtAuthenticationFilter;
+import org.library.fileservice.utill.JwtVerifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,9 +40,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/v1/health").permitAll()
-                        .requestMatchers("/api/v1/books/public/**").permitAll()
+                        .requestMatchers("/api/v1/files/health").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptions -> exceptions

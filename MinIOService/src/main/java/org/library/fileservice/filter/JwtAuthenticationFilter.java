@@ -1,20 +1,22 @@
-package com.library.fillter;
+package org.library.fileservice.filter;
 
-import com.library.util.JwtVerifier;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.servlet.http.HttpServletResponse;
+import org.library.fileservice.utill.JwtVerifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final JwtVerifier jwtVerifier;
 
@@ -43,13 +45,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         log.debug("Successfully authenticated user: {}", username);
                     }
                 } else {
-                    log.warn("Invalid JWT token provided for path: {}", request.getRequestURI());
-                    handleAuthenticationFailure(response, "Invalid or expired token", request.getRequestURI());
+                    log.warn("Invalid JWT token provided");
+                    handleAuthenticationFailure(response, "Invalid or expired token");
                     return;
                 }
             } catch (Exception e) {
-                log.error("JWT authentication failed for path {}: {}", request.getRequestURI(), e.getMessage());
-                handleAuthenticationFailure(response, "Authentication failed: " + e.getMessage(), request.getRequestURI());
+                log.error("JWT authentication failed: {}", e.getMessage());
+                handleAuthenticationFailure(response, "Authentication failed: " + e.getMessage());
                 return;
             }
         }
@@ -57,25 +59,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        // Skip JWT validation for public endpoints
-        return path.startsWith("/api/v1/books/public") ||
-               path.startsWith("/actuator/") ||
-               path.equals("/api/v1/health");
-    }
-
-    private void handleAuthenticationFailure(HttpServletResponse response, String message, String path) throws IOException {
+    private void handleAuthenticationFailure(HttpServletResponse response, String message) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         
         String jsonResponse = String.format(
-            "{\"timestamp\":\"%s\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"%s\",\"path\":\"%s\",\"success\":false}",
+            "{\"timestamp\":\"%s\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"%s\",\"path\":\"%s\"}",
             java.time.Instant.now().toString(),
             message,
-            path
+            "MinIO File Service"
         );
         
         response.getWriter().write(jsonResponse);
