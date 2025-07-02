@@ -65,9 +65,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findOrdersNeedingAttention(Pageable pageable);
     
     // Dashboard specific queries
-    Long countByOrderStatus(String status);
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = :status")
+    Long countByStatus(@Param("status") String status);
     
-    Long countByOrderStatusAndCreatedAtAfter(String status, LocalDateTime date);
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = :status AND o.createdAt > :date")
+    Long countByStatusAndCreatedAtAfter(@Param("status") String status, @Param("date") LocalDateTime date);
     
     Long countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
     

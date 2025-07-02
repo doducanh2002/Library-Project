@@ -84,6 +84,10 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     @Query("SELECT COUNT(n) FROM Notification n WHERE n.userId = :userId AND n.type = :type")
     Long countNotificationsByType(@Param("userId") String userId, @Param("type") NotificationType type);
+    
+    // Count all notifications by status (for dashboard)
+    @Query("SELECT COUNT(n) FROM Notification n WHERE n.status = :status")
+    Long countByStatus(@Param("status") String status);
 
     // Find notifications by multiple criteria
     @Query("SELECT n FROM Notification n WHERE " +

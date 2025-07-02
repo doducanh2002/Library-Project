@@ -6,7 +6,11 @@
       "Bash(git restore:*)",
       "Bash(git add:*)",
       "Bash(ss:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(mvn compile:*)",
+      "Bash(./mvnw compile:*)",
+      "Bash(chmod:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

@@ -63,6 +63,9 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     
     Long countByCreatedAtAfter(LocalDateTime date);
     
+    // Count loans between dates
+    Long countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+    
     @Query("SELECT l.status, COUNT(l) FROM Loan l GROUP BY l.status")
     List<Object[]> countLoansByStatusRaw();
     

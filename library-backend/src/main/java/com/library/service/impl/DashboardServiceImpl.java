@@ -61,8 +61,8 @@ public class DashboardServiceImpl implements DashboardService {
         
         // Order statistics
         Long totalOrders = orderRepository.count();
-        Long pendingOrders = orderRepository.countByOrderStatus("PENDING_PAYMENT");
-        Long completedOrdersToday = orderRepository.countByOrderStatusAndCreatedAtAfter(
+        Long pendingOrders = orderRepository.countByStatus("PENDING_PAYMENT");
+        Long completedOrdersToday = orderRepository.countByStatusAndCreatedAtAfter(
             "DELIVERED", LocalDateTime.now().toLocalDate().atStartOfDay());
         BigDecimal revenueToday = orderRepository.getTotalRevenueByDate(LocalDate.now());
         BigDecimal revenueThisMonth = orderRepository.getTotalRevenueByMonth(
@@ -174,8 +174,7 @@ public class DashboardServiceImpl implements DashboardService {
             .supportEmail("support@library.com")
             .maintenanceMode(false)
             .maintenanceMessage("")
-            .build();
-    }
+            .build();    }
 
     @Override
     public SystemConfigDTO updateSystemConfiguration(SystemConfigDTO config) {
