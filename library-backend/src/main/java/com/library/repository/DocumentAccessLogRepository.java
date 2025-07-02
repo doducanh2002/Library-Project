@@ -59,4 +59,16 @@ public interface DocumentAccessLogRepository extends JpaRepository<DocumentAcces
     // Clean up old logs
     @Query("DELETE FROM DocumentAccessLog dal WHERE dal.accessedAt < :cutoffDate")
     void deleteOldLogs(@Param("cutoffDate") LocalDateTime cutoffDate);
+    
+    // Count by access type (using String for easier service integration)
+    @Query("SELECT COUNT(dal) FROM DocumentAccessLog dal WHERE dal.accessType = :accessType")
+    Long countByAccessType(@Param("accessType") String accessType);
+    
+    // Count by access type and access time after
+    @Query("SELECT COUNT(dal) FROM DocumentAccessLog dal WHERE dal.accessType = :accessType AND dal.accessedAt > :afterTime")
+    Long countByAccessTypeAndAccessTimeAfter(@Param("accessType") String accessType, @Param("afterTime") LocalDateTime afterTime);
+    
+    // Count by access type and access time between dates
+    @Query("SELECT COUNT(dal) FROM DocumentAccessLog dal WHERE dal.accessType = :accessType AND dal.accessedAt BETWEEN :startTime AND :endTime")
+    Long countByAccessTypeAndAccessTimeBetween(@Param("accessType") String accessType, @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 }

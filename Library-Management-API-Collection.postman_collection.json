@@ -1,0 +1,2602 @@
+{
+  "info": {
+    "name": "Library Management System API",
+    "description": "Complete API collection for Library Management System with all endpoints",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearer_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "bearer_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01. Author Management",
+      "item": [
+        {
+          "name": "Get All Authors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors?page=0&size=10&sortBy=name&sortDir=asc",
+              "host": ["{{base_url}}"],
+              "path": ["authors"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sortBy", "value": "name"},
+                {"key": "sortDir", "value": "asc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Authors by Keyword",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/search?keyword=nguyen",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "search"],
+              "query": [
+                {"key": "keyword", "value": "nguyen"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Author by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/1",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Author with Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/1/books",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "1", "books"]
+            }
+          }
+        },
+        {
+          "name": "Get Authors by Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/name/Nguyen Van A",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "name", "Nguyen Van A"]
+            }
+          }
+        },
+        {
+          "name": "Get Authors by Nationality",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/nationality/Vietnam",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "nationality", "Vietnam"]
+            }
+          }
+        },
+        {
+          "name": "Get Most Prolific Authors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/prolific?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "prolific"],
+              "query": [
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Nationalities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/authors/nationalities",
+              "host": ["{{base_url}}"],
+              "path": ["authors", "nationalities"]
+            }
+          }
+        },
+        {
+          "name": "Create Author (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Nguyen Van Test\",\n    \"biography\": \"Test author biography\",\n    \"nationality\": \"Vietnam\",\n    \"birthDate\": \"1980-01-15\",\n    \"email\": \"test@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/authors",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "authors"]
+            }
+          }
+        },
+        {
+          "name": "Update Author (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Nguyen Van Test Updated\",\n    \"biography\": \"Updated biography\",\n    \"nationality\": \"Vietnam\",\n    \"birthDate\": \"1980-01-15\",\n    \"email\": \"test.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/authors/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "authors", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Author (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/authors/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "authors", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Book Management",
+      "item": [
+        {
+          "name": "Search Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books?title=java&author=&categoryId=&isLendable=true&isSellable=true&language=&page=0&size=10&sortBy=title&sortDir=asc",
+              "host": ["{{base_url}}"],
+              "path": ["books"],
+              "query": [
+                {"key": "title", "value": "java"},
+                {"key": "author", "value": ""},
+                {"key": "categoryId", "value": ""},
+                {"key": "isLendable", "value": "true"},
+                {"key": "isSellable", "value": "true"},
+                {"key": "language", "value": ""},
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sortBy", "value": "title"},
+                {"key": "sortDir", "value": "asc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Advanced Book Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"java\",\n    \"author\": \"\",\n    \"categoryIds\": [],\n    \"publisherIds\": [],\n    \"minPrice\": 0,\n    \"maxPrice\": 1000000,\n    \"isLendable\": true,\n    \"isSellable\": true,\n    \"language\": \"\",\n    \"page\": 0,\n    \"size\": 10,\n    \"sortBy\": \"title\",\n    \"sortDir\": \"asc\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/books/search",
+              "host": ["{{base_url}}"],
+              "path": ["books", "search"]
+            }
+          }
+        },
+        {
+          "name": "Get Book by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/1",
+              "host": ["{{base_url}}"],
+              "path": ["books", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Book by ISBN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/isbn/9781234567890",
+              "host": ["{{base_url}}"],
+              "path": ["books", "isbn", "9781234567890"]
+            }
+          }
+        },
+        {
+          "name": "Get Popular Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/popular?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["books", "popular"],
+              "query": [
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Books by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/category/1",
+              "host": ["{{base_url}}"],
+              "path": ["books", "category", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Books by Author",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/author/1",
+              "host": ["{{base_url}}"],
+              "path": ["books", "author", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Books by Publisher",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/publisher/1",
+              "host": ["{{base_url}}"],
+              "path": ["books", "publisher", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Book (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Test Book\",\n    \"isbn\": \"9781234567891\",\n    \"description\": \"Test book description\",\n    \"authorIds\": [1],\n    \"categoryId\": 1,\n    \"publisherId\": 1,\n    \"publicationDate\": \"2023-01-01\",\n    \"language\": \"Vietnamese\",\n    \"pages\": 300,\n    \"price\": 250000,\n    \"stock\": 10,\n    \"totalCopies\": 5,\n    \"availableCopies\": 5,\n    \"isLendable\": true,\n    \"isSellable\": true,\n    \"imageUrl\": \"https://example.com/book-cover.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/books",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "books"]
+            }
+          }
+        },
+        {
+          "name": "Update Book (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Test Book Updated\",\n    \"isbn\": \"9781234567891\",\n    \"description\": \"Updated test book description\",\n    \"authorIds\": [1],\n    \"categoryId\": 1,\n    \"publisherId\": 1,\n    \"publicationDate\": \"2023-01-01\",\n    \"language\": \"Vietnamese\",\n    \"pages\": 320,\n    \"price\": 280000,\n    \"stock\": 15,\n    \"totalCopies\": 5,\n    \"availableCopies\": 5,\n    \"isLendable\": true,\n    \"isSellable\": true,\n    \"imageUrl\": \"https://example.com/book-cover-updated.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/books/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Book (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/books/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Book Stock (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/books/1/stock?stock=20",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "books", "1", "stock"],
+              "query": [
+                {"key": "stock", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Loan Copies (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/books/1/loan-copies?totalCopies=10&availableCopies=8",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "books", "1", "loan-copies"],
+              "query": [
+                {"key": "totalCopies", "value": "10"},
+                {"key": "availableCopies", "value": "8"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Shopping Cart",
+      "item": [
+        {
+          "name": "Get Cart Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart",
+              "host": ["{{base_url}}"],
+              "path": ["cart"]
+            }
+          }
+        },
+        {
+          "name": "Get Cart Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart/summary",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "summary"]
+            }
+          }
+        },
+        {
+          "name": "Add Item to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"bookId\": 1,\n    \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/cart/items",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "items"]
+            }
+          }
+        },
+        {
+          "name": "Update Cart Item Quantity",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/cart/items/1",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "items", "1"]
+            }
+          }
+        },
+        {
+          "name": "Remove Item from Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart/items/1",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "items", "1"]
+            }
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart",
+              "host": ["{{base_url}}"],
+              "path": ["cart"]
+            }
+          }
+        },
+        {
+          "name": "Get Cart Item Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart/count",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "count"]
+            }
+          }
+        },
+        {
+          "name": "Get Total Quantity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart/quantity",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "quantity"]
+            }
+          }
+        },
+        {
+          "name": "Validate Cart for Checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/cart/validate",
+              "host": ["{{base_url}}"],
+              "path": ["cart", "validate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Category Management",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories?page=0&size=10&sortBy=name&sortDir=asc",
+              "host": ["{{base_url}}"],
+              "path": ["categories"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sortBy", "value": "name"},
+                {"key": "sortDir", "value": "asc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Active Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/active",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Root Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/root",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "root"]
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/1",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Category by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/slug/programming",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "slug", "programming"]
+            }
+          }
+        },
+        {
+          "name": "Get Subcategories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/1/subcategories",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "1", "subcategories"]
+            }
+          }
+        },
+        {
+          "name": "Get Category Hierarchy",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/1/hierarchy",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "1", "hierarchy"]
+            }
+          }
+        },
+        {
+          "name": "Check Category Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/check-name?name=Programming",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "check-name"],
+              "query": [
+                {"key": "name", "value": "Programming"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check Category Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/check-slug?slug=programming",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "check-slug"],
+              "query": [
+                {"key": "slug", "value": "programming"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Category (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test Category\",\n    \"description\": \"Test category description\",\n    \"slug\": \"test-category\",\n    \"parentId\": null,\n    \"isActive\": true,\n    \"displayOrder\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/categories",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test Category Updated\",\n    \"description\": \"Updated test category description\",\n    \"slug\": \"test-category-updated\",\n    \"parentId\": null,\n    \"isActive\": true,\n    \"displayOrder\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/categories/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/categories/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Admin Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/overview",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "overview"]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "statistics"]
+            }
+          }
+        },
+        {
+          "name": "Get Daily Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/daily-stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "daily-stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Monthly Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/monthly-stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "monthly-stats"]
+            }
+          }
+        },
+        {
+          "name": "Get System Configuration (Admin Only)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/system-config",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "system-config"]
+            }
+          }
+        },
+        {
+          "name": "Update System Configuration (Admin Only)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"maxLoanDays\": 14,\n    \"maxBooksPerLoan\": 5,\n    \"overdueFinePerDay\": 5000,\n    \"systemMaintenance\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/system-config",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "system-config"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Dashboard Cache (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/refresh-cache",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "refresh-cache"]
+            }
+          }
+        },
+        {
+          "name": "Get System Health Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/health",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. Document Management",
+      "item": [
+        {
+          "name": "Search Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents?title=java&type=PDF&accessLevel=PUBLIC&page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["documents"],
+              "query": [
+                {"key": "title", "value": "java"},
+                {"key": "type", "value": "PDF"},
+                {"key": "accessLevel", "value": "PUBLIC"},
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Advanced Document Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"java\",\n    \"type\": \"PDF\",\n    \"accessLevel\": \"PUBLIC\",\n    \"uploaderId\": null,\n    \"bookId\": null,\n    \"page\": 0,\n    \"size\": 10,\n    \"sortBy\": \"title\",\n    \"sortDir\": \"asc\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/documents/search",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "search"]
+            }
+          }
+        },
+        {
+          "name": "Get Public Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/public",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "public"]
+            }
+          }
+        },
+        {
+          "name": "Get Document by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/1",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Documents by Book",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/book/1",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "book", "1"]
+            }
+          }
+        },
+        {
+          "name": "Download Document",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/1/download",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1", "download"]
+            }
+          }
+        },
+        {
+          "name": "Get Download URL",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/1/download-url",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1", "download-url"]
+            }
+          }
+        },
+        {
+          "name": "View Document",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/1/view",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1", "view"]
+            }
+          }
+        },
+        {
+          "name": "Get View URL",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/1/view-url",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1", "view-url"]
+            }
+          }
+        },
+        {
+          "name": "Get Popular Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/popular?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "popular"],
+              "query": [
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "title",
+                  "value": "Test Document",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Test document description",
+                  "type": "text"
+                },
+                {
+                  "key": "type",
+                  "value": "PDF",
+                  "type": "text"
+                },
+                {
+                  "key": "accessLevel",
+                  "value": "PUBLIC",
+                  "type": "text"
+                },
+                {
+                  "key": "bookId",
+                  "value": "1",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/documents",
+              "host": ["{{base_url}}"],
+              "path": ["documents"]
+            }
+          }
+        },
+        {
+          "name": "Update Document Metadata",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated Test Document\",\n    \"description\": \"Updated test document description\",\n    \"type\": \"PDF\",\n    \"accessLevel\": \"PRIVATE\",\n    \"bookId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/documents/1",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/documents/1",
+              "host": ["{{base_url}}"],
+              "path": ["documents", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07. Health Check",
+      "item": [
+        {
+          "name": "Get Health Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08. Loan Management",
+      "item": [
+        {
+          "name": "Create Loan Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"bookIds\": [1, 2],\n    \"notes\": \"Loan request for research purposes\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/loans/request",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get My Loans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/loans/my-loans?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "my-loans"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Current Active Loans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/loans/my-loans/current",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "my-loans", "current"]
+            }
+          }
+        },
+        {
+          "name": "Get Loan Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/loans/1",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "1"]
+            }
+          }
+        },
+        {
+          "name": "Check if Can Borrow More",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/loans/can-borrow",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "can-borrow"]
+            }
+          }
+        },
+        {
+          "name": "Get My Loan History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/loans/my-history?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "my-history"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Current Loan Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/loans/current/1",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "current", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09. Notification Management",
+      "item": [
+        {
+          "name": "Get User Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?page=0&size=10&isRead=false&priority=HIGH",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "isRead", "value": "false"},
+                {"key": "priority", "value": "HIGH"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Notification by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/1",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Recent Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/recent?hours=24",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "recent"],
+              "query": [
+                {"key": "hours", "value": "24"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get High Priority Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/high-priority",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "high-priority"]
+            }
+          }
+        },
+        {
+          "name": "Get Notification Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/summary",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "summary"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/unread-count",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "unread-count"]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/1/read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "1", "read"]
+            }
+          }
+        },
+        {
+          "name": "Mark All Notifications as Read",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/mark-all-read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "mark-all-read"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Mark Notifications as Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"notificationIds\": [1, 2, 3]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notifications/bulk-mark-read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "bulk-mark-read"]
+            }
+          }
+        },
+        {
+          "name": "Archive Notification",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/1/archive",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "1", "archive"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/1",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "1"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Delete Notifications",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"notificationIds\": [1, 2, 3]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notifications/bulk-delete",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "bulk-delete"]
+            }
+          }
+        },
+        {
+          "name": "Create Notification (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": 1,\n    \"title\": \"System Maintenance\",\n    \"message\": \"The system will be under maintenance from 2:00 AM to 4:00 AM\",\n    \"type\": \"SYSTEM\",\n    \"priority\": \"HIGH\",\n    \"data\": {}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Order Management",
+      "item": [
+        {
+          "name": "Create Order from Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"shippingAddress\": \"123 Main Street, Ho Chi Minh City\",\n    \"paymentMethod\": \"CASH_ON_DELIVERY\",\n    \"notes\": \"Please call before delivery\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/checkout",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "checkout"]
+            }
+          }
+        },
+        {
+          "name": "Calculate Order Totals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/calculate",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "calculate"]
+            }
+          }
+        },
+        {
+          "name": "Get User Order History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders?page=0&size=10&status=COMPLETED",
+              "host": ["{{base_url}}"],
+              "path": ["orders"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "status", "value": "COMPLETED"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Current Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/current",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "current"]
+            }
+          }
+        },
+        {
+          "name": "Get Order Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/ORD001",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "ORD001"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reason\": \"Changed my mind\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/ORD001/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "ORD001", "cancel"]
+            }
+          }
+        },
+        {
+          "name": "Check if Can Place Order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/can-place-order",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "can-place-order"]
+            }
+          }
+        },
+        {
+          "name": "Get Detailed Order History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/history?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "history"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Order Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "statistics"]
+            }
+          }
+        },
+        {
+          "name": "Reorder from Existing Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/ORD001/reorder",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "ORD001", "reorder"]
+            }
+          }
+        },
+        {
+          "name": "Track Order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{user_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/ORD001/track",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "ORD001", "track"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Publisher Management",
+      "item": [
+        {
+          "name": "Get All Publishers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers?page=0&size=10&sortBy=name&sortDir=asc",
+              "host": ["{{base_url}}"],
+              "path": ["publishers"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sortBy", "value": "name"},
+                {"key": "sortDir", "value": "asc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Publisher by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers/1",
+              "host": ["{{base_url}}"],
+              "path": ["publishers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Publisher with Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers/1/books",
+              "host": ["{{base_url}}"],
+              "path": ["publishers", "1", "books"]
+            }
+          }
+        },
+        {
+          "name": "Search Publishers by Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers/search?name=nxb",
+              "host": ["{{base_url}}"],
+              "path": ["publishers", "search"],
+              "query": [
+                {"key": "name", "value": "nxb"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Publishers by Established Year",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers/established?startYear=1990&endYear=2020",
+              "host": ["{{base_url}}"],
+              "path": ["publishers", "established"],
+              "query": [
+                {"key": "startYear", "value": "1990"},
+                {"key": "endYear", "value": "2020"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Most Active Publishers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers/active?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["publishers", "active"],
+              "query": [
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check Publisher Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/publishers/check-name?name=NXB Test",
+              "host": ["{{base_url}}"],
+              "path": ["publishers", "check-name"],
+              "query": [
+                {"key": "name", "value": "NXB Test"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Publisher (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"NXB Test\",\n    \"address\": \"123 Test Street, Ho Chi Minh City\",\n    \"email\": \"contact@nxbtest.com\",\n    \"phone\": \"0123456789\",\n    \"website\": \"https://nxbtest.com\",\n    \"establishedYear\": 2020,\n    \"description\": \"Test publisher description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/publishers",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "publishers"]
+            }
+          }
+        },
+        {
+          "name": "Update Publisher (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"NXB Test Updated\",\n    \"address\": \"456 Updated Street, Ho Chi Minh City\",\n    \"email\": \"updated@nxbtest.com\",\n    \"phone\": \"0987654321\",\n    \"website\": \"https://updated.nxbtest.com\",\n    \"establishedYear\": 2020,\n    \"description\": \"Updated test publisher description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/publishers/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "publishers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Publisher (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/publishers/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "publishers", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12. Search",
+      "item": [
+        {
+          "name": "Full-text Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/fulltext?q=java programming",
+              "host": ["{{base_url}}"],
+              "path": ["search", "fulltext"],
+              "query": [
+                {"key": "q", "value": "java programming"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Advanced Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"query\": \"java\",\n    \"title\": \"\",\n    \"author\": \"\",\n    \"categoryIds\": [],\n    \"publisherIds\": [],\n    \"minPrice\": 0,\n    \"maxPrice\": 1000000,\n    \"isLendable\": true,\n    \"isSellable\": true,\n    \"language\": \"\",\n    \"page\": 0,\n    \"size\": 10,\n    \"sortBy\": \"relevance\",\n    \"sortDir\": \"desc\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/search/advanced",
+              "host": ["{{base_url}}"],
+              "path": ["search", "advanced"]
+            }
+          }
+        },
+        {
+          "name": "Search by Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/categories?categoryIds=1,2,3",
+              "host": ["{{base_url}}"],
+              "path": ["search", "categories"],
+              "query": [
+                {"key": "categoryIds", "value": "1,2,3"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search by Authors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/authors?authorIds=1,2,3",
+              "host": ["{{base_url}}"],
+              "path": ["search", "authors"],
+              "query": [
+                {"key": "authorIds", "value": "1,2,3"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Available for Loan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/available-for-loan",
+              "host": ["{{base_url}}"],
+              "path": ["search", "available-for-loan"]
+            }
+          }
+        },
+        {
+          "name": "Search Available for Sale",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/available-for-sale",
+              "host": ["{{base_url}}"],
+              "path": ["search", "available-for-sale"]
+            }
+          }
+        },
+        {
+          "name": "Search Recently Added",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/recent?days=7",
+              "host": ["{{base_url}}"],
+              "path": ["search", "recent"],
+              "query": [
+                {"key": "days", "value": "7"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Search Suggestions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/suggestions?q=java&limit=5",
+              "host": ["{{base_url}}"],
+              "path": ["search", "suggestions"],
+              "query": [
+                {"key": "q", "value": "java"},
+                {"key": "limit", "value": "5"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Popular Search Terms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/popular-terms?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["search", "popular-terms"],
+              "query": [
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Performance Optimized Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/search/filters/performance",
+              "host": ["{{base_url}}"],
+              "path": ["search", "filters", "performance"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13. Admin Document Management",
+      "item": [
+        {
+          "name": "Get Document Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "statistics"]
+            }
+          }
+        },
+        {
+          "name": "Get Document Access Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/1/access-logs",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "1", "access-logs"]
+            }
+          }
+        },
+        {
+          "name": "Get All Documents (Including Inactive)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/all?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "all"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Activate Document",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/1/activate",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "1", "activate"]
+            }
+          }
+        },
+        {
+          "name": "Deactivate Document",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/1/deactivate",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "1", "deactivate"]
+            }
+          }
+        },
+        {
+          "name": "Get Documents by Uploader",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/by-uploader/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "by-uploader", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Orphaned Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/documents/orphaned",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "orphaned"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Update Access Level",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"documentIds\": [1, 2, 3],\n    \"accessLevel\": \"PUBLIC\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/documents/bulk-update-access-level",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "bulk-update-access-level"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Delete Documents",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"documentIds\": [1, 2, 3]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/documents/bulk-delete",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "documents", "bulk-delete"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14. Admin Loan Management",
+      "item": [
+        {
+          "name": "Get All Loans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans?page=0&size=10&sortBy=loanDate&sortDir=desc",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sortBy", "value": "loanDate"},
+                {"key": "sortDir", "value": "desc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Loans by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans/status/PENDING",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "status", "PENDING"]
+            }
+          }
+        },
+        {
+          "name": "Get Loan Details (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "1"]
+            }
+          }
+        },
+        {
+          "name": "Approve Loan Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"notes\": \"Approved by librarian\",\n    \"dueDate\": \"2024-02-15\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/loans/1/approve",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "1", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Loan Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reason\": \"Books not available\",\n    \"notes\": \"Rejected - insufficient copies available\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/loans/1/reject",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "1", "reject"]
+            }
+          }
+        },
+        {
+          "name": "Process Book Return",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"condition\": \"GOOD\",\n    \"notes\": \"Books returned in good condition\",\n    \"fine\": 0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/loans/1/return",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "1", "return"]
+            }
+          }
+        },
+        {
+          "name": "Get Overdue Loans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans/overdue",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "overdue"]
+            }
+          }
+        },
+        {
+          "name": "Update Overdue Status",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans/update-overdue",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "update-overdue"]
+            }
+          }
+        },
+        {
+          "name": "Calculate and Update Fine",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans/1/calculate-fine",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "1", "calculate-fine"]
+            }
+          }
+        },
+        {
+          "name": "Get Loans with Unpaid Fines",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/loans/unpaid-fines",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "loans", "unpaid-fines"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15. Admin Notification Management",
+      "item": [
+        {
+          "name": "Get All Notifications (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications?page=0&size=10&type=SYSTEM&priority=HIGH",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "type", "value": "SYSTEM"},
+                {"key": "priority", "value": "HIGH"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Notifications with Criteria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/search?userId=1&type=LOAN&isRead=false&startDate=2024-01-01&endDate=2024-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "search"],
+              "query": [
+                {"key": "userId", "value": "1"},
+                {"key": "type", "value": "LOAN"},
+                {"key": "isRead", "value": "false"},
+                {"key": "startDate", "value": "2024-01-01"},
+                {"key": "endDate", "value": "2024-01-31"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Notification (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": 1,\n    \"title\": \"Library Closure Notice\",\n    \"message\": \"The library will be closed for maintenance on Sunday\",\n    \"type\": \"SYSTEM\",\n    \"priority\": \"MEDIUM\",\n    \"data\": {\n        \"maintenanceDate\": \"2024-02-04\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Broadcast Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userIds\": [1, 2, 3],\n    \"title\": \"New Books Available\",\n    \"message\": \"Check out our new collection of programming books\",\n    \"type\": \"ANNOUNCEMENT\",\n    \"priority\": \"MEDIUM\",\n    \"data\": {\n        \"category\": \"Programming\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/broadcast",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "broadcast"]
+            }
+          }
+        },
+        {
+          "name": "Send System Maintenance Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"startTime\": \"2024-02-04T02:00:00\",\n    \"endTime\": \"2024-02-04T04:00:00\",\n    \"reason\": \"Database maintenance and system updates\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/system-maintenance",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "system-maintenance"]
+            }
+          }
+        },
+        {
+          "name": "Get Notifications Needing Email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/email-pending",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "email-pending"]
+            }
+          }
+        },
+        {
+          "name": "Mark Email as Sent",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/1/email-sent",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "1", "email-sent"]
+            }
+          }
+        },
+        {
+          "name": "Cleanup Expired Notifications",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/cleanup-expired",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "cleanup-expired"]
+            }
+          }
+        },
+        {
+          "name": "Cleanup Old Notifications",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/cleanup-old?daysOld=30",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "cleanup-old"],
+              "query": [
+                {"key": "daysOld", "value": "30"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Notification Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "statistics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16. Admin Order Management",
+      "item": [
+        {
+          "name": "Get All Orders (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/orders?page=0&size=10&sortBy=orderDate&sortDir=desc",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "10"},
+                {"key": "sortBy", "value": "orderDate"},
+                {"key": "sortDir", "value": "desc"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Orders by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/orders/status/PENDING",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "status", "PENDING"]
+            }
+          }
+        },
+        {
+          "name": "Get Orders by Payment Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/orders/payment-status/PAID",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "payment-status", "PAID"]
+            }
+          }
+        },
+        {
+          "name": "Get Order Details (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/orders/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"PROCESSING\",\n    \"notes\": \"Order is being prepared for shipment\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/orders/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "1", "status"]
+            }
+          }
+        },
+        {
+          "name": "Update Payment Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"paymentStatus\": \"PAID\",\n    \"paymentMethod\": \"BANK_TRANSFER\",\n    \"transactionId\": \"TXN123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/orders/1/payment-status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "1", "payment-status"]
+            }
+          }
+        },
+        {
+          "name": "Process Refund (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 250000,\n    \"reason\": \"Customer requested cancellation\",\n    \"refundMethod\": \"BANK_TRANSFER\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/orders/1/refund",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "1", "refund"]
+            }
+          }
+        },
+        {
+          "name": "Get Orders Needing Attention",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/orders/need-attention",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "need-attention"]
+            }
+          }
+        },
+        {
+          "name": "Get Order Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/orders/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "statistics"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orderIds\": [1, 2, 3],\n    \"status\": \"SHIPPED\",\n    \"notes\": \"Bulk shipment processed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/orders/bulk-update-status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "bulk-update-status"]
+            }
+          }
+        },
+        {
+          "name": "Add Admin Notes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"notes\": \"Customer called to confirm shipping address\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/orders/1/notes",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "orders", "1", "notes"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

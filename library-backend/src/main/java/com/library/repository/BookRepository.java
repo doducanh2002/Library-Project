@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -147,4 +148,22 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
         @Param("isLendable") Boolean isLendable,
         @Param("isSellable") Boolean isSellable,
         Pageable pageable);
+    
+    // Dashboard specific queries
+    @Query("SELECT COUNT(b) FROM Book b WHERE b.availableCopiesForLoan > 0")
+    Long countByAvailableCopiesGreaterThan(int copies);
+    
+    @Query("SELECT COUNT(b) FROM Book b WHERE MONTH(b.createdAt) = MONTH(CURRENT_DATE) AND YEAR(b.createdAt) = YEAR(CURRENT_DATE)")
+    Long countBooksAddedInCurrentMonth();
+    
+    @Query("SELECT c.name, COUNT(b) FROM Book b JOIN b.category c GROUP BY c.name")
+    List<Object[]> countBooksByCategoryRaw();
+    
+    default Map<String, Long> countBooksByCategory() {
+        return countBooksByCategoryRaw().stream()
+            .collect(java.util.stream.Collectors.toMap(
+                row -> (String) row[0],
+                row -> (Long) row[1]
+            ));
+    }
 }

@@ -11,8 +11,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -61,4 +63,30 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // Orders that need admin attention
     @Query("SELECT o FROM Order o WHERE o.status IN ('PAID', 'PROCESSING') ORDER BY o.orderDate ASC")
     List<Order> findOrdersNeedingAttention(Pageable pageable);
+    
+    // Dashboard specific queries
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = :status")
+    Long countByStatus(@Param("status") String status);
+    
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = :status AND o.createdAt > :date")
+    Long countByStatusAndCreatedAtAfter(@Param("status") String status, @Param("date") LocalDateTime date);
+    
+    Long countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+    
+    @Query("SELECT DATE(o.createdAt), SUM(o.totalAmount) FROM Order o WHERE o.paymentStatus = 'PAID' AND DATE(o.createdAt) = :date GROUP BY DATE(o.createdAt)")
+    BigDecimal getTotalRevenueByDate(@Param("date") LocalDate date);
+    
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.paymentStatus = 'PAID' AND YEAR(o.createdAt) = :year AND MONTH(o.createdAt) = :month")
+    BigDecimal getTotalRevenueByMonth(@Param("year") int year, @Param("month") int month);
+    
+    @Query("SELECT o.status, COUNT(o) FROM Order o GROUP BY o.status")
+    List<Object[]> countOrdersByStatusRaw();
+    
+    default Map<String, Long> countOrdersByStatus() {
+        return countOrdersByStatusRaw().stream()
+            .collect(java.util.stream.Collectors.toMap(
+                row -> row[0].toString(),
+                row -> (Long) row[1]
+            ));
+    }
 }
