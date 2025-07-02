@@ -5,34 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="fix: fix develop">
-      <change afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/config/CustomAuthenticationEntryPoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/filter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/CustomAuthenticationEntryPoint.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/JwkClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/utill/JwkClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/JwtAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/JwtVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/utill/JwtVerifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/authen/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/MinIOService/src/main/java/org/library/fileservice/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwkClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwkClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwtVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwtVerifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application-docker.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/application-docker.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory$Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory$Config.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwkClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwkClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwtVerifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwtVerifier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/fillter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/fillter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/api-gateway.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/api-gateway.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/file-service.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/file-service.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/LoanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/LoanRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/OrderRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +77,7 @@
     "Spring Boot.AuthenServiceApplication.executor": "Run",
     "Spring Boot.FileServiceApplication.executor": "Run",
     "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "fix/fix-develop",
+    "git-widget-placeholder": "feature/sprint7-admin-dashboard",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ADMIN/OneDrive/Desktop/Library-Project/MinIOService/src/main/java/org/library/fileservice/utill",
@@ -110,7 +90,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -142,6 +122,12 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.LibraryBackendApplication">
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="ApiGatewayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.library.gateway.ApiGatewayApplication" />
       <module name="api-gateway" />
@@ -251,12 +237,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.LibraryBackendApplication" />
       <item itemvalue="Application.ApiGatewayApplication" />
@@ -331,7 +311,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/library-backend/src/main/java/com/library/service/SearchService.java</url>
           <line>44</line>
-          <properties class="com.library.service.SearchService">
+          <properties class="com.library.service.SearchService" method="searchByAuthors">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

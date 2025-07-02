@@ -5,7 +5,8 @@
       "Bash(ls:*)",
       "Bash(git restore:*)",
       "Bash(git add:*)",
-      "Bash(ss:*)"
+      "Bash(ss:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

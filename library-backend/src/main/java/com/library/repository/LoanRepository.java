@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -54,4 +55,22 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
         @Param("bookId") Long bookId, 
         @Param("statuses") java.util.List<String> statuses
     );
+    
+    // Dashboard specific queries
+    Long countByStatus(String status);
+    
+    Long countByStatusIn(List<String> statuses);
+    
+    Long countByCreatedAtAfter(LocalDateTime date);
+    
+    @Query("SELECT l.status, COUNT(l) FROM Loan l GROUP BY l.status")
+    List<Object[]> countLoansByStatusRaw();
+    
+    default Map<String, Long> countLoansByStatus() {
+        return countLoansByStatusRaw().stream()
+            .collect(java.util.stream.Collectors.toMap(
+                row -> row[0].toString(),
+                row -> (Long) row[1]
+            ));
+    }
 }
