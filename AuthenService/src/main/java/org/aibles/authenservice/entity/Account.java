@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "\"account\"")
 @Builder
+@Table(name = "\"account\"")
 public class Account {
 
     @Id
@@ -39,13 +39,13 @@ public class Account {
     public Account() {
     }
 
-    public Account(String id, String username, String password, Boolean isActivated, String userId, Boolean isLocked) {
+    public Account(String id, String username, String password, Boolean isActivated, Boolean isLocked, String userId) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.isActivated = isActivated;
-        this.userId = userId;
         this.isLocked = isLocked;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -80,19 +80,19 @@ public class Account {
         isActivated = activated;
     }
 
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
+    }
+
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public Boolean getIsLocked() {
-        return isLocked;
-    }
-
-    public void setIsLocked(Boolean isLocked) {
-        this.isLocked = isLocked;
     }
 }

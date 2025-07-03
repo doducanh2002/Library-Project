@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 //      private static final Logger log = LoggerFactory.getLogger(JwkClient.class);
 
-      @Value("${auth.service.jwk.url:http://localhost:8080/api/v1/auth/jwk/token}")
+      @Value("http://localhost:8081/api/v1/auth/jwk/token")
       private String jwkUrl;
 
       private final WebClient webClient;

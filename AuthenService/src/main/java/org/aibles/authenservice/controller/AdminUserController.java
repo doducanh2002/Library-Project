@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aibles.authenservice.dto.request.AdminUserSearchRequest;
 import org.aibles.authenservice.dto.request.UpdateUserRolesRequest;
 import org.aibles.authenservice.dto.request.UpdateUserStatusRequest;
@@ -13,27 +11,36 @@ import org.aibles.authenservice.dto.response.AdminUserDTO;
 import org.aibles.authenservice.dto.response.BaseResponse;
 import org.aibles.authenservice.dto.response.UserStatsDTO;
 import org.aibles.authenservice.service.AdminUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/v1/admin/users")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @Tag(name = "Admin User Management", description = "Admin operations for user management")
 @SecurityRequirement(name = "Bearer Authentication")
 public class AdminUserController {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminUserController.class);
+
     private final AdminUserService adminUserService;
 
+    public AdminUserController(AdminUserService adminUserService) {
+        this.adminUserService = adminUserService;
+    }
+
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     @Operation(summary = "Get all users with pagination and filtering")
-    public ResponseEntity<BaseResponse<Page<AdminUserDTO>>> getAllUsers(
+    public BaseResponse<Page<AdminUserDTO>> getAllUsers(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(required = false) Boolean isActivated,
             @RequestParam(required = false) Boolean isLocked,
@@ -43,6 +50,8 @@ public class AdminUserController {
             @RequestParam(defaultValue = "desc") String sortDirection,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
+        
+        log.info("Received get all users request with keyword: {}, role: {}, page: {}, size: {}", keyword, role, page, size);
         
         AdminUserSearchRequest request = AdminUserSearchRequest.builder()
             .keyword(keyword)
@@ -65,122 +74,104 @@ public class AdminUserController {
         
         Page<AdminUserDTO> users = adminUserService.getAllUsers(request);
         
-        return ResponseEntity.ok(BaseResponse.<Page<AdminUserDTO>>builder()
-            .success(true)
-            .message("Users retrieved successfully")
-            .data(users)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), users);
     }
 
     @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     @Operation(summary = "Get user details by ID")
-    public ResponseEntity<BaseResponse<AdminUserDTO>> getUserById(@PathVariable String userId) {
+    public BaseResponse<AdminUserDTO> getUserById(@PathVariable String userId) {
+        log.info("Received get user by ID request for userId: {}", userId);
         AdminUserDTO user = adminUserService.getUserById(userId);
         
-        return ResponseEntity.ok(BaseResponse.<AdminUserDTO>builder()
-            .success(true)
-            .message("User details retrieved successfully")
-            .data(user)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), user);
     }
 
     @PutMapping("/{userId}/status")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update user account status (activate/deactivate, lock/unlock)")
-    public ResponseEntity<BaseResponse<AdminUserDTO>> updateUserStatus(
+    public BaseResponse<AdminUserDTO> updateUserStatus(
             @PathVariable String userId,
-            @Valid @RequestBody UpdateUserStatusRequest request) {
+            @RequestBody @Validated UpdateUserStatusRequest request) {
         
+        log.info("Received update user status request for userId: {}", userId);
         request.setUserId(userId);
         AdminUserDTO updatedUser = adminUserService.updateUserStatus(request);
         
-        return ResponseEntity.ok(BaseResponse.<AdminUserDTO>builder()
-            .success(true)
-            .message("User status updated successfully")
-            .data(updatedUser)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), updatedUser);
     }
 
     @PutMapping("/{userId}/roles")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update user roles")
-    public ResponseEntity<BaseResponse<AdminUserDTO>> updateUserRoles(
+    public BaseResponse<AdminUserDTO> updateUserRoles(
             @PathVariable String userId,
-            @Valid @RequestBody UpdateUserRolesRequest request) {
+            @RequestBody @Validated UpdateUserRolesRequest request) {
         
+        log.info("Received update user roles request for userId: {}", userId);
         request.setUserId(userId);
         AdminUserDTO updatedUser = adminUserService.updateUserRoles(request);
         
-        return ResponseEntity.ok(BaseResponse.<AdminUserDTO>builder()
-            .success(true)
-            .message("User roles updated successfully")
-            .data(updatedUser)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), updatedUser);
     }
 
     @GetMapping("/statistics")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     @Operation(summary = "Get user statistics for admin dashboard")
-    public ResponseEntity<BaseResponse<UserStatsDTO>> getUserStatistics() {
+    public BaseResponse<UserStatsDTO> getUserStatistics() {
+        log.info("Received get user statistics request");
         UserStatsDTO stats = adminUserService.getUserStatistics();
         
-        return ResponseEntity.ok(BaseResponse.<UserStatsDTO>builder()
-            .success(true)
-            .message("User statistics retrieved successfully")
-            .data(stats)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), stats);
     }
 
     @GetMapping("/roles")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     @Operation(summary = "Get all available roles")
-    public ResponseEntity<BaseResponse<List<String>>> getAllRoles() {
+    public BaseResponse<List<String>> getAllRoles() {
+        log.info("Received get all roles request");
         List<String> roles = adminUserService.getAllRoles();
         
-        return ResponseEntity.ok(BaseResponse.<List<String>>builder()
-            .success(true)
-            .message("Roles retrieved successfully")
-            .data(roles)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), roles);
     }
 
     @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete user account")
-    public ResponseEntity<BaseResponse<String>> deleteUser(@PathVariable String userId) {
+    public BaseResponse<String> deleteUser(@PathVariable String userId) {
+        log.info("Received delete user request for userId: {}", userId);
         adminUserService.deleteUser(userId);
         
-        return ResponseEntity.ok(BaseResponse.<String>builder()
-            .success(true)
-            .message("User deleted successfully")
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), null);
     }
 
     @PostMapping("/{userId}/reset-password")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Reset user password")
-    public ResponseEntity<BaseResponse<String>> resetUserPassword(@PathVariable String userId) {
+    public BaseResponse<String> resetUserPassword(@PathVariable String userId) {
+        log.info("Received reset user password request for userId: {}", userId);
         adminUserService.resetUserPassword(userId);
         
-        return ResponseEntity.ok(BaseResponse.<String>builder()
-            .success(true)
-            .message("Password reset successfully. Temporary password sent to user's email.")
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), null);
     }
 
     @GetMapping("/inactive")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN') or hasRole('LIBRARIAN')")
     @Operation(summary = "Get users who haven't logged in for specified days")
-    public ResponseEntity<BaseResponse<List<AdminUserDTO>>> getInactiveUsers(
+    public BaseResponse<List<AdminUserDTO>> getInactiveUsers(
             @RequestParam(defaultValue = "30") int days) {
         
+        log.info("Received get inactive users request for days: {}", days);
         List<AdminUserDTO> inactiveUsers = adminUserService.getInactiveUsers(days);
         
-        return ResponseEntity.ok(BaseResponse.<List<AdminUserDTO>>builder()
-            .success(true)
-            .message("Inactive users retrieved successfully")
-            .data(inactiveUsers)
-            .build());
+        return new BaseResponse<>("SUCCESS", System.currentTimeMillis(), inactiveUsers);
     }
 }
