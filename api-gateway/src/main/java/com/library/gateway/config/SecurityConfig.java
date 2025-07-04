@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .authorizeExchange(exchanges -> exchanges
                         .matchers(EndpointRequest.toAnyEndpoint()).permitAll()
                         .pathMatchers("/health/**", "/actuator/**").permitAll()
-                        .pathMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
+                        .pathMatchers("/api/v1/auth/login","/api/v1/auth/reset-password", "/api/v1/auth/register","/api/v1/auth/forgot-password").permitAll()
                         .pathMatchers("/api/v1/books/**", "/api/v1/categories/**", "/api/v1/authors/**", "/api/v1/publishers/**").permitAll()
                         .anyExchange().permitAll() // Temporarily allow all for testing
                 )

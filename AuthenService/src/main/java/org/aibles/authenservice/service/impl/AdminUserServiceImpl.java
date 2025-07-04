@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class AdminUserServiceImpl implements AdminUserService {
 
     private final UserRepository userRepository;
@@ -41,6 +40,14 @@ public class AdminUserServiceImpl implements AdminUserService {
     private final AccountRoleRepository accountRoleRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public AdminUserServiceImpl(UserRepository userRepository, AccountRepository accountRepository, AccountRoleRepository accountRoleRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
+        this.accountRoleRepository = accountRoleRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -81,18 +88,18 @@ public class AdminUserServiceImpl implements AdminUserService {
         Account account = accountRepository.findByUserId(user.getId())
             .orElseThrow(() -> new RuntimeException("Account not found for user: " + user.getId()));
         
-        if (request.getIsActivated() != null) {
-            account.setActivated(request.getIsActivated());
+        if (request.getActivated() != null) {
+            account.setActivated(request.getActivated());
         }
         
-        if (request.getIsLocked() != null) {
-            account.setIsLocked(request.getIsLocked());
+        if (request.getLocked() != null) {
+            account.setLocked(request.getLocked());
         }
         
         accountRepository.save(account);
         
-        log.info("Updated user status for user: {} by admin. Activated: {}, Locked: {}, Reason: {}", 
-                user.getEmail(), request.getIsActivated(), request.getIsLocked(), request.getReason());
+//        log.info("Updated user status for user: {} by admin. Activated: {}, Locked: {}, Reason: {}",
+//                user.getEmail(), request.getActivated(), request.getLocked(), request.getReason());
         
         return mapToAdminUserDTO(user);
     }
@@ -123,7 +130,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             accountRoleRepository.save(accountRole);
         }
         
-        log.info("Updated roles for user: {} to: {}", user.getEmail(), request.getRoles());
+//        log.info("Updated roles for user: {} to: {}", user.getEmail(), request.getRoles());
         
         return mapToAdminUserDTO(user);
     }
@@ -179,7 +186,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // Delete user
         userRepository.delete(user);
         
-        log.info("Deleted user: {} by admin", user.getEmail());
+//        log.info("Deleted user: {} by admin", user.getEmail());
     }
 
     @Override
@@ -198,7 +205,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         
         // TODO: Send email with temporary password
         
-        log.info("Reset password for user: {} by admin", user.getEmail());
+//        log.info("Reset password for user: {} by admin", user.getEmail());
     }
 
     @Override

@@ -33,6 +33,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         "/api/v1/books/public",
         "/api/v1/categories/public",
         "/api/v1/authors/public",
+        "/api/v1/auth/forgot-password",
+        "/api/v1/auth/reset-password",
         "/api/v1/publishers/public",
         "/api/v1/test/public",
         "/actuator",
