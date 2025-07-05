@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -197,7 +198,11 @@ public class AuthServiceImpl implements AuthService {
                 throw new AccountIsActiveException();
             }
 
-            String accessToken = jwtUtil.generateAccessToken(account.getUsername());
+            // Get user roles
+            List<String> roles = accountRoleService.getRolesByAccountId(account.getId());
+            log.info("User {} has roles: {}", account.getUsername(), roles);
+            
+            String accessToken = jwtUtil.generateAccessTokenWithRoles(account.getUsername(), roles);
             String refreshToken = jwtUtil.generateRefreshToken(account.getUsername());
             if (attemptCount > 0) {
                 redisTemplate.delete(loginAttemptKey);
@@ -331,7 +336,7 @@ public class AuthServiceImpl implements AuthService {
                         });
             }
 
-            if (!account.getIsLocked()) {
+            if (!account.getLocked()) {
                 log.warn("Account is locked for email: {}", email);
                 throw new AccountIsLockedException();
             }

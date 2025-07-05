@@ -4,15 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="fix: fix develop">
+    <list default="true" id="e4c61c2b-0797-460f-80fa-fdb9a3454e3d" name="Changes" comment="update: update role">
       <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_27_2025_9_39_AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_27_2025_9_39_AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/AccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/WebClientConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/BookRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/LoanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/LoanRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/dto/request/AdminUserSearchRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/dto/request/AdminUserSearchRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/entity/AccountRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/entity/AccountRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/facade/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/facade/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/AccountRoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/AccountRoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/impl/AccountRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/impl/AccountRoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/impl/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/impl/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/impl/AdminUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/service/impl/AdminUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/utill/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenService/src/main/java/org/aibles/authenservice/utill/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/GlobalAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/GlobalAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwkClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwkClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwtVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/library/gateway/util/JwtVerifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/GlobalAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/GlobalAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory$Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory$Config.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/filter/JwtAuthenticationGatewayFilterFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwtVerifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/target/classes/com/library/gateway/util/JwtVerifier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/fillter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/fillter/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/security/InputValidationAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/security/InputValidationAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library-backend/src/main/java/com/library/util/JwtVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/library-backend/src/main/java/com/library/util/JwtVerifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/api-gateway.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/api-gateway.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/file-service.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/file-service.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +46,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Develop" />
+        <entry key="$PROJECT_DIR$" value="feature/sprint7-admin-dashboard" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,44 +80,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ApiGatewayApplication.executor": "Run",
-    "Application.AuthenServiceApplication.executor": "Run",
-    "Application.FileServiceApplication.executor": "Run",
-    "Application.LibraryBackendApplication.executor": "Run",
-    "Application.VideoServiceApplication.executor": "Run",
-    "Docker.docker-compose.yml.minio: Compose Deployment.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.ApiGatewayApplication.executor": "Run",
-    "Spring Boot.AuthenServiceApplication.executor": "Run",
-    "Spring Boot.FileServiceApplication.executor": "Run",
-    "Spring Boot.LibraryBackendApplication.executor": "Run",
-    "git-widget-placeholder": "feature/sprint7-admin-dashboard",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ADMIN/OneDrive/Desktop/Library-Project/MinIOService/src/main/java/org/library/fileservice/utill",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AuthenServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FileServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LibraryBackendApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.VideoServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.AuthenService [clean,package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.AuthenService [clean].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.AuthenServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.FileServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.LibraryBackendApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fix/fix-authen&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ADMIN/OneDrive/Desktop/Library-Project/MinIOService/src/main/java/org/library/fileservice/utill&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ADMIN\OneDrive\Desktop\Library-Project\MinIOService\src\main\java\org\library\fileservice\utill" />
@@ -121,13 +147,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.LibraryBackendApplication">
-    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.LibraryBackendApplication">
     <configuration name="ApiGatewayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.library.gateway.ApiGatewayApplication" />
       <module name="api-gateway" />
@@ -237,21 +257,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.LibraryBackendApplication" />
       <item itemvalue="Application.ApiGatewayApplication" />
       <item itemvalue="Application.AuthenServiceApplication" />
       <item itemvalue="Application.FileServiceApplication" />
       <item itemvalue="Maven.api-gateway" />
+      <item itemvalue="Spring Boot.FileServiceApplication" />
+      <item itemvalue="Spring Boot.LibraryBackendApplication" />
+      <item itemvalue="Spring Boot.ApiGatewayApplication" />
+      <item itemvalue="Spring Boot.AuthenServiceApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.LibraryBackendApplication" />
-        <item itemvalue="Application.FileServiceApplication" />
-        <item itemvalue="Application.ApiGatewayApplication" />
         <item itemvalue="Application.AuthenServiceApplication" />
+        <item itemvalue="Application.ApiGatewayApplication" />
+        <item itemvalue="Application.FileServiceApplication" />
+        <item itemvalue="Application.LibraryBackendApplication" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -269,6 +307,12 @@
       <workItem from="1749569820992" duration="1960000" />
       <workItem from="1749649649049" duration="5013000" />
       <workItem from="1750587187932" duration="6147000" />
+      <workItem from="1751553724254" duration="823000" />
+      <workItem from="1751633830024" duration="3960000" />
+      <workItem from="1751639548062" duration="336000" />
+      <workItem from="1751639894478" duration="517000" />
+      <workItem from="1751640424253" duration="4741000" />
+      <workItem from="1751726993816" duration="9762000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fix develop">
       <option name="closed" value="true" />
@@ -278,7 +322,23 @@
       <option name="project" value="LOCAL" />
       <updated>1751013996304</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix: fix admin dashboard">
+      <option name="closed" value="true" />
+      <created>1751470939240</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1751470939240</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update: update role">
+      <option name="closed" value="true" />
+      <created>1751643611278</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1751643611278</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -303,7 +363,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update: data type" />
     <MESSAGE value="fix: fix develop" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: fix develop" />
+    <MESSAGE value="fix: fix admin dashboard" />
+    <MESSAGE value="update: update role" />
+    <option name="LAST_COMMIT_MESSAGE" value="update: update role" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -311,7 +373,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/library-backend/src/main/java/com/library/service/SearchService.java</url>
           <line>44</line>
-          <properties class="com.library.service.SearchService" method="searchByAuthors">
+          <properties class="com.library.service.SearchService">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
@@ -319,5 +381,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

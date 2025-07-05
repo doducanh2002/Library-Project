@@ -29,7 +29,7 @@ public class JwtVerifier {
         }
 
         try {
-            log.debug("Validating JWT token");
+            log.info("Validating JWT token: {}", token.substring(0, Math.min(50, token.length())) + "...");
             
             // Split token into parts
             String[] parts = token.split("\\.");
@@ -37,6 +37,11 @@ public class JwtVerifier {
                 log.warn("Invalid JWT format - expected 3 parts, got {}", parts.length);
                 return false;
             }
+            
+            log.info("JWT parts - Header: {}, Payload: {}, Signature: {}", 
+                parts[0].substring(0, Math.min(20, parts[0].length())), 
+                parts[1].substring(0, Math.min(20, parts[1].length())),
+                parts[2].substring(0, Math.min(20, parts[2].length())));
 
             // Validate header
             if (!isValidHeader(parts[0])) {
@@ -76,9 +81,11 @@ public class JwtVerifier {
 
         } catch (IllegalArgumentException e) {
             log.error("Invalid JWT token format: {}", e.getMessage());
+            log.error("Token causing error: {}", token);
             return false;
         } catch (Exception e) {
             log.error("JWT validation failed: {}", e.getMessage(), e);
+            log.error("Token causing error: {}", token);
             return false;
         }
     }
@@ -195,6 +202,39 @@ public class JwtVerifier {
         } catch (Exception e) {
             log.error("Failed to extract claims from token: {}", e.getMessage());
             return null;
+        }
+    }
+
+    public java.util.List<String> extractRoles(String token) {
+        try {
+            String[] parts = token.split("\\.");
+            if (parts.length != 3) {
+                log.warn("Cannot extract roles - invalid token format");
+                return java.util.Collections.emptyList();
+            }
+
+            String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+            log.debug("JWT Payload for roles extraction: {}", payload);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode payloadNode = mapper.readTree(payload);
+            
+            java.util.List<String> roles = new java.util.ArrayList<>();
+            JsonNode rolesNode = payloadNode.get("roles");
+            
+            log.debug("Roles node from JWT: {}", rolesNode);
+            
+            if (rolesNode != null && rolesNode.isArray()) {
+                for (JsonNode roleNode : rolesNode) {
+                    roles.add(roleNode.asText());
+                }
+            }
+            
+            log.debug("Extracted roles from JWT: {}", roles);
+            return roles;
+        } catch (Exception e) {
+            log.error("Error extracting roles from JWT: {}", e.getMessage());
+            return java.util.Collections.emptyList();
         }
     }
 }

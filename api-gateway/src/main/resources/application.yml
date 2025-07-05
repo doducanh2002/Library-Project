@@ -39,8 +39,12 @@ spring:
       
       # Route Configuration
       routes:
+        # ================================
         # Authentication Service Routes
-        - id: auth-login
+        # ================================
+        
+        # Public auth endpoints
+        - id: auth-public-login
           uri: http://localhost:8081
           predicates:
             - Path=/api/v1/auth/login
@@ -51,7 +55,7 @@ spring:
                 redis-rate-limiter.replenishRate: 5
                 redis-rate-limiter.burstCapacity: 10
                 
-        - id: auth-register
+        - id: auth-public-register
           uri: http://localhost:8081
           predicates:
             - Path=/api/v1/auth/register
@@ -62,30 +66,55 @@ spring:
                 redis-rate-limiter.replenishRate: 2
                 redis-rate-limiter.burstCapacity: 5
                 
-        - id: auth-service-general
+        - id: auth-public-forgot-password
           uri: http://localhost:8081
           predicates:
-            - Path=/api/v1/auth/**
+            - Path=/api/v1/auth/forgot-password,/api/v1/auth/reset-password
+            - Method=POST
+            
+        - id: auth-public-jwk
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/jwk/token
+            - Method=GET
+            
+        # Protected auth endpoints (USER level)
+        - id: auth-user-profile
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/me,/api/v1/auth/change-password,/api/v1/auth/sendotp,/api/v1/auth/active
           filters:
             - JwtAuthentication
             
-        # Book Catalog Service Routes (Public)
+        # Admin user management endpoints (ADMIN level)
+        - id: auth-admin-users
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/admin/users/**
+          filters:
+            - JwtAuthentication
+            
+        # ================================
+        # Library Backend Routes
+        # ================================
+        
+        # Public catalog endpoints
         - id: catalog-books-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/books/public/**
+            - Path=/api/v1/books,/api/v1/books/{id},/api/v1/books/search,/api/v1/books/popular
             - Method=GET
             
         - id: catalog-categories-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/categories,/api/v1/categories/active,/api/v1/categories/root,/api/v1/categories/{id}
+            - Path=/api/v1/categories,/api/v1/categories/{id},/api/v1/categories/active
             - Method=GET
             
         - id: catalog-authors-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/authors,/api/v1/authors/search,/api/v1/authors/{id}
+            - Path=/api/v1/authors,/api/v1/authors/{id},/api/v1/authors/search
             - Method=GET
             
         - id: catalog-publishers-public
@@ -94,15 +123,60 @@ spring:
             - Path=/api/v1/publishers,/api/v1/publishers/{id}
             - Method=GET
             
-        # Book Catalog Service Routes (Protected)
-        - id: catalog-admin
+        - id: catalog-documents-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/documents,/api/v1/documents/{id},/api/v1/documents/search
+            - Method=GET
+            
+        # USER level endpoints
+        - id: catalog-user-cart
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/cart/**
+          filters:
+            - JwtAuthentication
+            
+        - id: catalog-user-orders
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/orders/**
+          filters:
+            - JwtAuthentication
+            
+        - id: catalog-user-loans
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/loans/**
+          filters:
+            - JwtAuthentication
+            
+        - id: catalog-user-notifications
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/notifications/**
+          filters:
+            - JwtAuthentication
+            
+        - id: catalog-user-documents
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/documents/{id}/view-url,/api/v1/documents/{id}/download-url
+          filters:
+            - JwtAuthentication
+            
+        # LIBRARIAN/ADMIN level endpoints
+        - id: catalog-admin-all
           uri: http://localhost:8082
           predicates:
             - Path=/api/v1/admin/**
           filters:
             - JwtAuthentication
             
+        # ================================
         # File Storage Service Routes
+        # ================================
+        
         - id: file-upload
           uri: http://localhost:8083
           predicates:

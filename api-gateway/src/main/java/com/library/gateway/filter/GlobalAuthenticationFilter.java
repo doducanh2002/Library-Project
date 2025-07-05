@@ -30,7 +30,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     private static final List<String> PUBLIC_PATHS = Arrays.asList(
         "/api/v1/auth/login",
         "/api/v1/auth/register",
-        "/api/v1/books/public",
+        "/api/v1/books",
+        "/api/v1/books/admin/books",
         "/api/v1/categories/public",
         "/api/v1/authors/public",
         "/api/v1/auth/forgot-password",

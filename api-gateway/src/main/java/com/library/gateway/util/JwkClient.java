@@ -84,12 +84,11 @@ public class JwkClient {
         try {
             log.debug("Fetching JWK from: {}", jwkUrl);
             
-            String jwkResponse = webClient.get()
-                .uri(jwkUrl)
-                .retrieve()
-                .bodyToMono(String.class)
-                .timeout(Duration.ofSeconds(10))
-                .block();
+            // Use synchronous RestTemplate instead of reactive WebClient
+            org.springframework.web.client.RestTemplate restTemplate = new org.springframework.web.client.RestTemplate();
+            restTemplate.getMessageConverters().add(new org.springframework.http.converter.StringHttpMessageConverter());
+            
+            String jwkResponse = restTemplate.getForObject(jwkUrl, String.class);
 
             if (jwkResponse == null || jwkResponse.trim().isEmpty()) {
                 throw new Exception("Empty response from JWK endpoint");
@@ -154,7 +153,7 @@ public class JwkClient {
             cachedPublicKey = newPublicKey;
             log.info("Successfully parsed and cached RSA public key");
 
-        } catch (WebClientException e) {
+        } catch (org.springframework.web.client.RestClientException e) {
             throw new Exception("Failed to fetch JWK from endpoint: " + e.getMessage(), e);
         } catch (Exception e) {
             throw new Exception("Failed to parse JWK response: " + e.getMessage(), e);

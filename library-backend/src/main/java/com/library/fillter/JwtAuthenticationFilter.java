@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -12,6 +13,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -35,12 +38,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 if (jwtVerifier.validateToken(token)) {
                     String username = jwtVerifier.extractUsername(token);
+                    List<String> roles = jwtVerifier.extractRoles(token);
+
+                    log.info("JWT Token validation successful for user: {}", username);
+                    log.info("Extracted roles from JWT: {}", roles);
 
                     if (username != null) {
+                        List<SimpleGrantedAuthority> authorities = roles.stream()
+                            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                            .collect(Collectors.toList());
+                        
+                        log.info("Created authorities: {}", authorities);
+                        
                         UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+                            new UsernamePasswordAuthenticationToken(username, null, authorities);
                         SecurityContextHolder.getContext().setAuthentication(authentication);
-                        log.debug("Successfully authenticated user: {}", username);
+                        log.info("Successfully authenticated user: {} with roles: {}", username, roles);
                     }
                 } else {
                     log.warn("Invalid JWT token provided for path: {}", request.getRequestURI());
