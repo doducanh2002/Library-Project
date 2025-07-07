@@ -32,6 +32,10 @@ public class JwtUtil {
         return createToken(username, ACCESS_TOKEN_EXPIRATION);
     }
     
+    public String generateAccessTokenWithRoles(String username, List<String> roles) {
+        return createTokenWithRoles(username, roles, ACCESS_TOKEN_EXPIRATION);
+    }
+    
     public String generateAccessTokenWithClaims(String username, String userId, String email, String role) {
         return createTokenWithClaims(username, userId, email, role, ACCESS_TOKEN_EXPIRATION);
     }
@@ -44,7 +48,7 @@ public class JwtUtil {
 
     private String createToken(String username, long expiration) {
         try {
-            String header = "{\"alg\":\"RS256\",\"kid\":\"" + UUID.randomUUID().toString() + "\"}";
+            String header = "{\"alg\":\"RS256\",\"typ\":\"JWT\",\"kid\":\"" + UUID.randomUUID().toString() + "\"}";
             String encodedHeader = Base64.getUrlEncoder().withoutPadding().encodeToString(header.getBytes(StandardCharsets.UTF_8));
 
             long now = System.currentTimeMillis();
@@ -63,9 +67,49 @@ public class JwtUtil {
         }
     }
     
+    private String createTokenWithRoles(String username, List<String> roles, long expiration) {
+        try {
+            String header = "{\"alg\":\"RS256\",\"typ\":\"JWT\",\"kid\":\"" + UUID.randomUUID().toString() + "\"}";
+            String encodedHeader = Base64.getUrlEncoder().withoutPadding().encodeToString(header.getBytes(StandardCharsets.UTF_8));
+
+            long now = System.currentTimeMillis();
+            
+            // Convert roles list to JSON array
+            StringBuilder rolesJson = new StringBuilder("[");
+            for (int i = 0; i < roles.size(); i++) {
+                rolesJson.append("\"").append(roles.get(i)).append("\"");
+                if (i < roles.size() - 1) {
+                    rolesJson.append(",");
+                }
+            }
+            rolesJson.append("]");
+            
+            String payload = "{" +
+                "\"sub\":\"" + username + "\"," +
+                "\"roles\":" + rolesJson.toString() + "," +
+                "\"iat\":" + (now / 1000) + "," +
+                "\"exp\":" + ((now + expiration) / 1000) + 
+                "}";
+            
+            System.out.println("Generated JWT payload: " + payload);
+            
+            String encodedPayload = Base64.getUrlEncoder().withoutPadding().encodeToString(payload.getBytes(StandardCharsets.UTF_8));
+
+            String dataToSign = encodedHeader + "." + encodedPayload;
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            signature.initSign(keyPair.getPrivate());
+            signature.update(dataToSign.getBytes(StandardCharsets.UTF_8));
+            String encodedSignature = Base64.getUrlEncoder().withoutPadding().encodeToString(signature.sign());
+
+            return dataToSign + "." + encodedSignature;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate token", e);
+        }
+    }
+    
     private String createTokenWithClaims(String username, String userId, String email, String role, long expiration) {
         try {
-            String header = "{\"alg\":\"RS256\",\"kid\":\"" + UUID.randomUUID().toString() + "\"}";
+            String header = "{\"alg\":\"RS256\",\"typ\":\"JWT\",\"kid\":\"" + UUID.randomUUID().toString() + "\"}";
             String encodedHeader = Base64.getUrlEncoder().withoutPadding().encodeToString(header.getBytes(StandardCharsets.UTF_8));
 
             long now = System.currentTimeMillis();

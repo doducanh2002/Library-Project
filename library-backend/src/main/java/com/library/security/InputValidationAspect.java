@@ -17,11 +17,11 @@ public class InputValidationAspect {
 
     // Patterns for potentially malicious content
     private static final Pattern SQL_INJECTION_PATTERN = Pattern.compile(
-            "(?i)(union|select|insert|update|delete|drop|create|alter|exec|execute|script|javascript|vbscript)", 
+            "(?i)\\b(union\\s|select\\s|insert\\s|update\\s|delete\\s|drop\\s|create\\s|alter\\s|exec\\s|execute\\s)\\b", 
             Pattern.CASE_INSENSITIVE);
     
     private static final Pattern XSS_PATTERN = Pattern.compile(
-            "(?i)(<script|</script|javascript:|vbscript:|onload|onerror|onclick)", 
+            "(?i)(<script\\b|</script>|javascript:|vbscript:|onload\\s*=|onerror\\s*=|onclick\\s*=)", 
             Pattern.CASE_INSENSITIVE);
     
     private static final Pattern HTML_INJECTION_PATTERN = Pattern.compile(
@@ -86,10 +86,8 @@ public class InputValidationAspect {
                     "Invalid input: Potentially malicious content detected");
         }
 
-        // Check for excessive HTML (be more lenient for notification messages)
-        if (!fieldName.toLowerCase().contains("message") && 
-            !fieldName.toLowerCase().contains("description") &&
-            HTML_INJECTION_PATTERN.matcher(input).find()) {
+        // Check for excessive HTML (be more lenient for certain fields)
+        if (!isAllowedHtmlField(fieldName) && HTML_INJECTION_PATTERN.matcher(input).find()) {
             log.warn("Potential HTML injection detected in {}: {}", fieldName, input);
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, 
@@ -111,5 +109,16 @@ public class InputValidationAspect {
                     HttpStatus.BAD_REQUEST, 
                     "Invalid input: Null bytes not allowed");
         }
+    }
+    
+    private boolean isAllowedHtmlField(String fieldName) {
+        if (fieldName == null) return false;
+        String lowerFieldName = fieldName.toLowerCase();
+        return lowerFieldName.contains("message") || 
+               lowerFieldName.contains("description") ||
+               lowerFieldName.contains("biography") ||
+               lowerFieldName.contains("content") ||
+               lowerFieldName.contains("note") ||
+               lowerFieldName.contains("summary");
     }
 }

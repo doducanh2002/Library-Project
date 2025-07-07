@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.Signature;
 import java.util.Base64;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @Component
@@ -71,6 +73,35 @@ import java.util.logging.Logger;
 
           } catch (Exception e) {
               return 0;
+          }
+      }
+
+      public List<String> extractRoles(String token) {
+          try {
+              String[] parts = token.split("\\.");
+              String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+              
+              System.out.println("JWT Payload: " + payload);
+
+              ObjectMapper mapper = new ObjectMapper();
+              JsonNode payloadNode = mapper.readTree(payload);
+              
+              List<String> roles = new ArrayList<>();
+              JsonNode rolesNode = payloadNode.get("roles");
+              
+              System.out.println("Roles node from JWT: " + rolesNode);
+              
+              if (rolesNode != null && rolesNode.isArray()) {
+                  for (JsonNode roleNode : rolesNode) {
+                      roles.add(roleNode.asText());
+                  }
+              }
+              
+              System.out.println("Extracted roles: " + roles);
+              return roles;
+          } catch (Exception e) {
+              System.out.println("Error extracting roles: " + e.getMessage());
+              return new ArrayList<>();
           }
       }
   }

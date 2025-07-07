@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
         account.setActivated(activated);
-        account.setIsLocked(isLocked);
+        account.setLocked(isLocked);
         account.setUserId(userId);
         Account savedAccount = accountRepository.save(account);
         log.debug("Successfully created account with ID: {} for username: {}", savedAccount.getId(), username);
@@ -93,7 +93,7 @@ public class AccountServiceImpl implements AccountService {
     public Account lockAccount(Account account) {
         log.info("Locking account with username: {}", account.getUsername());
 
-        account.setIsLocked(false);
+        account.setLocked(false);
         Account lockedAccount = accountRepository.save(account);
         log.debug("Successfully locked account ID: {}", lockedAccount.getId());
         return lockedAccount;

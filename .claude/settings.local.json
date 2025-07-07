@@ -10,7 +10,10 @@
       "Bash(mvn compile:*)",
       "Bash(./mvnw compile:*)",
       "Bash(chmod:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(./mvnw clean compile)",
+      "Bash(mvn clean:*)",
+      "Bash(bash mvnw clean compile)"
     ],
     "deny": []
   }
