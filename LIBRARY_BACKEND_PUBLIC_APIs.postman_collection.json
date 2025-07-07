@@ -1,0 +1,1712 @@
+{
+	"info": {
+		"_postman_id": "library-backend-public-apis",
+		"name": "Library Backend - Public APIs",
+		"description": "Collection of all public APIs from Library Backend service that don't require authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "library-project"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "libraryBackendUrl",
+			"value": "http://localhost:8082",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health"
+							]
+						},
+						"description": "Check service health status"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get All Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books?page=0&size=10&sort=title&title=&author=&category=&publisher=&minPrice=&maxPrice=&available=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number (0-based)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "sort",
+									"value": "title",
+									"description": "Sort field (title, author, price, createdDate)"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"description": "Filter by title"
+								},
+								{
+									"key": "author",
+									"value": "",
+									"description": "Filter by author"
+								},
+								{
+									"key": "category",
+									"value": "",
+									"description": "Filter by category"
+								},
+								{
+									"key": "publisher",
+									"value": "",
+									"description": "Filter by publisher"
+								},
+								{
+									"key": "minPrice",
+									"value": "",
+									"description": "Minimum price"
+								},
+								{
+									"key": "maxPrice",
+									"value": "",
+									"description": "Maximum price"
+								},
+								{
+									"key": "available",
+									"value": "",
+									"description": "Filter by availability (true/false)"
+								}
+							]
+						},
+						"description": "Get all books with pagination, sorting, and filtering"
+					},
+					"response": []
+				},
+				{
+					"name": "Advanced Book Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"java\",\n  \"author\": \"spring\",\n  \"isbn\": \"\",\n  \"category\": \"programming\",\n  \"publisher\": \"\",\n  \"minPrice\": 0,\n  \"maxPrice\": 1000,\n  \"publicationYear\": 2023,\n  \"language\": \"english\",\n  \"availableForLoan\": true,\n  \"availableForSale\": true,\n  \"tags\": [\"java\", \"spring\", \"programming\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"search"
+							]
+						},
+						"description": "Advanced search with multiple criteria"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"1"
+							]
+						},
+						"description": "Get detailed book information by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ISBN",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/isbn/978-0134685991",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"isbn",
+								"978-0134685991"
+							]
+						},
+						"description": "Get book by ISBN (ISBN-10 or ISBN-13)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Popular Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/popular?limit=10&period=month",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"popular"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of popular books to return"
+								},
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Period for popularity calculation (week, month, year)"
+								}
+							]
+						},
+						"description": "Get popular books based on views and orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Books by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/category/1?page=0&size=10&sort=title",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"category",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "title",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all books in a specific category"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Books by Author",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/author/1?page=0&size=10&sort=title",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"author",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "title",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all books by a specific author"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Books by Publisher",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/books/publisher/1?page=0&size=10&sort=title",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"publisher",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "title",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all books by a specific publisher"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories?page=0&size=10&sort=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all categories with pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"active"
+							]
+						},
+						"description": "Get only active categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Root Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/root",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"root"
+							]
+						},
+						"description": "Get root level categories (no parent)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Get category details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by Slug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/slug/programming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"slug",
+								"programming"
+							]
+						},
+						"description": "Get category by SEO-friendly slug"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subcategories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/1/subcategories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1",
+								"subcategories"
+							]
+						},
+						"description": "Get all subcategories of a category"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category Hierarchy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/1/hierarchy",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1",
+								"hierarchy"
+							]
+						},
+						"description": "Get full hierarchy path for a category"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Category Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/check-name?name=Programming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"check-name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Programming",
+									"description": "Category name to check"
+								}
+							]
+						},
+						"description": "Check if category name is available"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Category Slug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/categories/check-slug?slug=programming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"check-slug"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "programming",
+									"description": "Category slug to check"
+								}
+							]
+						},
+						"description": "Check if category slug is available"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "Get All Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors?page=0&size=10&sort=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all authors with pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/search?keyword=robert&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "robert",
+									"description": "Search keyword"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search authors by keyword"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Author by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"1"
+							]
+						},
+						"description": "Get author details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Author with Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/1/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"1",
+								"books"
+							]
+						},
+						"description": "Get author with their books"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Authors by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/name/Robert Martin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"name",
+								"Robert Martin"
+							]
+						},
+						"description": "Search authors by exact or partial name"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Authors by Nationality",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/nationality/American?page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"nationality",
+								"American"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get authors by nationality"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Prolific Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/prolific?limit=10&minBooks=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"prolific"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of authors to return"
+								},
+								{
+									"key": "minBooks",
+									"value": "5",
+									"description": "Minimum number of books"
+								}
+							]
+						},
+						"description": "Get most prolific authors"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Nationalities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/authors/nationalities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authors",
+								"nationalities"
+							]
+						},
+						"description": "Get list of all author nationalities"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publishers",
+			"item": [
+				{
+					"name": "Get All Publishers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers?page=0&size=10&sort=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all publishers with pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publisher by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"1"
+							]
+						},
+						"description": "Get publisher details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publisher with Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/1/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"1",
+								"books"
+							]
+						},
+						"description": "Get publisher with their books"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Publishers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/search?name=O'Reilly&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "O'Reilly",
+									"description": "Publisher name to search"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search publishers by name"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publishers by Established Year",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/established?fromYear=1990&toYear=2020&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"established"
+							],
+							"query": [
+								{
+									"key": "fromYear",
+									"value": "1990",
+									"description": "Start year"
+								},
+								{
+									"key": "toYear",
+									"value": "2020",
+									"description": "End year"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get publishers by established year range"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Most Active Publishers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/active?limit=10&minBooks=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"active"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of publishers to return"
+								},
+								{
+									"key": "minBooks",
+									"value": "10",
+									"description": "Minimum number of books published"
+								}
+							]
+						},
+						"description": "Get most active publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Publisher Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/publishers/check-name?name=O'Reilly Media",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"publishers",
+								"check-name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "O'Reilly Media",
+									"description": "Publisher name to check"
+								}
+							]
+						},
+						"description": "Check if publisher name is available"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Full-text Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/fulltext?q=java programming&page=0&size=10&sort=relevance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"fulltext"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "java programming",
+									"description": "Search query"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "relevance",
+									"description": "Sort by relevance, date, title, or author"
+								}
+							]
+						},
+						"description": "Full-text search across all books"
+					},
+					"response": []
+				},
+				{
+					"name": "Advanced Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"java\",\n  \"categories\": [\"programming\", \"technology\"],\n  \"authors\": [\"Robert Martin\"],\n  \"publishers\": [\"O'Reilly\"],\n  \"minPrice\": 10,\n  \"maxPrice\": 100,\n  \"publicationYear\": 2020,\n  \"language\": \"english\",\n  \"availableForLoan\": true,\n  \"availableForSale\": true,\n  \"tags\": [\"java\", \"spring\"],\n  \"page\": 0,\n  \"size\": 10,\n  \"sort\": \"relevance\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/advanced",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"advanced"
+							]
+						},
+						"description": "Advanced search with multiple criteria"
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/categories?categories=programming,technology&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "categories",
+									"value": "programming,technology",
+									"description": "Comma-separated category names"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search books by multiple categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/authors?authors=Robert Martin,Martin Fowler&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"authors"
+							],
+							"query": [
+								{
+									"key": "authors",
+									"value": "Robert Martin,Martin Fowler",
+									"description": "Comma-separated author names"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search books by multiple authors"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Available for Loan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/available-for-loan?q=java&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"available-for-loan"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "java",
+									"description": "Search query"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search books available for loan"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Available for Sale",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/available-for-sale?q=programming&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"available-for-sale"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "programming",
+									"description": "Search query"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search books available for sale"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Recent Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/recent?days=30&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"recent"
+							],
+							"query": [
+								{
+									"key": "days",
+									"value": "30",
+									"description": "Number of days for recent books"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search recently added books"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Search Suggestions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/suggestions?q=java&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "java",
+									"description": "Partial search query"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of suggestions"
+								}
+							]
+						},
+						"description": "Get search suggestions for autocomplete"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Popular Search Terms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/popular-terms?limit=20&period=month",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"popular-terms"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20",
+									"description": "Number of terms to return"
+								},
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Period for popularity (week, month, year)"
+								}
+							]
+						},
+						"description": "Get popular search terms"
+					},
+					"response": []
+				},
+				{
+					"name": "Performance Optimized Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/filters/performance?q=java&filters=title,author&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"filters",
+								"performance"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "java",
+									"description": "Search query"
+								},
+								{
+									"key": "filters",
+									"value": "title,author",
+									"description": "Fields to search in"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Performance optimized search with field filtering"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Documents",
+			"item": [
+				{
+					"name": "Search Documents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents?q=programming&type=PDF&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "programming",
+									"description": "Search query"
+								},
+								{
+									"key": "type",
+									"value": "PDF",
+									"description": "Document type"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Search documents with filtering"
+					},
+					"response": []
+				},
+				{
+					"name": "Advanced Document Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"java programming\",\n  \"type\": \"PDF\",\n  \"author\": \"Robert Martin\",\n  \"minSize\": 1000,\n  \"maxSize\": 50000000,\n  \"uploadedAfter\": \"2023-01-01\",\n  \"tags\": [\"java\", \"programming\"],\n  \"accessLevel\": \"PUBLIC\",\n  \"page\": 0,\n  \"size\": 10\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"search"
+							]
+						},
+						"description": "Advanced document search with multiple criteria"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Public Documents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/public?page=0&size=10&sort=uploadDate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"public"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "uploadDate",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all public documents"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Document by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"1"
+							]
+						},
+						"description": "Get document details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Documents by Book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/book/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"book",
+								"1"
+							]
+						},
+						"description": "Get all documents related to a specific book"
+					},
+					"response": []
+				},
+				{
+					"name": "Download Document",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/1/download",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"1",
+								"download"
+							]
+						},
+						"description": "Download document file"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Download URL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/1/download-url",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"1",
+								"download-url"
+							]
+						},
+						"description": "Get pre-signed download URL"
+					},
+					"response": []
+				},
+				{
+					"name": "View Document",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/1/view",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"1",
+								"view"
+							]
+						},
+						"description": "View document inline"
+					},
+					"response": []
+				},
+				{
+					"name": "Get View URL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/1/view-url",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"1",
+								"view-url"
+							]
+						},
+						"description": "Get pre-signed view URL"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Popular Documents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/documents/popular?limit=10&period=month",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"documents",
+								"popular"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of documents to return"
+								},
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Period for popularity (week, month, year)"
+								}
+							]
+						},
+						"description": "Get popular documents based on views and downloads"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

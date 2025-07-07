@@ -72,6 +72,12 @@ spring:
             - Path=/api/v1/auth/forgot-password,/api/v1/auth/reset-password
             - Method=POST
             
+        - id: auth-public-otp
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/sendotp,/api/v1/auth/active
+            - Method=POST
+            
         - id: auth-public-jwk
           uri: http://localhost:8081
           predicates:
@@ -82,7 +88,7 @@ spring:
         - id: auth-user-profile
           uri: http://localhost:8081
           predicates:
-            - Path=/api/v1/auth/me,/api/v1/auth/change-password,/api/v1/auth/sendotp,/api/v1/auth/active
+            - Path=/api/v1/auth/me,/api/v1/auth/change-password
           filters:
             - JwtAuthentication
             
@@ -98,35 +104,71 @@ spring:
         # Library Backend Routes
         # ================================
         
-        # Public catalog endpoints
+        # Public catalog endpoints - Books
         - id: catalog-books-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/books,/api/v1/books/{id},/api/v1/books/search,/api/v1/books/popular
+            - Path=/api/v1/books,/api/v1/books/{id},/api/v1/books/isbn/{isbn},/api/v1/books/popular,/api/v1/books/category/{categoryId},/api/v1/books/author/{authorId},/api/v1/books/publisher/{publisherId}
             - Method=GET
             
+        - id: catalog-books-search-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/books/search
+            - Method=POST
+            
+        # Public catalog endpoints - Categories
         - id: catalog-categories-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/categories,/api/v1/categories/{id},/api/v1/categories/active
+            - Path=/api/v1/categories,/api/v1/categories/{categoryId},/api/v1/categories/active,/api/v1/categories/root,/api/v1/categories/slug/{slug},/api/v1/categories/{categoryId}/subcategories,/api/v1/categories/{categoryId}/hierarchy,/api/v1/categories/check-name,/api/v1/categories/check-slug
             - Method=GET
             
+        # Public catalog endpoints - Authors
         - id: catalog-authors-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/authors,/api/v1/authors/{id},/api/v1/authors/search
+            - Path=/api/v1/authors,/api/v1/authors/{authorId},/api/v1/authors/search,/api/v1/authors/{authorId}/books,/api/v1/authors/name/{name},/api/v1/authors/nationality/{nationality},/api/v1/authors/prolific,/api/v1/authors/nationalities
             - Method=GET
             
+        # Public catalog endpoints - Publishers
         - id: catalog-publishers-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/publishers,/api/v1/publishers/{id}
+            - Path=/api/v1/publishers,/api/v1/publishers/{publisherId},/api/v1/publishers/{publisherId}/books,/api/v1/publishers/search,/api/v1/publishers/established,/api/v1/publishers/active,/api/v1/publishers/check-name
             - Method=GET
             
+        # Public catalog endpoints - Search
+        - id: catalog-search-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/search/fulltext,/api/v1/search/categories,/api/v1/search/authors,/api/v1/search/available-for-loan,/api/v1/search/available-for-sale,/api/v1/search/recent,/api/v1/search/suggestions,/api/v1/search/popular-terms,/api/v1/search/filters/performance
+            - Method=GET
+            
+        - id: catalog-search-advanced-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/search/advanced
+            - Method=POST
+            
+        # Public catalog endpoints - Documents
         - id: catalog-documents-public
           uri: http://localhost:8082
           predicates:
-            - Path=/api/v1/documents,/api/v1/documents/{id},/api/v1/documents/search
+            - Path=/api/v1/documents,/api/v1/documents/{id},/api/v1/documents/public,/api/v1/documents/book/{bookId},/api/v1/documents/{id}/download,/api/v1/documents/{id}/download-url,/api/v1/documents/{id}/view,/api/v1/documents/{id}/view-url,/api/v1/documents/popular
+            - Method=GET
+            
+        - id: catalog-documents-search-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/documents/search
+            - Method=POST
+            
+        # Public health endpoint
+        - id: catalog-health-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/health
             - Method=GET
             
         # USER level endpoints
@@ -176,6 +218,13 @@ spring:
         # ================================
         # File Storage Service Routes
         # ================================
+        
+        # Public file service endpoints
+        - id: file-health-public
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/files/health
+            - Method=GET
         
         - id: file-upload
           uri: http://localhost:8083

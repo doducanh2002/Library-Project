@@ -1,0 +1,2654 @@
+{
+	"info": {
+		"_postman_id": "librarian-apis-collection",
+		"name": "Library System - LIBRARIAN APIs",
+		"description": "Collection of APIs that require LIBRARIAN role privileges (includes all LIBRARIAN and ADMIN shared permissions)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "library-project-librarian"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "Bearer {{jwt_token}}",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication Service - User Management",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/users?page=0&size=10&sort=createdAt&status=ACTIVE&role=USER",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"description": "Sort field"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"description": "Filter by status"
+								},
+								{
+									"key": "role",
+									"value": "USER",
+									"description": "Filter by role"
+								}
+							]
+						},
+						"description": "Get all users with pagination and filtering"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"users",
+								"{{userId}}"
+							]
+						},
+						"description": "Get detailed user information by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/users/statistics?period=month&includeInactive=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"users",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Statistics period"
+								},
+								{
+									"key": "includeInactive",
+									"value": "false",
+									"description": "Include inactive users"
+								}
+							]
+						},
+						"description": "Get user statistics for dashboard"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available Roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/users/roles",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"users",
+								"roles"
+							]
+						},
+						"description": "Get all available roles in the system"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inactive Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/users/inactive?days=30&page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"users",
+								"inactive"
+							],
+							"query": [
+								{
+									"key": "days",
+									"value": "30",
+									"description": "Number of inactive days"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get users who haven't logged in for specified days"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Book Management",
+			"item": [
+				{
+					"name": "Create New Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Clean Code: A Handbook of Agile Software Craftsmanship\",\n  \"isbn\": \"978-0132350884\",\n  \"authorId\": \"1\",\n  \"publisherId\": \"1\",\n  \"categoryId\": \"1\",\n  \"description\": \"A comprehensive guide to writing clean, maintainable code\",\n  \"publicationYear\": 2008,\n  \"language\": \"English\",\n  \"pages\": 464,\n  \"price\": 45.99,\n  \"stockQuantity\": 20,\n  \"loanCopies\": 5,\n  \"availableForLoan\": true,\n  \"availableForSale\": true,\n  \"tags\": [\"programming\", \"software-engineering\", \"clean-code\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books"
+							]
+						},
+						"description": "Create a new book record"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Clean Code: A Handbook of Agile Software Craftsmanship - 2nd Edition\",\n  \"description\": \"Updated comprehensive guide to writing clean, maintainable code\",\n  \"price\": 49.99,\n  \"stockQuantity\": 25,\n  \"availableForLoan\": true,\n  \"availableForSale\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"{{bookId}}"
+							]
+						},
+						"description": "Update existing book information"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"{{bookId}}"
+							]
+						},
+						"description": "Delete book (soft delete)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Books (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books?page=0&size=10&sort=title&includeInactive=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "title",
+									"description": "Sort field"
+								},
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive books"
+								}
+							]
+						},
+						"description": "Get all books including inactive ones"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book Stock",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"stockQuantity\": 30,\n  \"operation\": \"SET\",\n  \"reason\": \"New stock arrival\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/{{bookId}}/stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"{{bookId}}",
+								"stock"
+							]
+						},
+						"description": "Update book stock quantity"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Loan Copies",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"loanCopies\": 8,\n  \"operation\": \"SET\",\n  \"reason\": \"Increased loan availability\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/books/{{bookId}}/loan-copies",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"books",
+								"{{bookId}}",
+								"loan-copies"
+							]
+						},
+						"description": "Update number of copies available for loan"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category Management",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Programming Languages\",\n  \"slug\": \"programming-languages\",\n  \"description\": \"Books about various programming languages\",\n  \"parentCategoryId\": \"1\",\n  \"isActive\": true,\n  \"sortOrder\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories"
+							]
+						},
+						"description": "Create new category"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Modern Programming Languages\",\n  \"description\": \"Books about modern programming languages and frameworks\",\n  \"isActive\": true,\n  \"sortOrder\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories/{{categoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories",
+								"{{categoryId}}"
+							]
+						},
+						"description": "Update existing category"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories/{{categoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories",
+								"{{categoryId}}"
+							]
+						},
+						"description": "Delete category (with cascade handling)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Categories (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/categories?includeInactive=true&page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive categories"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get all categories including inactive ones"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author Management",
+			"item": [
+				{
+					"name": "Create Author",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Robert C. Martin\",\n  \"biography\": \"Software engineer and author, known as Uncle Bob\",\n  \"nationality\": \"American\",\n  \"birthDate\": \"1952-12-05\",\n  \"website\": \"https://blog.cleancoder.com\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors"
+							]
+						},
+						"description": "Create new author"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Author",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"biography\": \"Software engineer, author, and consultant, known as Uncle Bob. Pioneer of agile software development.\",\n  \"website\": \"https://blog.cleancoder.com\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors/{{authorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors",
+								"{{authorId}}"
+							]
+						},
+						"description": "Update existing author information"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Author",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors/{{authorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors",
+								"{{authorId}}"
+							]
+						},
+						"description": "Delete author (with books cascade check)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Authors (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/authors?includeInactive=true&page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"authors"
+							],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive authors"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get all authors including inactive ones"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publisher Management",
+			"item": [
+				{
+					"name": "Create Publisher",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"O'Reilly Media\",\n  \"description\": \"Publisher of computer books and online learning resources\",\n  \"establishedYear\": 1978,\n  \"country\": \"United States\",\n  \"website\": \"https://www.oreilly.com\",\n  \"email\": \"info@oreilly.com\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers"
+							]
+						},
+						"description": "Create new publisher"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Publisher",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Leading publisher of computer books, online learning resources, and technology conferences\",\n  \"website\": \"https://www.oreilly.com\",\n  \"email\": \"contact@oreilly.com\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers/{{publisherId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers",
+								"{{publisherId}}"
+							]
+						},
+						"description": "Update existing publisher information"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Publisher",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers/{{publisherId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers",
+								"{{publisherId}}"
+							]
+						},
+						"description": "Delete publisher (with books cascade check)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Publishers (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/publishers?includeInactive=true&page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"publishers"
+							],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive publishers"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get all publishers including inactive ones"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Management",
+			"item": [
+				{
+					"name": "Get All Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders?page=0&size=10&sort=createdAt&status=PENDING",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"description": "Sort field"
+								},
+								{
+									"key": "status",
+									"value": "PENDING",
+									"description": "Filter by status"
+								}
+							]
+						},
+						"description": "Get all orders with filtering"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders by Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/status/PENDING?page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"status",
+								"PENDING"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get orders by specific status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders by Payment Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/payment-status/PAID?page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"payment-status",
+								"PAID"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get orders by payment status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"{{orderId}}"
+							]
+						},
+						"description": "Get detailed order information"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"PROCESSING\",\n  \"reason\": \"Order confirmed and being prepared\",\n  \"estimatedDelivery\": \"2024-01-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"{{orderId}}",
+								"status"
+							]
+						},
+						"description": "Update order status"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Payment Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"paymentStatus\": \"PAID\",\n  \"paymentMethod\": \"CREDIT_CARD\",\n  \"transactionId\": \"TXN123456789\",\n  \"notes\": \"Payment verified\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}/payment-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"{{orderId}}",
+								"payment-status"
+							]
+						},
+						"description": "Update payment status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders Needing Attention",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/need-attention?page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"need-attention"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get orders that need immediate attention"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/statistics?period=month&includeRefunded=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Statistics period"
+								},
+								{
+									"key": "includeRefunded",
+									"value": "false",
+									"description": "Include refunded orders"
+								}
+							]
+						},
+						"description": "Get order statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Update Order Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"orderIds\": [\"1\", \"2\", \"3\"],\n  \"status\": \"SHIPPED\",\n  \"reason\": \"Bulk shipment processed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/bulk-update-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"bulk-update-status"
+							]
+						},
+						"description": "Update status for multiple orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Admin Notes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"note\": \"Customer requested expedited shipping\",\n  \"isInternal\": true,\n  \"priority\": \"MEDIUM\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}/notes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"orders",
+								"{{orderId}}",
+								"notes"
+							]
+						},
+						"description": "Add admin notes to order"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loan Management",
+			"item": [
+				{
+					"name": "Get All Loans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans?page=0&size=10&sort=loanDate&status=ACTIVE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "loanDate",
+									"description": "Sort field"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"description": "Filter by status"
+								}
+							]
+						},
+						"description": "Get all loans with filtering"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Loans by Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/status/PENDING?page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"status",
+								"PENDING"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								}
+							]
+						},
+						"description": "Get loans by specific status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Loan Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/{{loanId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"{{loanId}}"
+							]
+						},
+						"description": "Get detailed loan information"
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Loan Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dueDate\": \"2024-02-01\",\n  \"notes\": \"Approved - standard loan period\",\n  \"reminderEnabled\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/{{loanId}}/approve",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"{{loanId}}",
+								"approve"
+							]
+						},
+						"description": "Approve a loan request"
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Loan Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Book not available for loan\",\n  \"notes\": \"All copies currently on loan\",\n  \"suggestAlternative\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/{{loanId}}/reject",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"{{loanId}}",
+								"reject"
+							]
+						},
+						"description": "Reject a loan request"
+					},
+					"response": []
+				},
+				{
+					"name": "Process Book Return",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"returnDate\": \"2024-01-18\",\n  \"condition\": \"GOOD\",\n  \"notes\": \"Book returned in good condition\",\n  \"fineAmount\": 0.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/{{loanId}}/return",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"{{loanId}}",
+								"return"
+							]
+						},
+						"description": "Process book return"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Overdue Loans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/overdue?page=0&size=10&sort=dueDate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"overdue"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "sort",
+									"value": "dueDate",
+									"description": "Sort by due date"
+								}
+							]
+						},
+						"description": "Get all overdue loans"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Overdue Status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"checkDate\": \"2024-01-18\",\n  \"sendNotifications\": true,\n  \"calculateFines\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/update-overdue",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"update-overdue"
+							]
+						},
+						"description": "Update overdue status for all loans"
+					},
+					"response": []
+				},
+				{
+					"name": "Calculate and Update Fine",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"finePerDay\": 1.50,\n  \"maxFine\": 50.00,\n  \"gracePeriodDays\": 1,\n  \"reason\": \"Late return fine calculation\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/{{loanId}}/calculate-fine",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"{{loanId}}",
+								"calculate-fine"
+							]
+						},
+						"description": "Calculate and update fine for loan"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Loans with Unpaid Fines",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/loans/unpaid-fines?page=0&size=10&minAmount=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"loans",
+								"unpaid-fines"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "minAmount",
+									"value": "0",
+									"description": "Minimum fine amount"
+								}
+							]
+						},
+						"description": "Get loans with unpaid fines"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Document Management",
+			"item": [
+				{
+					"name": "Get Document Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/statistics?period=month&includeInactive=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Statistics period"
+								},
+								{
+									"key": "includeInactive",
+									"value": "false",
+									"description": "Include inactive documents"
+								}
+							]
+						},
+						"description": "Get document statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Document Access Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}/access-logs?page=0&size=10&startDate=2024-01-01&endDate=2024-01-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"{{documentId}}",
+								"access-logs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "startDate",
+									"value": "2024-01-01",
+									"description": "Start date for logs"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-01-31",
+									"description": "End date for logs"
+								}
+							]
+						},
+						"description": "Get document access logs"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Documents (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/all?page=0&size=10&includeInactive=true&sort=uploadDate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive documents"
+								},
+								{
+									"key": "sort",
+									"value": "uploadDate",
+									"description": "Sort field"
+								}
+							]
+						},
+						"description": "Get all documents including inactive ones"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Document",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Document approved after review\",\n  \"notes\": \"Content verified and approved for public access\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}/activate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"{{documentId}}",
+								"activate"
+							]
+						},
+						"description": "Activate a document"
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Document",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Content policy violation\",\n  \"notes\": \"Document contains inappropriate content\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}/deactivate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"{{documentId}}",
+								"deactivate"
+							]
+						},
+						"description": "Deactivate a document"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Documents by Uploader",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/by-uploader/{{uploaderId}}?page=0&size=10&includeInactive=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"by-uploader",
+								"{{uploaderId}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive documents"
+								}
+							]
+						},
+						"description": "Get documents uploaded by specific user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orphaned Documents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/orphaned?page=0&size=10&olderThanDays=30",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"orphaned"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "olderThanDays",
+									"value": "30",
+									"description": "Documents older than specified days"
+								}
+							]
+						},
+						"description": "Get orphaned documents (not linked to any book)"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Update Access Level",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"documentIds\": [\"1\", \"2\", \"3\"],\n  \"accessLevel\": \"PUBLIC\",\n  \"reason\": \"Making documents publicly accessible\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/bulk-update-access-level",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"bulk-update-access-level"
+							]
+						},
+						"description": "Bulk update access level for multiple documents"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Delete Documents",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"documentIds\": [\"1\", \"2\", \"3\"],\n  \"reason\": \"Cleanup of outdated documents\",\n  \"forceDelete\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/documents/bulk-delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"documents",
+								"bulk-delete"
+							]
+						},
+						"description": "Bulk delete multiple documents"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification Management",
+			"item": [
+				{
+					"name": "Get All Notifications (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications?page=0&size=10&type=SYSTEM&status=ACTIVE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "type",
+									"value": "SYSTEM",
+									"description": "Filter by notification type"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"description": "Filter by status"
+								}
+							]
+						},
+						"description": "Get all notifications with admin privileges"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/search?q=maintenance&page=0&size=10&startDate=2024-01-01&endDate=2024-01-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "maintenance",
+									"description": "Search query"
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "startDate",
+									"value": "2024-01-01",
+									"description": "Start date"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-01-31",
+									"description": "End date"
+								}
+							]
+						},
+						"description": "Search notifications with criteria"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Library Hours Update\",\n  \"content\": \"Library hours have been extended on weekends starting this month.\",\n  \"type\": \"ANNOUNCEMENT\",\n  \"priority\": \"MEDIUM\",\n  \"targetUsers\": \"ALL\",\n  \"scheduledAt\": \"2024-01-20T09:00:00Z\",\n  \"expiresAt\": \"2024-02-20T09:00:00Z\",\n  \"sendEmail\": true,\n  \"sendPush\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications"
+							]
+						},
+						"description": "Create a new notification"
+					},
+					"response": []
+				},
+				{
+					"name": "Broadcast Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Emergency: System Maintenance\",\n  \"content\": \"The system will be down for emergency maintenance in 30 minutes.\",\n  \"type\": \"URGENT\",\n  \"priority\": \"HIGH\",\n  \"targetRoles\": [\"USER\", \"LIBRARIAN\"],\n  \"sendImmediately\": true,\n  \"sendEmail\": true,\n  \"sendPush\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/broadcast",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"broadcast"
+							]
+						},
+						"description": "Broadcast notification to all users"
+					},
+					"response": []
+				},
+				{
+					"name": "Send System Maintenance Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startTime\": \"2024-01-21T02:00:00Z\",\n  \"endTime\": \"2024-01-21T04:00:00Z\",\n  \"description\": \"Scheduled database maintenance and security updates\",\n  \"affectedServices\": [\"catalog\", \"user-accounts\", \"loan-system\"],\n  \"notifyHoursBefore\": 24\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/system-maintenance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"system-maintenance"
+							]
+						},
+						"description": "Send system maintenance notification"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Email Pending Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/email-pending?page=0&size=10&priority=HIGH",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"email-pending"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Page size"
+								},
+								{
+									"key": "priority",
+									"value": "HIGH",
+									"description": "Filter by priority"
+								}
+							]
+						},
+						"description": "Get notifications pending email delivery"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Email as Sent",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sentAt\": \"2024-01-18T10:30:00Z\",\n  \"emailProvider\": \"SendGrid\",\n  \"messageId\": \"MSG123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/{{notificationId}}/email-sent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"{{notificationId}}",
+								"email-sent"
+							]
+						},
+						"description": "Mark notification email as sent"
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Expired Notifications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dryRun\": false,\n  \"batchSize\": 100\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/cleanup-expired",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"cleanup-expired"
+							]
+						},
+						"description": "Cleanup expired notifications"
+					},
+					"response": []
+				},
+				{
+					"name": "Cleanup Old Notifications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"olderThanDays\": 90,\n  \"keepImportant\": true,\n  \"dryRun\": false,\n  \"batchSize\": 50\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/cleanup-old",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"cleanup-old"
+							]
+						},
+						"description": "Cleanup old notifications"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notification Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/notifications/statistics?period=month&includeExpired=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"notifications",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Statistics period"
+								},
+								{
+									"key": "includeExpired",
+									"value": "false",
+									"description": "Include expired notifications"
+								}
+							]
+						},
+						"description": "Get notification statistics"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Get Dashboard Overview",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/dashboard/overview?period=month",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"dashboard",
+								"overview"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Overview period"
+								}
+							]
+						},
+						"description": "Get dashboard overview statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detailed Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/dashboard/statistics?period=month&includeCharts=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"dashboard",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "month",
+									"description": "Statistics period"
+								},
+								{
+									"key": "includeCharts",
+									"value": "true",
+									"description": "Include chart data"
+								}
+							]
+						},
+						"description": "Get detailed dashboard statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Daily Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/dashboard/daily-stats?startDate=2024-01-01&endDate=2024-01-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"dashboard",
+								"daily-stats"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01",
+									"description": "Start date"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-01-31",
+									"description": "End date"
+								}
+							]
+						},
+						"description": "Get daily statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Monthly Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/dashboard/monthly-stats?year=2024&months=12",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"dashboard",
+								"monthly-stats"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2024",
+									"description": "Year for statistics"
+								},
+								{
+									"key": "months",
+									"value": "12",
+									"description": "Number of months"
+								}
+							]
+						},
+						"description": "Get monthly statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Get System Health",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/dashboard/health?includeDetails=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"dashboard",
+								"health"
+							],
+							"query": [
+								{
+									"key": "includeDetails",
+									"value": "true",
+									"description": "Include detailed health info"
+								}
+							]
+						},
+						"description": "Get system health status"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Pre-request script to check if JWT token is available",
+					"if (!pm.environment.get('jwt_token')) {",
+					"    console.log('Warning: JWT token not set. Please login first.');",
+					"}",
+					"",
+					"// Add timestamp for tracking",
+					"pm.environment.set('timestamp', new Date().toISOString());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Test script to check response status",
+					"pm.test('Status code should be successful', function () {",
+					"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202, 204]);",
+					"});",
+					"",
+					"// Check for authorization errors",
+					"if (pm.response.code === 401 || pm.response.code === 403) {",
+					"    pm.test('Authorization check', function () {",
+					"        console.log('Authorization failed. Please check your LIBRARIAN permissions.');",
+					"    });",
+					"}",
+					"",
+					"// Response time check",
+					"pm.test('Response time is less than 5000ms', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});"
+				]
+			}
+		}
+	]
+}

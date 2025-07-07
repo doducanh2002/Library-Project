@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "admin-apis-collection",
+		"name": "Library System - ADMIN APIs",
+		"description": "Collection of APIs that require ADMIN role privileges",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "library-project-admin"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "Bearer {{jwt_token}}",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication Service - Admin APIs",
+			"item": [
+				{
+					"name": "User Status Management",
+					"item": [
+						{
+							"name": "Update User Status",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"ACTIVE\",\n  \"locked\": false,\n  \"reason\": \"Account reactivated by admin\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/users/{{userId}}/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"users",
+										"{{userId}}",
+										"status"
+									]
+								},
+								"description": "Update user account status (activate/deactivate, lock/unlock) - ADMIN ONLY"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User Account",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"users",
+										"{{userId}}"
+									]
+								},
+								"description": "Permanently delete user account - ADMIN ONLY"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Role Management",
+					"item": [
+						{
+							"name": "Update User Roles",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"roles\": [\"USER\", \"LIBRARIAN\"],\n  \"action\": \"ASSIGN\",\n  \"reason\": \"Promoted to librarian role\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/users/{{userId}}/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"users",
+										"{{userId}}",
+										"roles"
+									]
+								},
+								"description": "Update user roles (assign/remove) - ADMIN ONLY"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Password Management",
+					"item": [
+						{
+							"name": "Reset User Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"newPassword\": \"TempPassword123!\",\n  \"forceChange\": true,\n  \"reason\": \"Password reset by admin\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/users/{{userId}}/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"users",
+										"{{userId}}",
+										"reset-password"
+									]
+								},
+								"description": "Reset user password - ADMIN ONLY"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Library Backend - Admin APIs",
+			"item": [
+				{
+					"name": "Order Management",
+					"item": [
+						{
+							"name": "Process Refund",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 50.00,\n  \"reason\": \"Defective product\",\n  \"refundMethod\": \"ORIGINAL_PAYMENT\",\n  \"adminNotes\": \"Customer reported quality issues\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}/refund",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"orders",
+										"{{orderId}}",
+										"refund"
+									]
+								},
+								"description": "Process order refund - ADMIN ONLY"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Dashboard System Config",
+					"item": [
+						{
+							"name": "Get System Configuration",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/dashboard/system-config",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"dashboard",
+										"system-config"
+									]
+								},
+								"description": "Get system configuration settings - ADMIN ONLY"
+							},
+							"response": []
+						},
+						{
+							"name": "Update System Configuration",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"maxBooksPerUser\": 5,\n  \"loanDurationDays\": 14,\n  \"finePerDay\": 1.50,\n  \"maxRenewalTimes\": 2,\n  \"systemMaintenanceMode\": false,\n  \"registrationEnabled\": true,\n  \"emailNotificationsEnabled\": true,\n  \"autoApproveLoans\": false,\n  \"maxOrderValue\": 1000.00\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/dashboard/system-config",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"dashboard",
+										"system-config"
+									]
+								},
+								"description": "Update system configuration settings - ADMIN ONLY"
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh Dashboard Cache",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cacheTypes\": [\"statistics\", \"reports\", \"user_data\"],\n  \"forceRefresh\": true\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/admin/dashboard/refresh-cache",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"dashboard",
+										"refresh-cache"
+									]
+								},
+								"description": "Refresh dashboard cache - ADMIN ONLY"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notification Management",
+					"item": [
+						{
+							"name": "Create System Notification",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"System Maintenance Notice\",\n  \"content\": \"The system will be under maintenance from 2:00 AM to 4:00 AM UTC.\",\n  \"type\": \"SYSTEM\",\n  \"priority\": \"HIGH\",\n  \"targetUsers\": \"ALL\",\n  \"scheduledAt\": \"2024-01-15T10:00:00Z\",\n  \"expiresAt\": \"2024-01-16T10:00:00Z\",\n  \"sendEmail\": true,\n  \"sendPush\": true\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/notifications",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications"
+									]
+								},
+								"description": "Create system-wide notification - ADMIN ONLY"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Pre-request script to check if JWT token is available",
+					"if (!pm.environment.get('jwt_token')) {",
+					"    console.log('Warning: JWT token not set. Please login first.');",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Test script to check response status",
+					"pm.test('Status code should be successful', function () {",
+					"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202, 204]);",
+					"});",
+					"",
+					"// Check for authorization errors",
+					"if (pm.response.code === 401 || pm.response.code === 403) {",
+					"    pm.test('Authorization check', function () {",
+					"        console.log('Authorization failed. Please check your ADMIN permissions.');",
+					"    });",
+					"}"
+				]
+			}
+		}
+	]
+}

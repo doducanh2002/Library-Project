@@ -28,16 +28,36 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     
     // Public paths that don't require authentication
     private static final List<String> PUBLIC_PATHS = Arrays.asList(
+        // Authentication Service - Public endpoints
         "/api/v1/auth/login",
         "/api/v1/auth/register",
-        "/api/v1/books",
-        "/api/v1/books/admin/books",
-        "/api/v1/categories/public",
-        "/api/v1/authors/public",
+        "/api/v1/auth/sendotp",
+        "/api/v1/auth/active",
         "/api/v1/auth/forgot-password",
         "/api/v1/auth/reset-password",
-        "/api/v1/publishers/public",
-        "/api/v1/test/public",
+        "/api/v1/auth/jwk/token",
+        
+        // Library Backend - Books (all public endpoints)
+        "/api/v1/books",
+        
+        // Library Backend - Categories (all public endpoints)
+        "/api/v1/categories",
+        
+        // Library Backend - Authors (all public endpoints)
+        "/api/v1/authors",
+        
+        // Library Backend - Publishers (all public endpoints)
+        "/api/v1/publishers",
+        
+        // Library Backend - Search (all public endpoints)
+        "/api/v1/search",
+        
+        // Library Backend - Documents (public endpoints only)
+        "/api/v1/documents",
+        
+        // Health check endpoints
+        "/api/v1/health",
+        "/api/v1/files/health",
         "/actuator",
         "/health"
     );
