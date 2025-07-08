@@ -151,6 +151,16 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public List<PublisherDTO> getPublishersByEstablishedYear(Integer startYear, Integer endYear) {
         log.debug("Fetching publishers established between {} and {}", startYear, endYear);
+        
+        if (startYear == null || endYear == null) {
+            log.warn("Start year or end year is null. Returning empty list.");
+            return List.of();
+        }
+        
+        if (startYear > endYear) {
+            throw new IllegalArgumentException("Start year must be less than or equal to end year");
+        }
+        
         List<Publisher> publishers = publisherRepository.findByEstablishedYearBetween(startYear, endYear);
         return publishers.stream()
                 .map(this::enrichPublisherDTO)

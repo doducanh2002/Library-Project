@@ -37,7 +37,7 @@ public class BookController {
     @GetMapping("/books")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search and list books", description = "Get paginated list of books with optional search filters")
-    public BaseResponse<Page<BookDTO>> searchBooks(
+    public BaseResponse<PageResponse<BookDTO>> searchBooks(
             @Parameter(description = "Book title to search for") @RequestParam(required = false) String title,
             @Parameter(description = "Author name to search for") @RequestParam(required = false) String author,
             @Parameter(description = "Category ID to filter by") @RequestParam(required = false) Long categoryId,
@@ -54,7 +54,7 @@ public class BookController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> books = bookService.searchBooks(title, author, categoryId, isLendable, isSellable, language, pageable);
-        return BaseResponse.success(books);
+        return BaseResponse.success(PageResponse.of(books));
     }
     
     @PostMapping("/books/search")
@@ -64,7 +64,7 @@ public class BookController {
         @ApiResponse(responseCode = "200", description = "Search completed successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid search criteria")
     })
-    public BaseResponse<Page<BookDTO>> advancedSearchBooks(
+    public BaseResponse<PageResponse<BookDTO>> advancedSearchBooks(
             @RequestBody BookSearchCriteria criteria,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
@@ -77,7 +77,7 @@ public class BookController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, criteria.getSortBy()));
         
         Page<BookDTO> books = bookService.searchBooksWithCriteria(criteria, pageable);
-        return BaseResponse.success(books);
+        return BaseResponse.success(PageResponse.of(books));
     }
     
     @GetMapping("/books/{id}")
@@ -173,7 +173,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('LIBRARIAN') or hasRole('ADMIN')")
     @Operation(summary = "Get all books for admin", description = "Get paginated list of all books for admin management (LIBRARIAN role required)")
-    public BaseResponse<Page<BookDTO>> getAllBooksForAdmin(
+    public BaseResponse<PageResponse<BookDTO>> getAllBooksForAdmin(
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
             @Parameter(description = "Sort field") @RequestParam(defaultValue = "createdAt") String sortBy,
@@ -184,7 +184,7 @@ public class BookController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> books = bookService.getAllBooks(pageable);
-        return BaseResponse.success(books);
+        return BaseResponse.success(PageResponse.of(books));
     }
     
     // Stock management endpoints

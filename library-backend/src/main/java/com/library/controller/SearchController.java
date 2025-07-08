@@ -3,6 +3,7 @@ package com.library.controller;
 import com.library.dto.BaseResponse;
 import com.library.dto.BookDTO;
 import com.library.dto.BookSearchCriteria;
+import com.library.dto.PageResponse;
 import com.library.service.SearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,29 +31,33 @@ public class SearchController {
     
     private final SearchService searchService;
     
-    @GetMapping("/fulltext")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Full-text search", description = "Perform full-text search using PostgreSQL capabilities")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Search completed successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid search parameters")
-    })
-    public BaseResponse<Page<BookDTO>> fullTextSearch(
-            @Parameter(description = "Search text") @RequestParam String q,
-            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
-            @Parameter(description = "Sort field") @RequestParam(defaultValue = "relevance") String sortBy,
-            @Parameter(description = "Sort direction") @RequestParam(defaultValue = "desc") String sortDir) {
-        
-        log.info("Full-text search request: q={}, page={}, size={}", q, page, size);
-        
-        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, 
-            sortBy.equals("relevance") ? "createdAt" : sortBy));
-        
-        Page<BookDTO> results = searchService.fullTextSearch(q, pageable);
-        return BaseResponse.success(results);
-    }
+//    @GetMapping("/fulltext")
+//    @ResponseStatus(HttpStatus.OK)
+//    @Operation(summary = "Full-text search", description = "Perform full-text search using MySQL capabilities")
+//    @ApiResponses(value = {
+//        @ApiResponse(responseCode = "200", description = "Search completed successfully"),
+//        @ApiResponse(responseCode = "400", description = "Invalid search parameters")
+//    })
+//    public BaseResponse<Page<BookDTO>> fullTextSearch(
+//            @Parameter(description = "Search text", required = true) @RequestParam(required = false) String text,
+//            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
+//            @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
+//            @Parameter(description = "Sort field") @RequestParam(defaultValue = "relevance") String sortBy,
+//            @Parameter(description = "Sort direction") @RequestParam(defaultValue = "desc") String sortDir) {
+//
+//        log.info("Full-text search request: text={}, page={}, size={}", text, page, size);
+//
+//        if (text == null || text.trim().isEmpty()) {
+//            return BaseResponse.success(Page.empty());
+//        }
+//
+//        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(direction,
+//            sortBy.equals("relevance") ? "createdAt" : sortBy));
+//
+//        Page<BookDTO> results = searchService.fullTextSearch(text, pageable);
+//        return BaseResponse.success(PageResponse.of(results));
+//    }
     
     @PostMapping("/advanced")
     @ResponseStatus(HttpStatus.OK)
@@ -61,7 +66,7 @@ public class SearchController {
         @ApiResponse(responseCode = "200", description = "Search completed successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid search criteria")
     })
-    public BaseResponse<Page<BookDTO>> advancedSearch(
+    public BaseResponse<PageResponse<BookDTO>> advancedSearch(
             @RequestBody BookSearchCriteria criteria,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
@@ -74,13 +79,13 @@ public class SearchController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, criteria.getSortBy()));
         
         Page<BookDTO> results = searchService.advancedSearch(criteria, pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
     }
     
     @GetMapping("/categories")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Search by categories", description = "Search books by multiple categories")
-    public BaseResponse<Page<BookDTO>> searchByCategories(
+    @Operation(summary = "Search by categories", description = "Search books by multiple category IDs (numeric only)")
+    public BaseResponse<PageResponse<BookDTO>> searchByCategories(
             @Parameter(description = "Category IDs (comma-separated)") @RequestParam List<Long> categoryIds,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
@@ -89,18 +94,43 @@ public class SearchController {
         
         log.info("Search by categories: {}", categoryIds);
         
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return BaseResponse.success(PageResponse.of(Page.empty()));
+        }
+        
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> results = searchService.searchByCategories(categoryIds, pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
+    }
+    
+    @GetMapping("/categories/by-name")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Search by category names", description = "Search books by category names (comma-separated)")
+    public BaseResponse<PageResponse<BookDTO>> searchByCategoryNames(
+            @Parameter(description = "Category names (comma-separated, e.g., programming,technology)") @RequestParam(required = false) List<String> categoryNames,
+            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
+            @Parameter(description = "Sort field") @RequestParam(defaultValue = "title") String sortBy,
+            @Parameter(description = "Sort direction") @RequestParam(defaultValue = "asc") String sortDir) {
+        
+        log.info("Search by category names: {}", categoryNames);
+        
+        if (categoryNames == null || categoryNames.isEmpty()) {
+            return BaseResponse.success(PageResponse.of(Page.empty()));
+        }
+        
+        // TODO: Implement search by category names in service layer
+        // This would require looking up category IDs by names first
+        return BaseResponse.error("Search by category names not yet implemented");
     }
     
     @GetMapping("/authors")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search by authors", description = "Search books by multiple authors")
-    public BaseResponse<Page<BookDTO>> searchByAuthors(
-            @Parameter(description = "Author IDs (comma-separated)") @RequestParam List<Long> authorIds,
+    public BaseResponse<PageResponse<BookDTO>> searchByAuthors(
+            @Parameter(description = "Author IDs (comma-separated)") @RequestParam(required = false) List<Long> authorIds,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
             @Parameter(description = "Sort field") @RequestParam(defaultValue = "title") String sortBy,
@@ -108,17 +138,21 @@ public class SearchController {
         
         log.info("Search by authors: {}", authorIds);
         
+        if (authorIds == null || authorIds.isEmpty()) {
+            return BaseResponse.success(PageResponse.of(Page.empty()));
+        }
+        
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> results = searchService.searchByAuthors(authorIds, pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
     }
     
     @GetMapping("/available-for-loan")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search available for loan", description = "Get books currently available for loan")
-    public BaseResponse<Page<BookDTO>> searchAvailableForLoan(
+    public BaseResponse<PageResponse<BookDTO>> searchAvailableForLoan(
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
             @Parameter(description = "Sort field") @RequestParam(defaultValue = "title") String sortBy,
@@ -130,13 +164,13 @@ public class SearchController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> results = searchService.searchAvailableForLoan(pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
     }
     
     @GetMapping("/available-for-sale")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search available for sale", description = "Get books currently available for sale")
-    public BaseResponse<Page<BookDTO>> searchAvailableForSale(
+    public BaseResponse<PageResponse<BookDTO>> searchAvailableForSale(
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
             @Parameter(description = "Sort field") @RequestParam(defaultValue = "title") String sortBy,
@@ -148,13 +182,13 @@ public class SearchController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> results = searchService.searchAvailableForSale(pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
     }
     
     @GetMapping("/recent")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search recently added", description = "Get recently added books")
-    public BaseResponse<Page<BookDTO>> searchRecentlyAdded(
+    public BaseResponse<PageResponse<BookDTO>> searchRecentlyAdded(
             @Parameter(description = "Number of days to look back") @RequestParam(defaultValue = "30") int days,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size,
@@ -167,7 +201,7 @@ public class SearchController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         
         Page<BookDTO> results = searchService.searchRecentlyAdded(days, pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
     }
     
     @GetMapping("/suggestions")
@@ -198,7 +232,7 @@ public class SearchController {
     @GetMapping("/filters/performance")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Performance optimized search", description = "Search with performance optimizations for large datasets")
-    public BaseResponse<Page<BookDTO>> performanceOptimizedSearch(
+    public BaseResponse<PageResponse<BookDTO>> performanceOptimizedSearch(
             @RequestBody(required = false) BookSearchCriteria criteria,
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "50") int size) {
@@ -214,6 +248,6 @@ public class SearchController {
         }
         
         Page<BookDTO> results = searchService.searchBooks(criteria, pageable);
-        return BaseResponse.success(results);
+        return BaseResponse.success(PageResponse.of(results));
     }
 }

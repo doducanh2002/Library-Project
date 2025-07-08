@@ -90,8 +90,8 @@ public class PublisherController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get publishers by established year range", description = "Retrieve publishers established within a year range")
     public BaseResponse<List<PublisherDTO>> getPublishersByEstablishedYear(
-            @Parameter(description = "Start year") @RequestParam Integer startYear,
-            @Parameter(description = "End year") @RequestParam Integer endYear) {
+            @Parameter(description = "Start year") @RequestParam(required = false) Integer startYear,
+            @Parameter(description = "End year") @RequestParam(required = false) Integer endYear) {
         log.info("GET /api/v1/publishers/established - Fetching publishers between {} and {}", startYear, endYear);
         
         List<PublisherDTO> publishers = publisherService.getPublishersByEstablishedYear(startYear, endYear);

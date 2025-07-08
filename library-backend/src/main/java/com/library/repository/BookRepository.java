@@ -57,15 +57,12 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
            "ORDER BY b.createdAt DESC, b.availableCopiesForLoan DESC, b.stockForSale DESC")
     List<Book> findPopularBooks(Pageable pageable);
     
-    // Full-text search queries with PostgreSQL optimization
+    // Full-text search queries with MySQL syntax
     @Query(value = "SELECT * FROM books b WHERE " +
-           "to_tsvector('english', COALESCE(b.title, '') || ' ' || COALESCE(b.description, '')) " +
-           "@@ plainto_tsquery('english', :searchText) " +
-           "ORDER BY ts_rank(to_tsvector('english', COALESCE(b.title, '') || ' ' || COALESCE(b.description, '')), " +
-           "plainto_tsquery('english', :searchText)) DESC", 
+           "MATCH(b.title, b.description) AGAINST(:searchText IN BOOLEAN MODE) " +
+           "ORDER BY MATCH(b.title, b.description) AGAINST(:searchText IN BOOLEAN MODE) DESC", 
            countQuery = "SELECT count(*) FROM books b WHERE " +
-           "to_tsvector('english', COALESCE(b.title, '') || ' ' || COALESCE(b.description, '')) " +
-           "@@ plainto_tsquery('english', :searchText)",
+           "MATCH(b.title, b.description) AGAINST(:searchText IN BOOLEAN MODE)",
            nativeQuery = true)
     Page<Book> findByFullTextSearch(@Param("searchText") String searchText, Pageable pageable);
     
